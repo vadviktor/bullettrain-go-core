@@ -2,6 +2,12 @@
 
 
 [[projects]]
+  branch = "master"
+  name = "github.com/bullettrain-sh/bullettrain-go-python"
+  packages = ["."]
+  revision = "d0ce27780f3980268e4f4c6cdf350c1956f099b5"
+
+[[projects]]
   name = "github.com/fatih/color"
   packages = ["."]
   revision = "570b54cabe6b8eb0bc2dfce68d964677d63b5260"
@@ -28,6 +34,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "801a26ab69076db10a9cdea5b1fe83b567e63bc4754b1c857a5cd094a89e6fab"
+  inputs-digest = "39615ca9c204aa910bf507182b82f54e9c883694dceffe3418c2c1b0a7aaadf4"
   solver-name = "gps-cdcl"
   solver-version = 1
