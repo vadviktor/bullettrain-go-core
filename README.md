@@ -42,3 +42,7 @@ Single quotes are important not to store the evaluated result in the variable,
 but to reevaluate on every call.
 
 `export PS1='$(prompt)'`
+
+# Development
+
+Use https://github.com/golang/dep
