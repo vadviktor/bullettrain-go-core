@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/bullettrain-sh/bullettrain-go-nodejs"
 	"github.com/bullettrain-sh/bullettrain-go-python"
+	"github.com/bullettrain-sh/bullettrain-go-ruby"
 	"github.com/fatih/color"
 )
 
@@ -44,11 +46,23 @@ func getSegments() []renderer {
 	python.SetFg(color.FgHiWhite)
 	python.SetBg(color.BgYellow)
 
+	ruby := &bullettrain_go_ruby.RubySegment{}
+	ruby.SetFg(color.FgHiWhite)
+	ruby.SetBg(color.BgRed)
+
+	nodejs := &bullettrain_go_nodejs.NodeSegment{}
+	nodejs.SetFg(color.FgHiWhite)
+	nodejs.SetBg(color.BgGreen)
+
 	return []renderer{
 		&timeSegment{fg: color.FgHiWhite, bg: color.BgBlack},
 		&separator{fg: color.FgBlack, bg: color.BgYellow},
 		python,
-		&separator{fg: color.FgYellow, bg: color.FgYellow},
+		&separator{fg: color.FgYellow, bg: color.BgRed},
+		ruby,
+		&separator{fg: color.FgRed, bg: color.BgGreen},
+		nodejs,
+		&separator{fg: color.FgGreen, bg: color.BgGreen},
 	}
 }
 
