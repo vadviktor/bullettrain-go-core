@@ -2,6 +2,10 @@
 
 Shell prompt made from building blocks while staying styleish.
 
+(IRC)[http://webchat.freenode.net?channels=%23bullettrain-sh] #bullettrain-sh@freenode
+
+
+
 ```
  ______ _____ _   _ 
 |___  //  ___| | | |
