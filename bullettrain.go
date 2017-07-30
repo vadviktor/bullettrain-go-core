@@ -42,27 +42,15 @@ type renderer interface {
 
 // Configure the segments and store them in the right order.
 func getSegments() []renderer {
-	python := &bullettrain_go_python.PythonSegment{}
-	python.SetFg(color.FgHiWhite)
-	python.SetBg(color.BgYellow)
-
-	ruby := &bullettrain_go_ruby.RubySegment{}
-	ruby.SetFg(color.FgHiWhite)
-	ruby.SetBg(color.BgRed)
-
-	nodejs := &bullettrain_go_nodejs.NodeSegment{}
-	nodejs.SetFg(color.FgHiWhite)
-	nodejs.SetBg(color.BgGreen)
-
 	return []renderer{
-		&timeSegment{fg: color.FgHiWhite, bg: color.BgBlack},
-		&separator{fg: color.FgBlack, bg: color.BgYellow},
-		python,
-		&separator{fg: color.FgYellow, bg: color.BgRed},
-		ruby,
-		&separator{fg: color.FgRed, bg: color.BgGreen},
-		nodejs,
-		&separator{fg: color.FgGreen, bg: color.BgGreen},
+		&timeSegment{color.FgHiWhite, color.BgBlack},
+		&separator{color.FgBlack, color.BgYellow},
+		&bullettrain_go_python.PythonSegment{color.FgHiWhite, color.BgYellow},
+		&separator{color.FgYellow, color.BgRed},
+		&bullettrain_go_ruby.RubySegment{color.FgHiWhite, color.BgRed},
+		&separator{color.FgRed, color.BgGreen},
+		&bullettrain_go_nodejs.NodeSegment{color.FgHiWhite, color.BgGreen},
+		&separator{color.FgGreen, color.BgGreen},
 	}
 }
 
