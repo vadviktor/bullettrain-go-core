@@ -4,11 +4,20 @@ import (
 	"fmt"
 	"time"
 
+	golang "github.com/bullettrain-sh/bullettrain-go-golang"
 	nodejs "github.com/bullettrain-sh/bullettrain-go-nodejs"
 	python "github.com/bullettrain-sh/bullettrain-go-python"
 	ruby "github.com/bullettrain-sh/bullettrain-go-ruby"
+	//git "github.com/bullettrain-sh/bullettrain-go-git"
+	//php "github.com/bullettrain-sh/bullettrain-go-php"
 	"github.com/fatih/color"
 )
+
+// Here we must check if ENVIRONMENT variables have the appropriate value
+// we may expect them to hold.
+func init() {
+
+}
 
 func main() {
 	color.NoColor = false // force terminal to use colours
@@ -45,11 +54,13 @@ func getSegments() []renderer {
 	return []renderer{
 		&timeSegment{color.FgHiWhite, color.BgBlack},
 		&separator{color.FgBlack, color.BgYellow},
-		&python.PythonSegment{color.FgHiWhite, color.BgYellow},
+		&python.Segment{color.FgHiWhite, color.BgYellow},
 		&separator{color.FgYellow, color.BgRed},
-		&ruby.RubySegment{color.FgHiWhite, color.BgRed},
-		&separator{color.FgRed, color.BgGreen},
-		&nodejs.NodeSegment{color.FgHiWhite, color.BgGreen},
+		&ruby.Segment{color.FgHiWhite, color.BgRed},
+		&separator{color.FgRed, color.BgBlue},
+		&golang.Segment{color.FgHiWhite, color.BgBlue},
+		&separator{color.FgBlue, color.BgGreen},
+		&nodejs.Segment{color.FgHiWhite, color.BgGreen},
 		&separator{color.FgGreen, color.BgGreen},
 	}
 }
@@ -69,9 +80,10 @@ type separator struct {
 
 func (s *separator) Render(ch chan<- string) {
 	const segmentSeparator string = ""
+	defer close(ch)
+
 	col := color.New(s.fg, s.bg)
 	ch <- col.Sprint(segmentSeparator)
-	close(ch)
 }
 
 //  _____ _
@@ -86,8 +98,9 @@ type timeSegment struct {
 }
 
 func (s *timeSegment) Render(ch chan<- string) {
+	defer close(ch)
+
 	col := color.New(s.fg, s.bg)
 	t := time.Now()
 	ch <- col.Sprintf(" %02d:%02d:%02d ", t.Hour(), t.Minute(), t.Second())
-	close(ch)
 }
