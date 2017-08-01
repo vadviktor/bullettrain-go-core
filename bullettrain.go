@@ -61,7 +61,7 @@ func getSegments() []renderer {
 		&golang.Segment{color.FgHiWhite, color.BgBlue},
 		&separator{color.FgBlue, color.BgGreen},
 		&nodejs.Segment{color.FgHiWhite, color.BgGreen},
-		&separator{color.FgGreen, color.BgGreen},
+		&separator{color.FgGreen, nil},
 	}
 }
 
@@ -75,14 +75,22 @@ func getSegments() []renderer {
 //            |_|
 
 type separator struct {
-	fg, bg color.Attribute
+	fg color.Attribute
+	bg interface{}
 }
 
 func (s *separator) Render(ch chan<- string) {
-	const segmentSeparator string = ""
+	// let's have a space at the end to make sure it will leave enough space in
+	// terminals to render the char correclty
+	const segmentSeparator string = " "
 	defer close(ch)
 
-	col := color.New(s.fg, s.bg)
+	col := color.New(s.fg)
+	switch s.bg.(type) {
+	case color.Attribute:
+		col.Add(s.bg.(color.Attribute))
+	}
+
 	ch <- col.Sprint(segmentSeparator)
 }
 
