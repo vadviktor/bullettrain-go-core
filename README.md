@@ -31,15 +31,18 @@ together.
 
 In order to use the theme, you will first need:
 
-* Powerline compatible fonts like
-  * [Vim Powerline patched fonts](https://github.com/Lokaltog/powerline-fonts)
-  * [Input Mono](http://input.fontbureau.com/)
-  * [Monoid](http://larsenwork.com/monoid/)
-  * [Noto Sans Mono](https://www.google.com/get/noto/)
-* On Ubuntu and Arch Linux like systems you'll need the `ttf-ancient-fonts` package to correctly display some unicode symbols that are not covered by the Powerline fonts above.
+* [Nerd fonts](https://nerdfonts.com/)
 * Make sure terminal is using 256-colors mode with `export TERM="xterm-256color"`
 * For [iTerm 2](http://iterm2.com/) users, make sure you go into your settings and set both the regular font and the non-ascii font to powerline compatible [fonts](https://github.com/powerline/fonts) or the prompt separators and special characters will not display correctly.
 
+## Compatible terminal emulators
+
+- Linux
+  - [Tilix](https://gnunn1.github.io/tilix-web/)
+  - [Terminator](https://gnometerminator.blogspot.ie/p/introduction.html)
+  - [Konsole](https://konsole.kde.org/) (with some bugs)
+- Mac
+  - [iTerm2](http://iterm2.com/)
 
 ## Installing
 
@@ -70,9 +73,17 @@ Two side prompt feature is planned too.
 
 Most of the behaviours can be configured through environment variables, making you free from the recompiling work.
 
-These are the core feature configuration variables and module configuration information can be found on their respective READMEs.
+These are the **core** feature configuration variables and module configuration information can be found on their respective READMEs.
 
-[] list and describe the core options
+All envirnment variables must be exported for Go to be able to pick up.
+
+E.g.: `export BULLETTRAIN_CAR_ORDER="time context python ruby"`
+
+### Basic behaviours
+
+| Environment variable  |Description|Default value|
+|:----------------------|:--|:---|
+| BULLETTRAIN_CAR_ORDER |Control which cars to appear and in what order, using their _callwords_|time python ruby golang nodejs|
 
 
 ## Development

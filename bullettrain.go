@@ -10,30 +10,36 @@ import (
 	ruby "github.com/bullettrain-sh/bullettrain-go-ruby"
 	//git "github.com/bullettrain-sh/bullettrain-go-git"
 	//php "github.com/bullettrain-sh/bullettrain-go-php"
+
+	"os"
+	"strings"
+
 	"github.com/fatih/color"
 )
 
-// Here we must check if ENVIRONMENT variables have the appropriate value
-// we may expect them to hold.
-func init() {
-
-}
-
 func main() {
-	color.NoColor = false // force terminal to use colours
+	color.NoColor = false // Force terminal to use colours.
 	const lineEnding = "$"
 
-	var segmentList []renderer = getSegments()
+	// List of cars to be available for use.
+	cars := map[string]renderer{
+		"time":   &timeCar{},
+		"python": &python.Segment{},
+		"ruby":   &ruby.Segment{},
+		"golang": &golang.Segment{},
+		"nodejs": &nodejs.Segment{},
+	}
 
-	// Create a channel for each segment.
-	chans := make([]chan string, len(segmentList))
+	var car_order_list []string = carOrder()
+	// Create a channel for each car.
+	chans := make([]chan string, len(car_order_list))
 	for i := range chans {
 		chans[i] = make(chan string)
 	}
 
-	// Spin off a goroutine for each segment.
-	for i, segment := range segmentList {
-		go segment.Render(chans[i])
+	// Spin off a goroutine for each car.
+	for i, car := range car_order_list {
+		go cars[car].Render(chans[i])
 	}
 
 	// Gather each goroutine's response through their channels,
@@ -45,24 +51,26 @@ func main() {
 	fmt.Printf("\n%s x", color.HiGreenString(lineEnding))
 }
 
-type renderer interface {
-	Render(c chan<- string)
+// Defining the order of the cars in which they must be printed,
+// also defining the list of cars which are actually used.
+func carOrder() []string {
+	var car_order string = os.Getenv("BULLETTRAIN_CAR_ORDER")
+	if car_order == "" {
+		// baked in default car order
+		return []string{
+			"time",
+			"python",
+			"ruby",
+			"golang",
+			"nodejs",
+		}
+	} else {
+		return strings.Split(strings.TrimSpace(car_order), " ")
+	}
 }
 
-// Configure the segments and store them in the right order.
-func getSegments() []renderer {
-	return []renderer{
-		&timeSegment{color.FgHiWhite, color.BgBlack},
-		&separator{color.FgBlack, color.BgYellow},
-		&python.Segment{color.FgHiWhite, color.BgYellow},
-		&separator{color.FgYellow, color.BgRed},
-		&ruby.Segment{color.FgHiWhite, color.BgRed},
-		&separator{color.FgRed, color.BgBlue},
-		&golang.Segment{color.FgHiWhite, color.BgBlue},
-		&separator{color.FgBlue, color.BgGreen},
-		&nodejs.Segment{color.FgHiWhite, color.BgGreen},
-		&separator{color.FgGreen, nil},
-	}
+type renderer interface {
+	Render(c chan<- string)
 }
 
 //  _____                            _
@@ -80,9 +88,9 @@ type separator struct {
 }
 
 func (s *separator) Render(ch chan<- string) {
-	// let's have a space at the end to make sure it will leave enough space in
-	// terminals to render the char correclty
-	const segmentSeparator string = " "
+	// Let's have a space at the end to make sure it will leave enough space in
+	// terminals to render the char correclty.
+	const carSeparator string = ""
 	defer close(ch)
 
 	col := color.New(s.fg)
@@ -91,7 +99,7 @@ func (s *separator) Render(ch chan<- string) {
 		col.Add(s.bg.(color.Attribute))
 	}
 
-	ch <- col.Sprint(segmentSeparator)
+	ch <- col.Sprint(carSeparator)
 }
 
 //  _____ _
@@ -101,14 +109,16 @@ func (s *separator) Render(ch chan<- string) {
 //   | | | | | | | | |  __/
 //   \_/ |_|_| |_| |_|\___|
 
-type timeSegment struct {
+type timeCar struct {
 	fg, bg color.Attribute
 }
 
-func (s *timeSegment) Render(ch chan<- string) {
+func (s *timeCar) Render(ch chan<- string) {
+	const time_symbol = ""
 	defer close(ch)
 
 	col := color.New(s.fg, s.bg)
 	t := time.Now()
-	ch <- col.Sprintf(" %02d:%02d:%02d ", t.Hour(), t.Minute(), t.Second())
+	ch <- col.Sprintf("%s %02d:%02d:%02d ",
+		time_symbol, t.Hour(), t.Minute(), t.Second())
 }
