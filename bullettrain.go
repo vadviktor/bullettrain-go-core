@@ -2,44 +2,49 @@ package main
 
 import (
 	"fmt"
-	"time"
-
-	golang "github.com/bullettrain-sh/bullettrain-go-golang"
-	nodejs "github.com/bullettrain-sh/bullettrain-go-nodejs"
-	python "github.com/bullettrain-sh/bullettrain-go-python"
-	ruby "github.com/bullettrain-sh/bullettrain-go-ruby"
-	//git "github.com/bullettrain-sh/bullettrain-go-git"
-	//php "github.com/bullettrain-sh/bullettrain-go-php"
-
 	"os"
+	"regexp"
 	"strings"
 
-	"github.com/fatih/color"
+	"github.com/bullettrain-sh/bullettrain-go-core/cars"
+	"github.com/bullettrain-sh/bullettrain-go-python"
+	"github.com/mgutz/ansi"
 )
 
 func main() {
-	color.NoColor = false // Force terminal to use colours.
-	const lineEnding = "$"
-
 	// List of cars to be available for use.
-	cars := map[string]renderer{
-		"time":   &timeCar{},
-		"python": &python.Segment{},
-		"ruby":   &ruby.Segment{},
-		"golang": &golang.Segment{},
-		"nodejs": &nodejs.Segment{},
+	trailers := map[string]carRenderer{
+		"time":   &cars.Time{},
+		"python": &python.Car{},
 	}
 
-	var car_order_list []string = carOrder()
+	var carOrderLists []string = carOrder()
 	// Create a channel for each car.
-	chans := make([]chan string, len(car_order_list))
+	noOfCars := len(carOrderLists) * 2
+	chans := make([]chan string, noOfCars)
 	for i := range chans {
 		chans[i] = make(chan string)
 	}
 
 	// Spin off a goroutine for each car.
-	for i, car := range car_order_list {
-		go cars[car].Render(chans[i])
+	var lastSeparator bool
+	paintFlipper := flipPaint()
+	for j, k := 0, 0; j < noOfCars; j, k = j+2, k+1 {
+		go trailers[carOrderLists[k]].Render(chans[j])
+		lastSeparator = j+2 == noOfCars
+
+		sep := &separator{}
+		var newPaint string
+		if lastSeparator {
+			newPaint = paintFlipper(
+				trailers[carOrderLists[k]].GetPaint(),
+				"default:default")
+		} else {
+			newPaint = paintFlipper(
+				trailers[carOrderLists[k]].GetPaint(),
+				trailers[carOrderLists[k+1]].GetPaint())
+		}
+		go sep.Render(chans[j+1], newPaint)
 	}
 
 	// Gather each goroutine's response through their channels,
@@ -48,77 +53,69 @@ func main() {
 		fmt.Print(<-c)
 	}
 
-	fmt.Printf("\n%s x", color.HiGreenString(lineEnding))
+	lineEnding := "$"
+	fmt.Printf("\n%s x", ansi.Color(lineEnding, "green"))
 }
 
 // Defining the order of the cars in which they must be printed,
 // also defining the list of cars which are actually used.
 func carOrder() []string {
-	var car_order string = os.Getenv("BULLETTRAIN_CAR_ORDER")
-	if car_order == "" {
-		// baked in default car order
+	if carOrder := os.Getenv("BULLETTRAIN_CAR_ORDER"); carOrder == "" {
 		return []string{
 			"time",
 			"python",
-			"ruby",
-			"golang",
-			"nodejs",
 		}
 	} else {
-		return strings.Split(strings.TrimSpace(car_order), " ")
+		return strings.Split(strings.TrimSpace(carOrder), " ")
 	}
 }
 
-type renderer interface {
-	Render(c chan<- string)
+// Flip the FG and BG setup in colour strings of cars for a separator.
+func flipPaint() func(string, string) string {
+	// foregroundColor+attributes:backgroundColor+attributes
+	colourExp := regexp.MustCompile(`\w*\+?\w*:?(\w*)\+?\w?`)
+
+	flipped := func(currentPaint, nextPaint string) string {
+		currentParts := colourExp.FindStringSubmatch(currentPaint)
+		nextParts := colourExp.FindStringSubmatch(nextPaint)
+
+		var newFg string = "default"
+		if len(currentParts) == 2 && currentParts[1] != "" {
+			newFg = currentParts[1]
+		}
+
+		var newBg string = "default"
+		if len(nextParts) == 2 && nextParts[1] != "" {
+			newBg = nextParts[1]
+		}
+
+		return fmt.Sprintf("%s:%s", newFg, newBg)
+	}
+
+	return flipped
 }
 
-//  _____                            _
-// /  ___|                          | |
-// \ `--.  ___ _ __   __ _ _ __ __ _| |_ ___  _ __
-//  `--. \/ _ \ '_ \ / _` | '__/ _` | __/ _ \| '__|
-// /\__/ /  __/ |_) | (_| | | | (_| | || (_) | |
-// \____/ \___| .__/ \__,_|_|  \__,_|\__\___/|_|
-//            | |
-//            |_|
+type carRenderer interface {
+	Render(out chan<- string)
+	GetPaint() string
+}
 
 type separator struct {
-	fg color.Attribute
-	bg interface{}
+	paint string
 }
 
-func (s *separator) Render(ch chan<- string) {
-	// Let's have a space at the end to make sure it will leave enough space in
-	// terminals to render the char correclty.
-	const carSeparator string = ""
-	defer close(ch)
+func (s *separator) Render(out chan<- string, paintOverride string) {
+	defer close(out)
 
-	col := color.New(s.fg)
-	switch s.bg.(type) {
-	case color.Attribute:
-		col.Add(s.bg.(color.Attribute))
+	var symbol string
+	if symbol = os.Getenv("BULLETTRAIN_SEPARATOR_ICON"); symbol == "" {
+		symbol = " "
 	}
 
-	ch <- col.Sprint(carSeparator)
-}
+	var symbolPaint string
+	if symbolPaint = os.Getenv("BULLETTRAIN_SEPARATOR_PAINT"); symbolPaint == "" {
+		symbolPaint = paintOverride
+	}
 
-//  _____ _
-// |_   _(_)
-//   | |  _ _ __ ___   ___
-//   | | | | '_ ` _ \ / _ \
-//   | | | | | | | | |  __/
-//   \_/ |_|_| |_| |_|\___|
-
-type timeCar struct {
-	fg, bg color.Attribute
-}
-
-func (s *timeCar) Render(ch chan<- string) {
-	const time_symbol = ""
-	defer close(ch)
-
-	col := color.New(s.fg, s.bg)
-	t := time.Now()
-	ch <- col.Sprintf("%s %02d:%02d:%02d ",
-		time_symbol, t.Hour(), t.Minute(), t.Second())
+	out <- ansi.Color(symbol, symbolPaint)
 }

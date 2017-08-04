@@ -3,5 +3,3 @@ import:
 - package: github.com/bullettrain-sh/bullettrain-go-nodejs
 - package: github.com/bullettrain-sh/bullettrain-go-python
 - package: github.com/bullettrain-sh/bullettrain-go-ruby
-- package: github.com/fatih/color
-  version: ~1.5.0
