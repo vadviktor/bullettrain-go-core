@@ -7,7 +7,9 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/bullettrain-sh/bullettrain-go-core/cars"
+	"github.com/bullettrain-sh/bullettrain-go-core/car_context"
+	"github.com/bullettrain-sh/bullettrain-go-core/car_date"
+	"github.com/bullettrain-sh/bullettrain-go-core/car_time"
 	"github.com/bullettrain-sh/bullettrain-go-python"
 	"github.com/mgutz/ansi"
 )
@@ -87,17 +89,20 @@ func lineEnding() string {
 }
 
 func carsOrderByTrigger() []carRenderer {
+	// Cars basic, default order.
 	var o []string
 	if envOrder := os.Getenv("BULLETTRAIN_CAR_ORDER"); envOrder == "" {
-		o = append(o, "time", "python")
+		o = append(o, "time", "date", "context", "python")
 	} else {
 		o = strings.Split(strings.TrimSpace(envOrder), " ")
 	}
 
 	// List of cars to be available for use.
 	trailers := map[string]carRenderer{
-		"time":   &cars.Time{},
-		"python": &python.Car{},
+		"time":    &car_time.Time{},
+		"date":    &car_date.Date{},
+		"context": &car_context.Context{},
+		"python":  &car_python.Car{},
 	}
 
 	var carsToRender []carRenderer
