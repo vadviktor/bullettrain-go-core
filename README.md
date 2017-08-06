@@ -166,7 +166,7 @@ Showing current time.
 
 ### Date Car
 
-Showing current date.
+Showing current date. Format: `YYYY-MM-DD`
 
 **Callword**: `date`
 
