@@ -9,6 +9,7 @@ import (
 
 	"github.com/bullettrain-sh/bullettrain-go-core/car_context"
 	"github.com/bullettrain-sh/bullettrain-go-core/car_date"
+	"github.com/bullettrain-sh/bullettrain-go-core/car_directory"
 	"github.com/bullettrain-sh/bullettrain-go-core/car_time"
 	"github.com/bullettrain-sh/bullettrain-go-python"
 	"github.com/mgutz/ansi"
@@ -60,6 +61,34 @@ func main() {
 	fmt.Printf("%s%s ", newLine, lineEnding())
 }
 
+func carsOrderByTrigger() []carRenderer {
+	// Cars basic, default order.
+	var o []string
+	if envOrder := os.Getenv("BULLETTRAIN_CAR_ORDER"); envOrder == "" {
+		o = append(o, "time", "date", "context", "dir", "python")
+	} else {
+		o = strings.Split(strings.TrimSpace(envOrder), " ")
+	}
+
+	// List of cars to be available for use.
+	trailers := map[string]carRenderer{
+		"time":    &car_time.Time{},
+		"date":    &car_date.Date{},
+		"context": &car_context.Context{},
+		"dir":     &car_directory.Directory{},
+		"python":  &car_python.Car{},
+	}
+
+	var carsToRender []carRenderer
+	for _, car := range o {
+		if trailers[car].CanShow() {
+			carsToRender = append(carsToRender, trailers[car])
+		}
+	}
+
+	return carsToRender
+}
+
 func lineEnding() string {
 	u, e := user.Current()
 	if e != nil {
@@ -88,33 +117,6 @@ func lineEnding() string {
 	return ansi.Color(l, c)
 }
 
-func carsOrderByTrigger() []carRenderer {
-	// Cars basic, default order.
-	var o []string
-	if envOrder := os.Getenv("BULLETTRAIN_CAR_ORDER"); envOrder == "" {
-		o = append(o, "time", "date", "context", "python")
-	} else {
-		o = strings.Split(strings.TrimSpace(envOrder), " ")
-	}
-
-	// List of cars to be available for use.
-	trailers := map[string]carRenderer{
-		"time":    &car_time.Time{},
-		"date":    &car_date.Date{},
-		"context": &car_context.Context{},
-		"python":  &car_python.Car{},
-	}
-
-	var carsToRender []carRenderer
-	for _, car := range o {
-		if trailers[car].CanShow() {
-			carsToRender = append(carsToRender, trailers[car])
-		}
-	}
-
-	return carsToRender
-}
-
 // Flip the FG and BG setup in colour strings of cars for a separator.
 func flipPaint() func(string, string) string {
 	// foregroundColor+attributes:backgroundColor+attributes
@@ -124,12 +126,12 @@ func flipPaint() func(string, string) string {
 		currentParts := colourExp.FindStringSubmatch(currentPaint)
 		nextParts := colourExp.FindStringSubmatch(nextPaint)
 
-		var newFg string = "default"
+		newFg := "default"
 		if len(currentParts) == 2 && currentParts[1] != "" {
 			newFg = currentParts[1]
 		}
 
-		var newBg string = "default"
+		newBg := "default"
 		if len(nextParts) == 2 && nextParts[1] != "" {
 			newBg = nextParts[1]
 		}

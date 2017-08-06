@@ -191,10 +191,10 @@ Showing current user and hostname.
 
 **Options**
 
-| Environment variable              | Description                           | Default value |
-| :---                              | :---                                  | :---          |
-| BULLETTRAIN_CAR_DATE_SHOW         | Whether the car needs to be shown.    | true          |
-| BULLETTRAIN_CAR_DATE_PAINT        | Colour override for the car't paint.  | black:white   |
+| Environment variable          | Description                          | Default value |
+| :---                          | :---                                 | :---          |
+| BULLETTRAIN_CAR_CONTEXT_SHOW  | Whether the car needs to be shown.   | true          |
+| BULLETTRAIN_CAR_CONTEXT_PAINT | Colour override for the car't paint. | black:white   |
 
 ### Directory Car
 
@@ -204,8 +204,10 @@ Showing current directory.
 
 **Options**
 
-| Environment variable | Description | Default value |
-| :---                 | :---        | :---          |
+| Environment variable            | Description                          | Default value |
+| :---                            | :---                                 | :---          |
+| BULLETTRAIN_CAR_DIRECTORY_SHOW  | Whether the car needs to be shown.   | true          |
+| BULLETTRAIN_CAR_DIRECTORY_PAINT | Colour override for the car't paint. | white:blue    |
 
 ### OS Car
 
