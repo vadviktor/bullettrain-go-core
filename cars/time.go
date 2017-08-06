@@ -34,6 +34,15 @@ func paintedSymbol() string {
 	return ansi.Color(symbol, symbolPaint)
 }
 
+func (t *Time) CanShow() bool {
+	s := true
+	if e := os.Getenv("BULLETTRAIN_CAR_TIME_SHOW"); e == "false" {
+		s = false
+	}
+
+	return s
+}
+
 func (t *Time) Render(out chan<- string) {
 	defer close(out)
 	carPaint := ansi.ColorFunc(t.GetPaint())

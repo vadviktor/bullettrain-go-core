@@ -14,11 +14,13 @@ It aims for simplicity, showing information only when it's relevant.
 #bullettrain-sh@freenode
 
 Core modules show:
-- Timestamp
+- Time and date
 - Current directory
 - Exit code of last command
+- Execution time of last command
 - User and hostname
 - Background jobs
+- OS icon
 
 External modules can show:
 - Git status (https://github.com/bullettrain-sh/bullettrain-go-git)
@@ -132,25 +134,102 @@ Background Attributes
 
 ### Basic behaviours
 
-| Environment variable        | Description                                                              | Default value                  |
-|:----------------------------|:-------------------------------------------------------------------------|:-------------------------------|
-| BULLETTRAIN_CAR_ORDER       | Control which cars to appear and in what order, using their _callwords_. | time python ruby golang nodejs |
-| BULLETTRAIN_SEPARATOR_ICON  | Defines the car separator icon.                                          | ` `                           |
-| BULLETTRAIN_SEPARATOR_PAINT | Defines the car separator icon's paint.                                  | calculated on the fly          |
+| Environment variable               | Description                                                               | Default value                    |
+| :---                               | :---                                                                      | :---                             |
+| BULLETTRAIN_CAR_ORDER              | Control which cars to appear and in what order, using their _callwords_.  | `time python ruby golang nodejs` |
+| BULLETTRAIN_SEPARATOR_ICON         | Defines the car separator icon.                                           | ` `                             |
+| BULLETTRAIN_SEPARATOR_PAINT        | Defines the car separator icon's paint.                                   | calculated on the fly            |
+| BULLETTRAIN_PROMPT_CHAR            | Redefines the end char of the prompt when you are a normal user.          | `$`                              |
+| BULLETTRAIN_PROMPT_CHAR_PAINT      | Redefines the end char's colour of the prompt when you are a normal user. | green                            |
+| BULLETTRAIN_PROMPT_CHAR_ROOT       | Redefines the end char of the prompt when you are a root user.            | `#`                              |
+| BULLETTRAIN_PROMPT_CHAR_ROOT_PAINT | Redefines the end char's colour of the prompt when you are a root user.   | red                              |
+| BULLETTRAIN_CARS_SEPARATE_LINE     | Whether the cars should be on their own line above the prompt.            | false                            |
 
 ## Core cars
 
 ### Time Car
+
+Showing current time.
 
 **Callword**: `time`
 
 **Options**
 
 | Environment variable              | Description                           | Default value |
-|:----------------------------------|:--------------------------------------|:--------------|
-| BULLETTRAIN_CAR_TIME_SYMBOL_ICON  | Icon displayed on the car.            | ` `         |
+| :---                              | :---                                  | :---          |
+| BULLETTRAIN_CAR_TIME_SHOW         | Whether the car needs to be shown.    | true          |
+| BULLETTRAIN_CAR_TIME_SYMBOL_ICON  | Icon displayed on the car.            | ` `          |
 | BULLETTRAIN_CAR_TIME_SYMBOL_PAINT | Colour override for the car's symbol. | white:black   |
 | BULLETTRAIN_CAR_TIME_PAINT        | Colour override for the car't paint.  | white         |
+
+### Date Car
+
+Showing current date.
+
+**Callword**: `date`
+
+**Options**
+
+| Environment variable | Description | Default value |
+| :---                 | :---        | :---          |
+
+### Context Car
+
+Showing current user and hostname.
+
+**Callword**: `context`
+
+**Options**
+
+| Environment variable | Description | Default value |
+| :---                 | :---        | :---          |
+
+### Directory Car
+
+Showing current directory.
+
+**Callword**: `dir`
+
+**Options**
+
+| Environment variable | Description | Default value |
+| :---                 | :---        | :---          |
+
+### OS Car
+
+Showing current operating system logo. Mainly purposed as a design
+element.
+
+**Callword**: `os`
+
+**Options**
+
+| Environment variable | Description | Default value |
+| :---                 | :---        | :---          |
+
+### Last command exit code Car
+
+Showing last command's exit code.
+
+**Callword**: `status`
+
+**Options**
+
+| Environment variable | Description | Default value |
+| :---                 | :---        | :---          |
+
+
+### Last command execution time Car
+
+Showing last command's total execution time.
+
+**Callword**: `exectime`
+
+**Options**
+
+| Environment variable | Description | Default value |
+| :---                 | :---        | :---          |
+
 
 ## Development
 

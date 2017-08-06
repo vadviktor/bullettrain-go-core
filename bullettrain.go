@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"os/user"
 	"regexp"
 	"strings"
 
@@ -12,15 +13,11 @@ import (
 )
 
 func main() {
-	// List of cars to be available for use.
-	trailers := map[string]carRenderer{
-		"time":   &cars.Time{},
-		"python": &python.Car{},
-	}
+	// List of cars available for use.
+	trailers := carsOrderByTrigger()
 
-	var carOrderLists []string = carOrder()
 	// Create a channel for each car.
-	noOfCars := len(carOrderLists) * 2
+	noOfCars := len(trailers) * 2
 	chans := make([]chan string, noOfCars)
 	for i := range chans {
 		chans[i] = make(chan string)
@@ -30,19 +27,19 @@ func main() {
 	var lastSeparator bool
 	paintFlipper := flipPaint()
 	for j, k := 0, 0; j < noOfCars; j, k = j+2, k+1 {
-		go trailers[carOrderLists[k]].Render(chans[j])
+		go trailers[k].Render(chans[j])
 		lastSeparator = j+2 == noOfCars
 
 		sep := &separator{}
 		var newPaint string
 		if lastSeparator {
 			newPaint = paintFlipper(
-				trailers[carOrderLists[k]].GetPaint(),
+				trailers[k].GetPaint(),
 				"default:default")
 		} else {
 			newPaint = paintFlipper(
-				trailers[carOrderLists[k]].GetPaint(),
-				trailers[carOrderLists[k+1]].GetPaint())
+				trailers[k].GetPaint(),
+				trailers[k+1].GetPaint())
 		}
 		go sep.Render(chans[j+1], newPaint)
 	}
@@ -53,21 +50,64 @@ func main() {
 		fmt.Print(<-c)
 	}
 
-	lineEnding := "$"
-	fmt.Printf("\n%s x", ansi.Color(lineEnding, "green"))
+	newLine := "false"
+	if newLine = os.Getenv("BULLETTRAIN_CARS_SEPARATE_LINE"); newLine == "true" {
+		newLine = "\n"
+	}
+
+	fmt.Printf("%s%s ", newLine, lineEnding())
 }
 
-// Defining the order of the cars in which they must be printed,
-// also defining the list of cars which are actually used.
-func carOrder() []string {
-	if carOrder := os.Getenv("BULLETTRAIN_CAR_ORDER"); carOrder == "" {
-		return []string{
-			"time",
-			"python",
+func lineEnding() string {
+	u, e := user.Current()
+	if e != nil {
+		panic("Can't figure out current username.")
+	}
+
+	var l, c string
+	if u.Username == "root" {
+		if l = os.Getenv("BULLETTRAIN_PROMPT_CHAR_ROOT"); l == "" {
+			l = "#"
+		}
+
+		if c = os.Getenv("BULLETTRAIN_PROMPT_CHAR_ROOT_PAINT"); c == "" {
+			c = "red"
 		}
 	} else {
-		return strings.Split(strings.TrimSpace(carOrder), " ")
+		if l = os.Getenv("BULLETTRAIN_PROMPT_CHAR"); l == "" {
+			l = "$"
+		}
+
+		if c = os.Getenv("BULLETTRAIN_PROMPT_CHAR_PAINT"); c == "" {
+			c = "green"
+		}
 	}
+
+	return ansi.Color(l, c)
+}
+
+func carsOrderByTrigger() []carRenderer {
+	var o []string
+	if envOrder := os.Getenv("BULLETTRAIN_CAR_ORDER"); envOrder == "" {
+		o = append(o, "time", "python")
+	} else {
+		o = strings.Split(strings.TrimSpace(envOrder), " ")
+	}
+
+	// List of cars to be available for use.
+	trailers := map[string]carRenderer{
+		"time":   &cars.Time{},
+		"python": &python.Car{},
+	}
+
+	var carsToRender []carRenderer
+	for _, car := range o {
+		if trailers[car].CanShow() {
+			carsToRender = append(carsToRender, trailers[car])
+		}
+	}
+
+	return carsToRender
 }
 
 // Flip the FG and BG setup in colour strings of cars for a separator.
@@ -96,8 +136,12 @@ func flipPaint() func(string, string) string {
 }
 
 type carRenderer interface {
+	// The end product of a competely composed car.
 	Render(out chan<- string)
+	// The calculated end paint string for the car.
 	GetPaint() string
+	// Decides if this car needs to be displayed.
+	CanShow() bool
 }
 
 type separator struct {
@@ -112,10 +156,7 @@ func (s *separator) Render(out chan<- string, paintOverride string) {
 		symbol = " "
 	}
 
-	var symbolPaint string
-	if symbolPaint = os.Getenv("BULLETTRAIN_SEPARATOR_PAINT"); symbolPaint == "" {
-		symbolPaint = paintOverride
-	}
+	// TODO customisable separator colour for each car
 
-	out <- ansi.Color(symbol, symbolPaint)
+	out <- ansi.Color(symbol, paintOverride)
 }
