@@ -134,10 +134,10 @@ Background Attributes
 
 ### Basic behaviours
 
-| Environment variable               | Description                                                               | Default value                                     |
-| :---                               | :---                                                                      | :---                                              |
+|        Environment variable        |                                Description                                |                   Default value                   |
+| :--------------------------------- | :------------------------------------------------------------------------ | :------------------------------------------------ |
 | BULLETTRAIN_CAR_ORDER              | Control which cars to appear and in what order, using their _callwords_.  | `os time date context dir python status exectime` |
-| BULLETTRAIN_CARS_SEPARATE_LINE     | Whether the cars should be on their own line above the prompt.            | false                                             |
+| BULLETTRAIN_CARS_SEPARATE_LINE     | Whether the cars should be on their own line above the prompt.            | true                                              |
 | BULLETTRAIN_SEPARATOR_ICON         | Defines the car separator icon.                                           | ` `                                              |
 | BULLETTRAIN_SEPARATOR_PAINT        | Defines the car separator icon's paint.                                   | calculated on the fly                             |
 | BULLETTRAIN_PROMPT_CHAR            | Redefines the end char of the prompt when you are a normal user.          | `$`                                               |
@@ -155,8 +155,8 @@ Showing current time.
 
 **Options**
 
-| Environment variable              | Description                           | Default value |
-| :---                              | :---                                  | :---          |
+|       Environment variable        |              Description              | Default value |
+| :-------------------------------- | :------------------------------------ | :------------ |
 | BULLETTRAIN_CAR_TIME_SHOW         | Whether the car needs to be shown.    | true          |
 | BULLETTRAIN_CAR_TIME_SYMBOL_ICON  | Icon displayed on the car.            | `  `         |
 | BULLETTRAIN_CAR_TIME_SYMBOL_PAINT | Colour override for the car's symbol. | white:black   |
@@ -172,8 +172,8 @@ Showing current date. Format: `YYYY-MM-DD`
 
 **Options**
 
-| Environment variable              | Description                           | Default value |
-| :---                              | :---                                  | :---          |
+|       Environment variable        |              Description              | Default value |
+| :-------------------------------- | :------------------------------------ | :------------ |
 | BULLETTRAIN_CAR_DATE_SHOW         | Whether the car needs to be shown.    | true          |
 | BULLETTRAIN_CAR_DATE_SYMBOL_ICON  | Icon displayed on the car.            | `  `         |
 | BULLETTRAIN_CAR_DATE_SYMBOL_PAINT | Colour override for the car's symbol. | white:black   |
@@ -191,8 +191,8 @@ Showing current user and hostname.
 
 **Options**
 
-| Environment variable          | Description                          | Default value |
-| :---                          | :---                                 | :---          |
+|     Environment variable      |             Description              | Default value |
+| :---------------------------- | :----------------------------------- | :------------ |
 | BULLETTRAIN_CAR_CONTEXT_SHOW  | Whether the car needs to be shown.   | true          |
 | BULLETTRAIN_CAR_CONTEXT_PAINT | Colour override for the car't paint. | black:white   |
 
@@ -204,8 +204,8 @@ Showing current directory.
 
 **Options**
 
-| Environment variable            | Description                          | Default value |
-| :---                            | :---                                 | :---          |
+|      Environment variable       |             Description              | Default value |
+| :------------------------------ | :----------------------------------- | :------------ |
 | BULLETTRAIN_CAR_DIRECTORY_SHOW  | Whether the car needs to be shown.   | true          |
 | BULLETTRAIN_CAR_DIRECTORY_PAINT | Colour override for the car't paint. | white:blue    |
 
@@ -219,7 +219,7 @@ element.
 **Options**
 
 | Environment variable | Description | Default value |
-| :---                 | :---        | :---          |
+| :------------------- | :---------- | :------------ |
 
 ### Last command exit code Car
 
@@ -230,7 +230,7 @@ Showing last command's exit code.
 **Options**
 
 | Environment variable | Description | Default value |
-| :---                 | :---        | :---          |
+| :------------------- | :---------- | :------------ |
 
 
 ### Last command execution time Car
@@ -242,7 +242,7 @@ Showing last command's total execution time.
 **Options**
 
 | Environment variable | Description | Default value |
-| :---                 | :---        | :---          |
+| :------------------- | :---------- | :------------ |
 
 
 ## Development

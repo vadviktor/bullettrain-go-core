@@ -3,8 +3,8 @@ package car_directory
 import (
 	"fmt"
 	"os"
-
-	"path/filepath"
+	"os/exec"
+	"strings"
 
 	"github.com/mgutz/ansi"
 )
@@ -33,12 +33,20 @@ func (t *Directory) CanShow() bool {
 func (t *Directory) Render(out chan<- string) {
 	defer close(out)
 
-	d, err := os.Executable()
+	cmd := exec.Command("pwd", "-P")
+	pwd, err := cmd.Output()
+	var d string
 	if err == nil {
-		d = filepath.Dir(d)
+		ps := string(os.PathSeparator)
+		d = strings.Trim(string(pwd), "\n")
+		e := strings.Split(d, ps)
+		if len(e) > 4 {
+			p := e[len(e)-3:]
+			d = fmt.Sprintf("...%s", strings.Join(p, ps))
+		}
 	} else {
 		d = "---"
 	}
 
-	out <- ansi.Color(fmt.Sprintf("%s", d), t.GetPaint())
+	out <- ansi.Color(fmt.Sprintf(" %s ", d), t.GetPaint())
 }

@@ -53,12 +53,14 @@ func main() {
 		fmt.Print(<-c)
 	}
 
-	newLine := "false"
-	if newLine = os.Getenv("BULLETTRAIN_CARS_SEPARATE_LINE"); newLine == "true" {
-		newLine = "\n"
+	var n string
+	if n = os.Getenv("BULLETTRAIN_CARS_SEPARATE_LINE"); n == "false" {
+		n = ""
+	} else {
+		n = "\n"
 	}
 
-	fmt.Printf("%s%s ", newLine, lineEnding())
+	fmt.Printf("%s%s ", n, lineEnding())
 }
 
 func carsOrderByTrigger() []carRenderer {
@@ -66,6 +68,7 @@ func carsOrderByTrigger() []carRenderer {
 	var o []string
 	if envOrder := os.Getenv("BULLETTRAIN_CAR_ORDER"); envOrder == "" {
 		o = append(o, "time", "date", "context", "dir", "python")
+
 	} else {
 		o = strings.Split(strings.TrimSpace(envOrder), " ")
 	}
@@ -143,7 +146,7 @@ func flipPaint() func(string, string) string {
 }
 
 type carRenderer interface {
-	// The end product of a competely composed car.
+	// The end product of a completely composed car.
 	Render(out chan<- string)
 	// The calculated end paint string for the car.
 	GetPaint() string
