@@ -63,10 +63,12 @@ func main() {
 		n.WriteString("\n")
 	}
 
+	n.WriteString(lineEnding())
+
 	if d := os.Getenv("BULLETTRAIN_DEBUG"); d == "true" {
-		fmt.Printf("%q%q", n.String(), lineEnding())
+		fmt.Print(n.String())
 	} else {
-		fmt.Printf("%s%s", n.String(), lineEnding())
+		fmt.Printf("%s", n.String())
 	}
 }
 
