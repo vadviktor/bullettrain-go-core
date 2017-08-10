@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"os"
 	"os/user"
@@ -16,6 +17,10 @@ import (
 )
 
 func main() {
+	if d := os.Getenv("BULLETTRAIN_NO_PAINT"); d == "true" {
+		ansi.DisableColors(true)
+	}
+
 	// List of cars available for use.
 	trailers := carsOrderByTrigger()
 
@@ -47,28 +52,25 @@ func main() {
 		go sep.Render(chans[j+1], newPaint)
 	}
 
+	var n bytes.Buffer
 	// Gather each goroutine's response through their channels,
 	// keeping their order.
 	for _, c := range chans {
-		fmt.Print(<-c)
+		n.WriteString(<-c)
 	}
 
-	var n string
-	if n = os.Getenv("BULLETTRAIN_CARS_SEPARATE_LINE"); n == "false" {
-		n = ""
-	} else {
-		n = "\n"
+	if l := os.Getenv("BULLETTRAIN_CARS_SEPARATE_LINE"); l == "true" {
+		n.WriteString("\n")
 	}
 
-	fmt.Printf("%s%s ", n, lineEnding())
+	fmt.Printf("%s%s", n.String(), lineEnding())
 }
 
 func carsOrderByTrigger() []carRenderer {
 	// Cars basic, default order.
 	var o []string
-	if envOrder := os.Getenv("BULLETTRAIN_CAR_ORDER"); envOrder == "" {
+	if envOrder := os.Getenv("BULLETTRAIN_CARS"); envOrder == "" {
 		o = append(o, "time", "date", "context", "dir", "python")
-
 	} else {
 		o = strings.Split(strings.TrimSpace(envOrder), " ")
 	}
@@ -101,7 +103,7 @@ func lineEnding() string {
 	var l, c string
 	if u.Username == "root" {
 		if l = os.Getenv("BULLETTRAIN_PROMPT_CHAR_ROOT"); l == "" {
-			l = "#"
+			l = "# "
 		}
 
 		if c = os.Getenv("BULLETTRAIN_PROMPT_CHAR_ROOT_PAINT"); c == "" {
@@ -109,7 +111,7 @@ func lineEnding() string {
 		}
 	} else {
 		if l = os.Getenv("BULLETTRAIN_PROMPT_CHAR"); l == "" {
-			l = "$"
+			l = "$ "
 		}
 
 		if c = os.Getenv("BULLETTRAIN_PROMPT_CHAR_PAINT"); c == "" {
