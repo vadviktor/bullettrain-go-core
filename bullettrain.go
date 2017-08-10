@@ -35,21 +35,26 @@ func main() {
 	var lastSeparator bool
 	paintFlipper := flipPaint()
 	for j, k := 0, 0; j < noOfCars; j, k = j+2, k+1 {
+		// Render car.
 		go trailers[k].Render(chans[j])
-		lastSeparator = j+2 == noOfCars
 
+		// Render separator.
 		sep := &separator{}
 		var newPaint string
-		if lastSeparator {
-			newPaint = paintFlipper(
-				trailers[k].GetPaint(),
-				"default:default")
-		} else {
-			newPaint = paintFlipper(
-				trailers[k].GetPaint(),
-				trailers[k+1].GetPaint())
+		if newPaint = trailers[k].GetSeparatorPaint(); newPaint == "" {
+			lastSeparator = j+2 == noOfCars
+			if lastSeparator {
+				newPaint = paintFlipper(
+					trailers[k].GetPaint(),
+					"default:default")
+			} else {
+				newPaint = paintFlipper(
+					trailers[k].GetPaint(),
+					trailers[k+1].GetPaint())
+			}
 		}
-		go sep.Render(chans[j+1], newPaint)
+
+		go sep.Render(chans[j+1], newPaint, trailers[k].GetSeparatorSymbol())
 	}
 
 	var n bytes.Buffer
@@ -83,11 +88,11 @@ func carsOrderByTrigger() []carRenderer {
 
 	// List of cars to be available for use.
 	trailers := map[string]carRenderer{
-		"time":    &car_time.Time{},
-		"date":    &car_date.Date{},
-		"context": &car_context.Context{},
-		"dir":     &car_directory.Directory{},
-		"python":  &car_python.Car{},
+		"time":    &carTime.Time{},
+		"date":    &carDate.Date{},
+		"context": &carContext.Context{},
+		"dir":     &carDirectory.Directory{},
+		"python":  &carPython.Car{},
 	}
 
 	var carsToRender []carRenderer
@@ -128,7 +133,8 @@ func lineEnding() string {
 	return ansi.Color(l, c)
 }
 
-// Flip the FG and BG setup in colour strings of cars for a separator.
+// flipPaint flips the FG and BG setup in colour strings of cars for a separator.
+// Use it as a closure.
 func flipPaint() func(string, string) string {
 	// foregroundColor+attributes:backgroundColor+attributes
 	colourExp := regexp.MustCompile(`\w*\+?\w*:?(\w*)\+?\w?`)
@@ -154,27 +160,36 @@ func flipPaint() func(string, string) string {
 }
 
 type carRenderer interface {
-	// The end product of a completely composed car.
+	// Render builds and passes the end product of a completely composed car onto
+	// the channel.
 	Render(out chan<- string)
-	// The calculated end paint string for the car.
+
+	// GetPaint returns the calculated end paint string for the car.
 	GetPaint() string
-	// Decides if this car needs to be displayed.
+
+	// CanShow decides if this car needs to be displayed.
 	CanShow() bool
+
+	// GetSeparatorPaint overrides the Fg/Bg colours of the right hand side
+	// separator through ENV variables.
+	GetSeparatorPaint() string
+
+	// GetSeparatorSymbol overrides the symbol of the right hand side
+	// separator through ENV variables.
+	GetSeparatorSymbol() string
 }
 
-type separator struct {
-	paint string
-}
+type separator struct{}
 
-func (s *separator) Render(out chan<- string, paintOverride string) {
+func (s *separator) Render(out chan<- string, paint, symbolOverride string) {
 	defer close(out)
 
 	var symbol string
-	if symbol = os.Getenv("BULLETTRAIN_SEPARATOR_ICON"); symbol == "" {
+	if symbolOverride != "" {
+		symbol = symbolOverride
+	} else if symbol = os.Getenv("BULLETTRAIN_SEPARATOR_ICON"); symbol == "" {
 		symbol = " "
 	}
 
-	// TODO customisable separator colour for each car
-
-	out <- ansi.Color(symbol, paintOverride)
+	out <- ansi.Color(symbol, paint)
 }

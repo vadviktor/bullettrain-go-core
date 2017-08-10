@@ -133,7 +133,7 @@ Background Attributes
 ### Basic behaviours
 
 | Environment variable               | Description                                                               | Default value                                     |
-| :--------------------------------- | :------------------------------------------------------------------------ | :------------------------------------------------ |
+|:-----------------------------------|:--------------------------------------------------------------------------|:--------------------------------------------------|
 | BULLETTRAIN_CARS                   | Control which cars to appear and in what order, using their _callwords_.  | `os time date context dir python status exectime` |
 | BULLETTRAIN_CARS_SEPARATE_LINE     | Whether the cars should be on their own line above the prompt.            | false                                             |
 | BULLETTRAIN_NO_PAINT               | Whether you wish not to use paint at all, aka black and white mode.       | false                                             |
@@ -155,12 +155,14 @@ Showing current time.
 
 **Options**
 
-|       Environment variable        |              Description              | Default value |
-| :-------------------------------- | :------------------------------------ | :------------ |
-| BULLETTRAIN_CAR_TIME_SHOW         | Whether the car needs to be shown.    | true          |
-| BULLETTRAIN_CAR_TIME_SYMBOL_ICON  | Icon displayed on the car.            | `  `         |
-| BULLETTRAIN_CAR_TIME_SYMBOL_PAINT | Colour override for the car's symbol. | white:black   |
-| BULLETTRAIN_CAR_TIME_PAINT        | Colour override for the car't paint.  | white:black   |
+| Environment variable                  | Description                                                    | Default value                     |
+|:--------------------------------------|:---------------------------------------------------------------|:----------------------------------|
+| BULLETTRAIN_CAR_TIME_SHOW             | Whether the car needs to be shown.                             | true                              |
+| BULLETTRAIN_CAR_TIME_SYMBOL_ICON      | Icon displayed on the car.                                     | `  `                            |
+| BULLETTRAIN_CAR_TIME_SYMBOL_PAINT     | Colour override for the car's symbol.                          | white:black                       |
+| BULLETTRAIN_CAR_TIME_PAINT            | Colour override for the car's paint.                           | white:black                       |
+| BULLETTRAIN_CAR_TIME_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
+| BULLETTRAIN_CAR_TIME_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.           | Using global symbol.              |
 
 - [ ] ability to display 12H clock
 
@@ -172,12 +174,14 @@ Showing current date. Format: `YYYY-MM-DD`
 
 **Options**
 
-|       Environment variable        |              Description              | Default value |
-| :-------------------------------- | :------------------------------------ | :------------ |
-| BULLETTRAIN_CAR_DATE_SHOW         | Whether the car needs to be shown.    | true          |
-| BULLETTRAIN_CAR_DATE_SYMBOL_ICON  | Icon displayed on the car.            | `  `         |
-| BULLETTRAIN_CAR_DATE_SYMBOL_PAINT | Colour override for the car's symbol. | white:black   |
-| BULLETTRAIN_CAR_DATE_PAINT        | Colour override for the car't paint.  | red:black     |
+| Environment variable                  | Description                                                    | Default value                     |
+|:--------------------------------------|:---------------------------------------------------------------|:----------------------------------|
+| BULLETTRAIN_CAR_DATE_SHOW             | Whether the car needs to be shown.                             | true                              |
+| BULLETTRAIN_CAR_DATE_SYMBOL_ICON      | Icon displayed on the car.                                     | `  `                            |
+| BULLETTRAIN_CAR_DATE_SYMBOL_PAINT     | Colour override for the car's symbol.                          | white:black                       |
+| BULLETTRAIN_CAR_DATE_PAINT            | Colour override for the car's paint.                           | red:black                         |
+| BULLETTRAIN_CAR_DATE_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
+| BULLETTRAIN_CAR_DATE_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.           | Using global symbol.              |
 
 **TODO list**
 
@@ -191,10 +195,12 @@ Showing current user and hostname.
 
 **Options**
 
-|     Environment variable      |             Description              | Default value |
-| :---------------------------- | :----------------------------------- | :------------ |
-| BULLETTRAIN_CAR_CONTEXT_SHOW  | Whether the car needs to be shown.   | true          |
-| BULLETTRAIN_CAR_CONTEXT_PAINT | Colour override for the car't paint. | black:white   |
+| Environment variable                     | Description                                                    | Default value                     |
+|:-----------------------------------------|:---------------------------------------------------------------|:----------------------------------|
+| BULLETTRAIN_CAR_CONTEXT_SHOW             | Whether the car needs to be shown.                             | true                              |
+| BULLETTRAIN_CAR_CONTEXT_PAINT            | Colour override for the car's paint.                           | black:white                       |
+| BULLETTRAIN_CAR_CONTEXT_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
+| BULLETTRAIN_CAR_CONTEXT_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.           | Using global symbol.              |
 
 ### Directory Car
 
@@ -204,10 +210,12 @@ Showing current directory.
 
 **Options**
 
-|      Environment variable       |             Description              | Default value |
-| :------------------------------ | :----------------------------------- | :------------ |
-| BULLETTRAIN_CAR_DIRECTORY_SHOW  | Whether the car needs to be shown.   | true          |
-| BULLETTRAIN_CAR_DIRECTORY_PAINT | Colour override for the car't paint. | white:blue    |
+| Environment variable                       | Description                                                    | Default value                     |
+|:-------------------------------------------|:---------------------------------------------------------------|:----------------------------------|
+| BULLETTRAIN_CAR_DIRECTORY_SHOW             | Whether the car needs to be shown.                             | true                              |
+| BULLETTRAIN_CAR_DIRECTORY_PAINT            | Colour override for the car's paint.                           | white:blue                        |
+| BULLETTRAIN_CAR_DIRECTORY_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
+| BULLETTRAIN_CAR_DIRECTORY_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.           | Using global symbol.              |
 
 ### OS Car
 
@@ -219,7 +227,7 @@ element.
 **Options**
 
 | Environment variable | Description | Default value |
-| :------------------- | :---------- | :------------ |
+|:---------------------|:------------|:--------------|
 
 ### Last command exit code Car
 
@@ -230,7 +238,7 @@ Showing last command's exit code.
 **Options**
 
 | Environment variable | Description | Default value |
-| :------------------- | :---------- | :------------ |
+|:---------------------|:------------|:--------------|
 
 
 ### Last command execution time Car
@@ -242,7 +250,7 @@ Showing last command's total execution time.
 **Options**
 
 | Environment variable | Description | Default value |
-| :------------------- | :---------- | :------------ |
+|:---------------------|:------------|:--------------|
 
 
 ## Development

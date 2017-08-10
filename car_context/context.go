@@ -1,4 +1,4 @@
-package car_context
+package carContext
 
 import (
 	"fmt"
@@ -12,6 +12,7 @@ type Context struct {
 	paint string
 }
 
+// GetPaint returns the calculated end paint string for the car.
 func (t *Context) GetPaint() string {
 	if t.paint = os.Getenv("BULLETTRAIN_CAR_CONTEXT_PAINT"); t.paint == "" {
 		t.paint = "black:white"
@@ -20,6 +21,7 @@ func (t *Context) GetPaint() string {
 	return t.paint
 }
 
+// CanShow decides if this car needs to be displayed.
 func (t *Context) CanShow() bool {
 	s := true
 	if e := os.Getenv("BULLETTRAIN_CAR_CONTEXT_SHOW"); e == "false" {
@@ -29,6 +31,8 @@ func (t *Context) CanShow() bool {
 	return s
 }
 
+// Render builds and passes the end product of a completely composed car onto
+// the channel.
 func (t *Context) Render(out chan<- string) {
 	defer close(out)
 
@@ -47,4 +51,16 @@ func (t *Context) Render(out chan<- string) {
 
 	out <- ansi.Color(fmt.Sprintf(" %s@%s ", username, hostname),
 		t.GetPaint())
+}
+
+// GetSeparatorPaint overrides the Fg/Bg colours of the right hand side
+// separator through ENV variables.
+func (t *Context) GetSeparatorPaint() string {
+	return os.Getenv("BULLETTRAIN_CAR_CONTEXT_SEPARATOR_PAINT")
+}
+
+// GetSeparatorSymbol overrides the symbol of the right hand side
+// separator through ENV variables.
+func (t *Context) GetSeparatorSymbol() string {
+	return os.Getenv("BULLETTRAIN_CAR_CONTEXT_SEPARATOR_SYMBOL")
 }

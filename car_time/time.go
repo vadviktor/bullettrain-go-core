@@ -1,4 +1,4 @@
-package car_time
+package carTime
 
 import (
 	"fmt"
@@ -12,6 +12,7 @@ type Time struct {
 	paint string
 }
 
+// GetPaint returns the calculated end paint string for the car.
 func (t *Time) GetPaint() string {
 	if t.paint = os.Getenv("BULLETTRAIN_CAR_TIME_PAINT"); t.paint == "" {
 		t.paint = "white:black"
@@ -34,6 +35,7 @@ func paintedSymbol() string {
 	return ansi.Color(symbol, symbolPaint)
 }
 
+// CanShow decides if this car needs to be displayed.
 func (t *Time) CanShow() bool {
 	s := true
 	if e := os.Getenv("BULLETTRAIN_CAR_TIME_SHOW"); e == "false" {
@@ -43,6 +45,8 @@ func (t *Time) CanShow() bool {
 	return s
 }
 
+// Render builds and passes the end product of a completely composed car onto
+// the channel.
 func (t *Time) Render(out chan<- string) {
 	defer close(out)
 	carPaint := ansi.ColorFunc(t.GetPaint())
@@ -53,4 +57,16 @@ func (t *Time) Render(out chan<- string) {
 		carPaint(fmt.Sprintf("%02d:%02d:%02d",
 			n.Hour(), n.Minute(), n.Second())),
 		carPaint(" "))
+}
+
+// GetSeparatorPaint overrides the Fg/Bg colours of the right hand side
+// separator through ENV variables.
+func (t *Time) GetSeparatorPaint() string {
+	return os.Getenv("BULLETTRAIN_CAR_TIME_SEPARATOR_PAINT")
+}
+
+// GetSeparatorSymbol overrides the symbol of the right hand side
+// separator through ENV variables.
+func (t *Time) GetSeparatorSymbol() string {
+	return os.Getenv("BULLETTRAIN_CAR_TIME_SEPARATOR_SYMBOL")
 }
