@@ -63,7 +63,11 @@ func main() {
 		n.WriteString("\n")
 	}
 
-	fmt.Printf("%s%s", n.String(), lineEnding())
+	if d := os.Getenv("BULLETTRAIN_DEBUG"); d == "true" {
+		fmt.Printf("%q%q", n.String(), lineEnding())
+	} else {
+		fmt.Printf("%s%s", n.String(), lineEnding())
+	}
 }
 
 func carsOrderByTrigger() []carRenderer {

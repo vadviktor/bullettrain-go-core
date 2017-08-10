@@ -137,6 +137,7 @@ Background Attributes
 | BULLETTRAIN_CARS                   | Control which cars to appear and in what order, using their _callwords_.  | `os time date context dir python status exectime` |
 | BULLETTRAIN_CARS_SEPARATE_LINE     | Whether the cars should be on their own line above the prompt.            | false                                             |
 | BULLETTRAIN_NO_PAINT               | Whether you wish not to use paint at all, aka black and white mode.       | false                                             |
+| BULLETTRAIN_DEBUG                  | Turning debug print mode on to help seeing actual haracter codes.         | false                                             |
 | BULLETTRAIN_SEPARATOR_ICON         | Defines the car separator icon.                                           | ` `                                              |
 | BULLETTRAIN_SEPARATOR_PAINT        | Defines the car separator icon's paint.                                   | calculated on the fly                             |
 | BULLETTRAIN_PROMPT_CHAR            | Redefines the end char of the prompt when you are a normal user.          | `$ `                                              |
