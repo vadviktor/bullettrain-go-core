@@ -103,10 +103,9 @@ func (t *Os) Render(out chan<- string) {
 		n = findOutOs()
 	}
 
-	out <- fmt.Sprintf("%s%s%s",
+	out <- fmt.Sprintf("%s%s",
 		paintedSymbol(n),
-		carPaint(n),
-		carPaint(" "))
+		carPaint(n))
 }
 
 // GetSeparatorPaint overrides the Fg/Bg colours of the right hand side

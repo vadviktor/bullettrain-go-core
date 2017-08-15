@@ -49,11 +49,9 @@ func (t *Directory) Render(out chan<- string) {
 			p := e[len(e)-3:]
 			d = fmt.Sprintf("...%s", strings.Join(p, ps))
 		}
-	} else {
-		d = "---"
 	}
 
-	out <- ansi.Color(fmt.Sprintf(" %s ", d), t.GetPaint())
+	out <- ansi.Color(fmt.Sprintf("%s", d), t.GetPaint())
 }
 
 // GetSeparatorPaint overrides the Fg/Bg colours of the right hand side

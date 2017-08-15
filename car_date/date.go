@@ -9,7 +9,7 @@ import (
 )
 
 const carPaint = "white:black"
-const symbolIcon = "  "
+const symbolIcon = ""
 const symbolPaint = "red:black"
 
 // Date car
@@ -57,10 +57,9 @@ func (t *Date) Render(out chan<- string) {
 	carPaint := ansi.ColorFunc(t.GetPaint())
 
 	y, m, d := time.Now().Date()
-	out <- fmt.Sprintf("%s%s%s",
+	out <- fmt.Sprintf("%s%s",
 		paintedSymbol(),
-		carPaint(fmt.Sprintf("%02d-%02d-%02d", y, m, d)),
-		carPaint(" "))
+		carPaint(fmt.Sprintf("%02d-%02d-%02d", y, m, d)))
 }
 
 // GetSeparatorPaint overrides the Fg/Bg colours of the right hand side
