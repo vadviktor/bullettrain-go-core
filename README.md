@@ -133,7 +133,7 @@ Background Attributes
 ### Basic behaviours
 
 | Environment variable               | Description                                                               | Default value                                     |
-|:-----------------------------------|:--------------------------------------------------------------------------|:--------------------------------------------------|
+| :--------------------------------- | :------------------------------------------------------------------------ | :------------------------------------------------ |
 | BULLETTRAIN_CARS                   | Control which cars to appear and in what order, using their _callwords_.  | `os time date context dir python status exectime` |
 | BULLETTRAIN_CARS_SEPARATE_LINE     | Whether the cars should be on their own line above the prompt.            | false                                             |
 | BULLETTRAIN_NO_PAINT               | Whether you wish not to use paint at all, aka black and white mode.       | false                                             |
@@ -156,9 +156,9 @@ Showing current time.
 **Options**
 
 | Environment variable                  | Description                                                    | Default value                     |
-|:--------------------------------------|:---------------------------------------------------------------|:----------------------------------|
-| BULLETTRAIN_CAR_TIME_SHOW             | Whether the car needs to be shown.                             | true                              |
-| BULLETTRAIN_CAR_TIME_SYMBOL_ICON      | Icon displayed on the car.                                     | `  `                            |
+| :------------------------------------ | :------------------------------------------------------------- | :-------------------------------- |
+| BULLETTRAIN_CAR_TIME_SHOW             | Whether the car needs to be shown.                             | false                             |
+| BULLETTRAIN_CAR_TIME_SYMBOL_ICON      | Icon displayed on the car.                                     | `  `                             |
 | BULLETTRAIN_CAR_TIME_SYMBOL_PAINT     | Colour override for the car's symbol.                          | white:black                       |
 | BULLETTRAIN_CAR_TIME_PAINT            | Colour override for the car's paint.                           | white:black                       |
 | BULLETTRAIN_CAR_TIME_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
@@ -175,11 +175,11 @@ Showing current date. Format: `YYYY-MM-DD`
 **Options**
 
 | Environment variable                  | Description                                                    | Default value                     |
-|:--------------------------------------|:---------------------------------------------------------------|:----------------------------------|
-| BULLETTRAIN_CAR_DATE_SHOW             | Whether the car needs to be shown.                             | true                              |
-| BULLETTRAIN_CAR_DATE_SYMBOL_ICON      | Icon displayed on the car.                                     | `  `                            |
-| BULLETTRAIN_CAR_DATE_SYMBOL_PAINT     | Colour override for the car's symbol.                          | white:black                       |
+| :------------------------------------ | :------------------------------------------------------------- | :-------------------------------- |
+| BULLETTRAIN_CAR_DATE_SHOW             | Whether the car needs to be shown.                             | false                             |
 | BULLETTRAIN_CAR_DATE_PAINT            | Colour override for the car's paint.                           | red:black                         |
+| BULLETTRAIN_CAR_DATE_SYMBOL_ICON      | Icon displayed on the car.                                     | `  `                             |
+| BULLETTRAIN_CAR_DATE_SYMBOL_PAINT     | Colour override for the car's symbol.                          | white:black                       |
 | BULLETTRAIN_CAR_DATE_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
 | BULLETTRAIN_CAR_DATE_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.           | Using global symbol.              |
 
@@ -196,7 +196,7 @@ Showing current user and hostname.
 **Options**
 
 | Environment variable                     | Description                                                    | Default value                     |
-|:-----------------------------------------|:---------------------------------------------------------------|:----------------------------------|
+| :--------------------------------------- | :------------------------------------------------------------- | :-------------------------------- |
 | BULLETTRAIN_CAR_CONTEXT_SHOW             | Whether the car needs to be shown.                             | true                              |
 | BULLETTRAIN_CAR_CONTEXT_PAINT            | Colour override for the car's paint.                           | black:white                       |
 | BULLETTRAIN_CAR_CONTEXT_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
@@ -211,7 +211,7 @@ Showing current directory.
 **Options**
 
 | Environment variable                       | Description                                                    | Default value                     |
-|:-------------------------------------------|:---------------------------------------------------------------|:----------------------------------|
+| :----------------------------------------- | :------------------------------------------------------------- | :-------------------------------- |
 | BULLETTRAIN_CAR_DIRECTORY_SHOW             | Whether the car needs to be shown.                             | true                              |
 | BULLETTRAIN_CAR_DIRECTORY_PAINT            | Colour override for the car's paint.                           | white:blue                        |
 | BULLETTRAIN_CAR_DIRECTORY_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
@@ -226,8 +226,15 @@ element.
 
 **Options**
 
-| Environment variable | Description | Default value |
-|:---------------------|:------------|:--------------|
+| Environment variable                | Description                                                    | Default value                                      |
+| :---------------------------------- | :------------------------------------------------------------- | :------------------------------------------------- |
+| BULLETTRAIN_CAR_OS_SHOW             | Whether the car needs to be shown.                             | false                                              |
+| BULLETTRAIN_CAR_OS_PAINT            | Colour override for the car's paint.                           | white:cyan                                         |
+| BULLETTRAIN_CAR_OS_NAME             | Override the car's text.                                       | Trying to figure out by the given tools of the OS. |
+| BULLETTRAIN_CAR_OS_SYMBOL_PAINT     | Colour override for the car's symbol.                          | white:cyan                                         |
+| BULLETTRAIN_CAR_OS_SYMBOL_ICON      | Icon displayed on the car.                                     | `  `                                              |
+| BULLETTRAIN_CAR_OS_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm.                  |
+| BULLETTRAIN_CAR_OS_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.           | Using global symbol.                               |
 
 ### Last command exit code Car
 
@@ -238,7 +245,7 @@ Showing last command's exit code.
 **Options**
 
 | Environment variable | Description | Default value |
-|:---------------------|:------------|:--------------|
+| :------------------- | :---------- | :------------ |
 
 
 ### Last command execution time Car
@@ -250,7 +257,7 @@ Showing last command's total execution time.
 **Options**
 
 | Environment variable | Description | Default value |
-|:---------------------|:------------|:--------------|
+| :------------------- | :---------- | :------------ |
 
 
 ## Development

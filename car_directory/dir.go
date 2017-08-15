@@ -9,6 +9,7 @@ import (
 	"github.com/mgutz/ansi"
 )
 
+// Directory car
 type Directory struct {
 	paint string
 }

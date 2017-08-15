@@ -8,6 +8,11 @@ import (
 	"github.com/mgutz/ansi"
 )
 
+const carPaint = "black:white"
+const symbolIcon = "  "
+const symbolPaint = "black:white"
+
+// Time Car
 type Time struct {
 	paint string
 }
@@ -15,31 +20,31 @@ type Time struct {
 // GetPaint returns the calculated end paint string for the car.
 func (t *Time) GetPaint() string {
 	if t.paint = os.Getenv("BULLETTRAIN_CAR_TIME_PAINT"); t.paint == "" {
-		t.paint = "white:black"
+		t.paint = carPaint
 	}
 
 	return t.paint
 }
 
 func paintedSymbol() string {
-	var symbol string
-	if symbol = os.Getenv("BULLETTRAIN_CAR_TIME_SYMBOL_ICON"); symbol == "" {
-		symbol = "  "
+	var timeSymbol string
+	if timeSymbol = os.Getenv("BULLETTRAIN_CAR_TIME_SYMBOL_ICON"); timeSymbol == "" {
+		timeSymbol = symbolIcon
 	}
 
-	var symbolPaint string
-	if symbolPaint = os.Getenv("BULLETTRAIN_CAR_TIME_SYMBOL_PAINT"); symbolPaint == "" {
-		symbolPaint = "white:black"
+	var timeSymbolPaint string
+	if timeSymbolPaint = os.Getenv("BULLETTRAIN_CAR_TIME_SYMBOL_PAINT"); timeSymbolPaint == "" {
+		timeSymbolPaint = symbolPaint
 	}
 
-	return ansi.Color(symbol, symbolPaint)
+	return ansi.Color(timeSymbol, timeSymbolPaint)
 }
 
 // CanShow decides if this car needs to be displayed.
 func (t *Time) CanShow() bool {
-	s := true
-	if e := os.Getenv("BULLETTRAIN_CAR_TIME_SHOW"); e == "false" {
-		s = false
+	s := false
+	if e := os.Getenv("BULLETTRAIN_CAR_TIME_SHOW"); e == "true" {
+		s = true
 	}
 
 	return s

@@ -8,6 +8,7 @@ import (
 	"github.com/mgutz/ansi"
 )
 
+// Context car
 type Context struct {
 	paint string
 }
