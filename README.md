@@ -72,7 +72,7 @@ variable, but to reevaluate on every call.)
 
 .zshrc
 
-`PROMPT='$(bullettrain)'`
+`PROMPT='$(bullettrain $?)'`
 
 Two side prompt feature is planned too.
 
@@ -80,7 +80,7 @@ Two side prompt feature is planned too.
 
 .bashrc
 
-`export PS1='$(bullettrain)'`
+`export PS1='$(bullettrain $?)'`
 
 ## Options
 
@@ -161,8 +161,6 @@ Showing current time.
 | BULLETTRAIN_CAR_TIME_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
 | BULLETTRAIN_CAR_TIME_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.           | Using global symbol.              |
 
-- [ ] ability to display 12H clock
-
 ### Date Car
 
 Showing current date. Format: `YYYY-MM-DD`
@@ -241,14 +239,21 @@ Since the bullettrain executable is running as a separate process as the shell w
 
 Shells have a special global for it: `$?`
 
+ZSH example:
 
+`PROMPT='$(bullettrain $?)'`
 
 **Callword**: `status`
 
 **Options**
 
-| Environment variable | Description | Default value |
-| :--- | :--- | :--- |
+| Environment variable                    | Description                                                    | Default value                     |
+| :---                                    | :---                                                           | :---                              |
+| BULLETTRAIN_CAR_STATUS_SYMBOL_ICON      | Icon displayed on the car.                                     | ``                               |
+| BULLETTRAIN_CAR_STATUS_SYMBOL_PAINT     | Colour override for the car's symbol.                          | yellow:red                        |
+| BULLETTRAIN_CAR_STATUS_PAINT            | Colour override for the car's paint.                           | white:red                         |
+| BULLETTRAIN_CAR_STATUS_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
+| BULLETTRAIN_CAR_STATUS_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.           | Using global symbol.              |
 
 
 ## Development
