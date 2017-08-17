@@ -1,5 +1,4 @@
-# !!! DOCUMENTATION IS HEAVILY EVOLVING
-
+# IN BETA VERSION STATE :bomb:
 
 <img src="http://rawgit.com/caiogondim/bullet-train-oh-my-zsh-theme/master/img/icon.svg" width="100%" />
 
@@ -237,6 +236,12 @@ element.
 ### Last command exit code Car
 
 Showing last command's exit code.
+
+Since the bullettrain executable is running as a separate process as the shell which is executing it, it needs to get the last command's exit code by an argument.
+
+Shells have a special global for it: `$?`
+
+
 
 **Callword**: `status`
 
