@@ -14,7 +14,6 @@ Core modules show:
 - Time and date
 - Current directory
 - Exit code of last command
-- Execution time of last command
 - User and hostname
 - Background jobs
 - OS icon
@@ -240,18 +239,6 @@ element.
 Showing last command's exit code.
 
 **Callword**: `status`
-
-**Options**
-
-| Environment variable | Description | Default value |
-| :--- | :--- | :--- |
-
-
-### Last command execution time Car
-
-Showing last command's total execution time.
-
-**Callword**: `exectime`
 
 **Options**
 
