@@ -50,7 +50,7 @@ func (t *Context) Render(out chan<- string) {
 		hostname = "---"
 	}
 
-	out <- ansi.Color(fmt.Sprintf(" %s@%s ", username, hostname),
+	out <- ansi.Color(fmt.Sprintf("%s@%s", username, hostname),
 		t.GetPaint())
 }
 
