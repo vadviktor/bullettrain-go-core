@@ -49,11 +49,14 @@ In order to use the theme, you will first need:
 ## Compatible terminal emulators
 
 - Linux
-- [Tilix](https://gnunn1.github.io/tilix-web/)
-- [Terminator](https://gnometerminator.blogspot.ie/p/introduction.html)
-- [Konsole](https://konsole.kde.org/) (with some bugs)
+
+    - [Tilix](https://gnunn1.github.io/tilix-web/)
+    - [Terminator](https://gnometerminator.blogspot.ie/p/introduction.html) (with some bugs)
+    - [Konsole](https://konsole.kde.org/) (with some bugs)
+
 - Mac
-- [iTerm2](http://iterm2.com/)
+
+    - [iTerm2](http://iterm2.com/)
 
 ## Installing
 
