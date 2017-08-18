@@ -131,7 +131,7 @@ Background Attributes
 
 | Environment variable               | Description                                                               | Default value                                     |
 | :---                               | :---                                                                      | :---                                              |
-| BULLETTRAIN_CARS                   | Control which cars to appear and in what order, using their _callwords_.  | `os time date context dir python status exectime` |
+| BULLETTRAIN_CARS                   | Control which cars to appear and in what order, using their _callwords_.  | `os time date context dir python go status` |
 | BULLETTRAIN_CARS_SEPARATE_LINE     | Whether the cars should be on their own line above the prompt.            | false                                             |
 | BULLETTRAIN_NO_PAINT               | Whether you wish not to use paint at all, aka black and white mode.       | false                                             |
 | BULLETTRAIN_DEBUG                  | Turning debug print mode on to help seeing actual haracter codes.         | false                                             |

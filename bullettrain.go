@@ -14,6 +14,7 @@ import (
 	"github.com/bullettrain-sh/bullettrain-go-core/car_os"
 	"github.com/bullettrain-sh/bullettrain-go-core/car_status"
 	"github.com/bullettrain-sh/bullettrain-go-core/car_time"
+	"github.com/bullettrain-sh/bullettrain-go-golang"
 	"github.com/bullettrain-sh/bullettrain-go-python"
 	"github.com/mgutz/ansi"
 )
@@ -83,7 +84,7 @@ func carsOrderByTrigger() []carRenderer {
 	// Cars basic, default order.
 	var o []string
 	if envOrder := os.Getenv("BULLETTRAIN_CARS"); envOrder == "" {
-		o = append(o, "os", "time", "date", "context", "dir", "python", "status")
+		o = append(o, "os", "time", "date", "context", "dir", "python", "go", "status")
 	} else {
 		o = strings.Split(strings.TrimSpace(envOrder), " ")
 	}
@@ -97,6 +98,7 @@ func carsOrderByTrigger() []carRenderer {
 		"os":      &carOs.Os{},
 		"status":  &carStatus.Status{},
 		"python":  &carPython.Car{},
+		"go":      &carGo.Car{},
 	}
 
 	var carsToRender []carRenderer
