@@ -1,4 +1,5 @@
 package: github.com/bullettrain-sh/bullettrain-go-core
 import:
 - package: github.com/bullettrain-sh/bullettrain-go-python
+- package: github.com/bullettrain-sh/bullettrain-go-golang
 - package: github.com/mgutz/ansi
