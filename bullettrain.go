@@ -15,6 +15,7 @@ import (
 	"github.com/bullettrain-sh/bullettrain-go-core/car_status"
 	"github.com/bullettrain-sh/bullettrain-go-core/car_time"
 	"github.com/bullettrain-sh/bullettrain-go-golang"
+	"github.com/bullettrain-sh/bullettrain-go-nodejs"
 	"github.com/bullettrain-sh/bullettrain-go-python"
 	"github.com/bullettrain-sh/bullettrain-go-ruby"
 	"github.com/mgutz/ansi"
@@ -85,22 +86,23 @@ func carsOrderByTrigger() []carRenderer {
 	// Cars basic, default order.
 	var o []string
 	if envOrder := os.Getenv("BULLETTRAIN_CARS"); envOrder == "" {
-		o = append(o, "os", "time", "date", "context", "dir", "python", "go", "ruby", "status")
+		o = append(o, "os", "time", "date", "context", "dir", "python", "go", "ruby", "nodejs", "status")
 	} else {
 		o = strings.Split(strings.TrimSpace(envOrder), " ")
 	}
 
 	// List of cars to be available for use.
 	trailers := map[string]carRenderer{
-		"time":    &carTime.Time{},
-		"date":    &carDate.Date{},
 		"context": &carContext.Context{},
+		"date":    &carDate.Date{},
 		"dir":     &carDirectory.Directory{},
-		"os":      &carOs.Os{},
-		"status":  &carStatus.Status{},
-		"python":  &carPython.Car{},
 		"go":      &carGo.Car{},
+		"nodejs":  &carNodejs.Car{},
+		"os":      &carOs.Os{},
+		"python":  &carPython.Car{},
 		"ruby":    &carRuby.Car{},
+		"status":  &carStatus.Status{},
+		"time":    &carTime.Time{},
 	}
 
 	var carsToRender []carRenderer
