@@ -8,6 +8,8 @@ import (
 	"regexp"
 	"strings"
 
+	"os/exec"
+
 	"github.com/bullettrain-sh/bullettrain-go-core/car_context"
 	"github.com/bullettrain-sh/bullettrain-go-core/car_date"
 	"github.com/bullettrain-sh/bullettrain-go-core/car_directory"
@@ -83,6 +85,17 @@ func main() {
 	}
 }
 
+func pwd() string {
+	cmd := exec.Command("pwd", "-P")
+	pwd, err := cmd.Output()
+	var d string
+	if err == nil {
+		d = strings.Trim(string(pwd), "\n")
+	}
+
+	return d
+}
+
 func carsOrderByTrigger() []carRenderer {
 	// Cars basic, default order.
 	var o []string
@@ -92,17 +105,18 @@ func carsOrderByTrigger() []carRenderer {
 		o = strings.Split(strings.TrimSpace(envOrder), " ")
 	}
 
+	d := pwd()
 	// List of cars to be available for use.
 	trailers := map[string]carRenderer{
 		"context": &carContext.Context{},
 		"date":    &carDate.Date{},
-		"dir":     &carDirectory.Directory{},
-		"go":      &carGo.Car{},
-		"nodejs":  &carNodejs.Car{},
+		"dir":     &carDirectory.Directory{Pwd: d},
+		"go":      &carGo.Car{Pwd: d},
+		"nodejs":  &carNodejs.Car{Pwd: d},
 		"os":      &carOs.Os{},
-		"php":     &carPhp.Car{},
-		"python":  &carPython.Car{},
-		"ruby":    &carRuby.Car{},
+		"php":     &carPhp.Car{Pwd: d},
+		"python":  &carPython.Car{Pwd: d},
+		"ruby":    &carRuby.Car{Pwd: d},
 		"status":  &carStatus.Status{},
 		"time":    &carTime.Time{},
 	}

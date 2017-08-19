@@ -3,7 +3,6 @@ package carDirectory
 import (
 	"fmt"
 	"os"
-	"os/exec"
 	"strings"
 
 	"github.com/mgutz/ansi"
@@ -12,6 +11,8 @@ import (
 // Directory car
 type Directory struct {
 	paint string
+	// Current directory
+	Pwd string
 }
 
 // GetPaint returns the calculated end paint string for the car.
@@ -38,17 +39,12 @@ func (t *Directory) CanShow() bool {
 func (t *Directory) Render(out chan<- string) {
 	defer close(out)
 
-	cmd := exec.Command("pwd", "-P")
-	pwd, err := cmd.Output()
-	var d string
-	if err == nil {
-		ps := string(os.PathSeparator)
-		d = strings.Trim(string(pwd), "\n")
-		e := strings.Split(d, ps)
-		if len(e) > 4 {
-			p := e[len(e)-3:]
-			d = fmt.Sprintf("...%s", strings.Join(p, ps))
-		}
+	d := t.Pwd
+	ps := string(os.PathSeparator)
+	e := strings.Split(d, ps)
+	if len(e) > 4 {
+		p := e[len(e)-3:]
+		d = fmt.Sprintf("...%s", strings.Join(p, ps))
 	}
 
 	out <- ansi.Color(fmt.Sprintf("%s", d), t.GetPaint())
