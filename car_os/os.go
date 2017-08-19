@@ -50,6 +50,7 @@ func paintedSymbol(osName string) string {
 		"mageia":     "",
 		"mandriva":   "",
 		"opensuse":   "",
+		"raspbian":   "",
 		"redhat":     "",
 		"sabayon":    "",
 		"slackware":  "",
