@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# go tool dist list
+
+GOOS=linux GOARCH=arm    go build -a -o ./releases/bullettrain.linux-arm    bullettrain.go
+GOOS=linux GOARCH=arm64  go build -a -o ./releases/bullettrain.linux-arm64  bullettrain.go
+GOOS=linux GOARCH=386    go build -a -o ./releases/bullettrain.linux-386    bullettrain.go
+GOOS=linux GOARCH=amd64  go build -a -o ./releases/bullettrain.linux-amd64  bullettrain.go
+GOOS=darwin GOARCH=amd64 go build -a -o ./releases/bullettrain.darwin-amd64 bullettrain.go
