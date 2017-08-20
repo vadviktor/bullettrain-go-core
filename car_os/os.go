@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"os"
 	"regexp"
+	"runtime"
 
 	"github.com/mgutz/ansi"
 )
@@ -41,6 +42,7 @@ func paintedSymbol(osName string) string {
 		"arch":       "",
 		"centos":     "",
 		"coreos":     "",
+		"darwin":     "",
 		"debian":     "",
 		"elementary": "",
 		"fedora":     "",
@@ -76,6 +78,11 @@ func paintedSymbol(osName string) string {
 }
 
 func findOutOs() string {
+	// We know it's a Mac.
+	if runtime.GOOS == "darwin" {
+		return "darwin"
+	}
+
 	fName := "/etc/os-release"
 	fBody, fErr := ioutil.ReadFile(fName)
 	if fErr != nil {
