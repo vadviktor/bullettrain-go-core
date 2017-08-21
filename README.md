@@ -1,11 +1,12 @@
-# IN BETA VERSION STATE :bomb:
+# BETA VERSION :bomb:
 
 <img src="http://rawgit.com/caiogondim/bullet-train-oh-my-zsh-theme/master/img/icon.svg" width="100%" />
 
 Bullet Train is a [zsh](http://www.zsh.org/) &
-[bash](https://www.gnu.org/software/bash/) shell prompt theme based on
+[bash](https://www.gnu.org/software/bash/) shell prompt theme inspired by
 the [Powerline Vim plugin](https://github.com/Lokaltog/vim-powerline).
-It aims for simplicity, showing information only when it's relevant.
+It aims for simple but very powerful configuration options and
+showing information only when it's relevant.
 
 [IRC channel](http://webchat.freenode.net?channels=%23bullettrain-sh) `#bullettrain-sh@freenode`
 
@@ -31,7 +32,7 @@ External modules can show:
   (https://github.com/bullettrain-sh/bullettrain-go-php)
 
 If you want add some new feature, of fix some bug, open an issue and
-lets hack together.
+let's hack together.
 
 ## Requirements
 
@@ -115,7 +116,9 @@ Colors
 - white
 - [0...255 (256 colors)](https://en.wikipedia.org/wiki/ANSI_escape_code#Colors)
 
-![ansi256](ansi256.png)
+![ansi256](readme_assets/ansi256.png)
+
+**NOTE**: support for some attributes varies across terminal emulator softwares.
 
 Foreground Attributes
 
@@ -180,10 +183,6 @@ Showing current date. Format: `YYYY-MM-DD`
 | BULLETTRAIN_CAR_DATE_SYMBOL_PAINT     | Colour override for the car's symbol.                          | white:black                       |
 | BULLETTRAIN_CAR_DATE_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
 | BULLETTRAIN_CAR_DATE_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.           | Using global symbol.              |
-
-**TODO list**
-
-- [ ] make date format configurable
 
 ### Context Car
 
