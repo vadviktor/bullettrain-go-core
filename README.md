@@ -2,13 +2,15 @@
 
 <img src="http://rawgit.com/caiogondim/bullet-train-oh-my-zsh-theme/master/img/icon.svg" width="100%" />
 
-Bullet Train is a [zsh](http://www.zsh.org/) &
-[bash](https://www.gnu.org/software/bash/) shell prompt theme inspired by
-the [Powerline Vim plugin](https://github.com/Lokaltog/vim-powerline).
+Bullet Train is a [zsh](http://www.zsh.org/) & [bash](https://www.gnu.org/software/bash/) shell prompt theme inspired by the [Powerline Vim plugin](https://github.com/Lokaltog/vim-powerline).
 It aims for simple but very powerful configuration options and
 showing information only when it's relevant.
 
+## Support
+
 [IRC channel](http://webchat.freenode.net?channels=%23bullettrain-sh) `#bullettrain-sh@freenode`
+
+## Features
 
 Core modules show:
 - Time and date
@@ -16,36 +18,40 @@ Core modules show:
 - Exit code of last command
 - User and hostname
 - Background jobs
-- OS icon
+- OS icon and name
 
 External modules can show:
 - Git status (https://github.com/bullettrain-sh/bullettrain-go-git)
-- Current Python version and/or virtualenv
-  (https://github.com/bullettrain-sh/bullettrain-go-python)
-- Current Ruby version and/or gemset
-  (https://github.com/bullettrain-sh/bullettrain-go-ruby)
-- Current Node.js version
-  (https://github.com/bullettrain-sh/bullettrain-go-nodejs)
-- Current Golang version
-  (https://github.com/bullettrain-sh/bullettrain-go-golang)
-- Current PHP version
-  (https://github.com/bullettrain-sh/bullettrain-go-php)
+- Current Python version and/or virtualenv (https://github.com/bullettrain-sh/bullettrain-go-python)
+- Current Ruby version and/or gemset (https://github.com/bullettrain-sh/bullettrain-go-ruby)
+- Current Node.js version (https://github.com/bullettrain-sh/bullettrain-go-nodejs)
+- Current Golang version (https://github.com/bullettrain-sh/bullettrain-go-golang)
+- Current PHP version (https://github.com/bullettrain-sh/bullettrain-go-php)
+- _more are coming as we are going through the existing ones for the ZSH version_
 
-If you want add some new feature, of fix some bug, open an issue and
-let's hack together.
+    - perl
+    - elixir
+    - erlang
+    - screen support
+    - tmux support?
+    - mercurial
+    - and more...
+
+If you want add some new feature, or fix some bug, open a ticket!
 
 ## Requirements
 
 In order to use the theme, you will first need:
 
-* [Nerd fonts](https://nerdfonts.com/)
+* A very cool font:
+
+    * [Nerd fonts](https://nerdfonts.com/) ([Arch Linux AUR](https://aur.archlinux.org/packages/nerd-fonts-complete/))
+    * Powerline compatible fonts like [Vim Powerline patched fonts](https://github.com/Lokaltog/powerline-fonts), [Input Mono](http://input.fontbureau.com/) or [Monoid](http://larsenwork.com/monoid/).
+    * On Ubuntu like systems you'll need the `ttf-ancient-fonts` package to correctly display some unicode symbols that are not covered by the Powerline fonts above.
+    
 * Make sure terminal is using 256-colors mode with `export
   TERM="xterm-256color"`
-* For [iTerm 2](http://iterm2.com/) users, make sure you go into your
-  settings and set both the regular font and the non-ascii font to
-  powerline compatible [fonts](https://github.com/powerline/fonts) or
-  the prompt separators and special characters will not display
-  correctly.
+* For [iTerm 2](http://iterm2.com/) users, make sure you go into your settings and set both the regular font and the non-ascii font to powerline compatible [fonts](https://github.com/powerline/fonts) or the prompt separators and special characters will not display correctly.
 
 ## Compatible terminal emulators
 
@@ -61,38 +67,32 @@ In order to use the theme, you will first need:
 
 ## Installing
 
-We have prepare release executables on our release page
-https://github.com/bullettrain-sh/bullettrain-go-core/releases.
+1, We have prepared release executables on our release page
+https://github.com/bullettrain-sh/bullettrain-go-core/releases. Download the one that matches your architecture and OS.
 
 Of course you are more then welcomed to build your own, customised
-version if you feel comfortable with Go.
+version if you feel comfortable with Go. [Here are some help to do that](docs/creating-new-cars.md).
 
-In your rc files you only need to set the single prompt variable.
 
-(Single quotes are important not to store the evaluated result in the
-variable, but to reevaluate on every call.)
+2, In your rc files you only need to set the single prompt variable.
 
-### ZSH
+(Single quotes are important not to store the evaluated result in the variable, but to reevaluate on every call.)
 
-.zshrc
+**ZSH - .zshrc**
 
 `PROMPT='$(bullettrain $?)'`
 
 Two side prompt feature is planned too.
 
-### BASH
-
-.bashrc
+**BASH - .bashrc**
 
 `export PS1='$(bullettrain $?)'`
 
 ## Options
 
-Most of the behaviours can be configured through environment variables,
-making you free from the recompiling work.
+Most of the behaviours can be configured through environment variables, making you free from the recompiling work.
 
-These are the **core** feature configuration variables and module
-configuration information can be found on their respective READMEs.
+These are the **core** feature configuration variables and module configuration information can be found on their respective READMEs.
 
 All envirnment variables must be exported for Go to be able to pick up.
 
@@ -100,9 +100,9 @@ E.g.: `export BULLETTRAIN_CAR_ORDER="time context python ruby"`
 
 ### Defining colours and text effects
 
-Anything what https://github.com/mgutz/ansi supports.
+Anything that https://github.com/mgutz/ansi supports.
 
-`foregroundColor+attributes:backgroundColor+attributes`
+Form of the colourization string: `foregroundColor+attributes:backgroundColor+attributes`
 
 Colors
 
@@ -137,7 +137,7 @@ Background Attributes
 
 | Environment variable               | Description                                                               | Default value                                                   |
 | :---                               | :---                                                                      | :---                                                            |
-| BULLETTRAIN_CARS                   | Control which cars to appear and in what order, using their _callwords_.  | `os time date context dir python go ruby nodejs php git status` |
+| BULLETTRAIN_CARS                   | Control which cars to appear in what order, using their _callwords_.  | `os time date context dir python go ruby nodejs php git status` |
 | BULLETTRAIN_CARS_SEPARATE_LINE     | Whether the cars should be on their own line above the prompt.            | false                                                           |
 | BULLETTRAIN_NO_PAINT               | Whether you wish not to use paint at all, aka black and white mode.       | false                                                           |
 | BULLETTRAIN_DEBUG                  | Turning debug print mode on to help seeing actual haracter codes.         | false                                                           |
@@ -286,6 +286,17 @@ $ repeat 5 (time (repeat 10 ./bullettrain > /dev/null))
 
 Be sure to benchmark your code to make sure you are not introducing a
 feature that will make the prompt sluggish all of a sudden.
+
+
+## FAQ
+
+### Q: Why don't we use `BULLETTRAIN_CARS` to disable the unwanted cars?
+
+**A:** As Go is statically linked and every car you need, needs to be compiled into the single executable, setting a single env var won't change the size of it, though will change the speed of execution somewhat. The main reason is that people like to see a variable doing a single job and doing it well. Therefore you are capable of not loading the cars by the `BULLETTRAIN_CARS` variable, but the `_SHOW` suffixed ones are really tasked doing just that.
+
+### Q: If Go will officialy support a stable plugin system, will you?
+
+**A:** Not likely as it will introduce dangling externals and probably performance penalty.
 
 
 ## Credits
