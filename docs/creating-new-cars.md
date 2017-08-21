@@ -1,6 +1,14 @@
-# Details to how to create a new car
+# [DRAFT]
 
-Here is a template:
+# How to create a new car
+
+
+## Naming
+
+The car needs to have a fitting package name that matches the current convention: `carSomeName`
+The name is prefixed by `car`.
+
+## Template:
 
 ```go
 package carDemo
@@ -76,3 +84,8 @@ func (t *Demo) GetSeparatorSymbol() string {
 	return os.Getenv("BULLETTRAIN_CAR_DEMO_SEPARATOR_SYMBOL")
 }
 ```
+
+## Documentation
+
+The `README` should also be as detailed as the ones already existing.
+Each and every env variable must be documented with default values and description.
