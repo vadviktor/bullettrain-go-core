@@ -140,7 +140,7 @@ Background Attributes
 | BULLETTRAIN_CARS                   | Control which cars to appear in what order, using their _callwords_.  | `os time date context dir python go ruby nodejs php git status` |
 | BULLETTRAIN_CARS_SEPARATE_LINE     | Whether the cars should be on their own line above the prompt.            | false                                                           |
 | BULLETTRAIN_NO_PAINT               | Whether you wish not to use paint at all, aka black and white mode.       | false                                                           |
-| BULLETTRAIN_DEBUG                  | Turning debug print mode on to help seeing actual haracter codes.         | false                                                           |
+| BULLETTRAIN_DEBUG                  | Turning debug print mode on to help seeing actual character codes.         | false                                                           |
 | BULLETTRAIN_SEPARATOR_ICON         | Defines the car separator icon.                                           | ``                                                             |
 | BULLETTRAIN_SEPARATOR_PAINT        | Defines the car separator icon's paint.                                   | calculated on the fly                                           |
 | BULLETTRAIN_PROMPT_CHAR            | Redefines the end char of the prompt when you are a normal user.          | `$ `                                                            |
@@ -262,17 +262,16 @@ ZSH example:
 
 ### Managing dependencies
 
-We use Glide until some official support comes along.
+We use `go dep` as it is now production ready.
 
-https://github.com/Masterminds/glide
+https://github.com/golang/dep
 
 ### Benchmarking
 
 We not only want the prompt to be super sexy but also super snappy.
 What'd be the point writting it in Go?! :)
 
-So to bluntly benchmark it's speed, build the executable and then sample
-a 10x batch 5 times like this in ZSH:
+So to bluntly benchmark it's speed, build the executable and then sample a 10x batch 5 times like this in ZSH:
 
 ```
 $ go build bullettrain.go
