@@ -4,11 +4,10 @@ import (
 	"bytes"
 	"fmt"
 	"os"
+	"os/exec"
 	"os/user"
 	"regexp"
 	"strings"
-
-	"os/exec"
 
 	"github.com/bullettrain-sh/bullettrain-go-core/car_context"
 	"github.com/bullettrain-sh/bullettrain-go-core/car_date"
@@ -80,7 +79,7 @@ func main() {
 	n.WriteString(lineEnding())
 
 	if d := os.Getenv("BULLETTRAIN_DEBUG"); d == "true" {
-		fmt.Print(n.String())
+		fmt.Printf("%q", n.String())
 	} else {
 		fmt.Printf("%s", n.String())
 	}
