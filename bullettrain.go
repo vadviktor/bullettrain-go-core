@@ -24,6 +24,8 @@ import (
 	"github.com/mgutz/ansi"
 )
 
+const defaultCarOrder = "os time date context dir python go ruby nodejs php git status"
+
 func main() {
 	if d := os.Getenv("BULLETTRAIN_NO_PAINT"); d == "true" {
 		ansi.DisableColors(true)
@@ -100,7 +102,7 @@ func carsOrderByTrigger() []carRenderer {
 	// Cars basic, default order.
 	var o []string
 	if envOrder := os.Getenv("BULLETTRAIN_CARS"); envOrder == "" {
-		o = append(o, "os", "time", "date", "context", "dir", "python", "go", "ruby", "nodejs", "php", "git", "status")
+		o = strings.Split(strings.TrimSpace(defaultCarOrder), " ")
 	} else {
 		o = strings.Split(strings.TrimSpace(envOrder), " ")
 	}
