@@ -10,6 +10,8 @@ The name is prefixed by `car`.
 
 ## Template:
 
+Here is a demo template you can use to start off your new `car`. It shows basic implementation of the `carRenderer` interface. 
+
 ```go
 package carDemo
 
@@ -85,7 +87,21 @@ func (t *Demo) GetSeparatorSymbol() string {
 }
 ```
 
-## Documentation
+
+When you may want to just permanently change symbol or paint colours, you can simply change the constants on the top level and compile your custom version:
+
+```go
+const carPaint = "black:white"
+const symbolIcon = "€"
+const symbolPaint = "black:white"
+```
+
+To use your car, this is a checklist to be done in `bullettrain-go-core/bullettrain.go`:
+
+* TODO
+
+
+## Documenting cars
 
 The `README` should also be as detailed as the ones already existing.
 Each and every env variable must be documented with default values and description.
