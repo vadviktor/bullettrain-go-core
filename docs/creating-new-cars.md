@@ -22,22 +22,24 @@ import (
 	"github.com/mgutz/ansi"
 )
 
-const carPaint = "black:white"
-const symbolIcon = "€"
-const symbolPaint = "black:white"
+const (
+    carPaint = "black:white"
+    symbolIcon = "€"
+    symbolPaint = "black:white"
+)
 
 // Demo Car
-type Demo struct {
+type Car struct {
 	paint string
 }
 
 // GetPaint returns the calculated end paint string for the car.
-func (t *Demo) GetPaint() string {
-	if t.paint = os.Getenv("BULLETTRAIN_CAR_DEMO_PAINT"); t.paint == "" {
-		t.paint = carPaint
+func (c *Car) GetPaint() string {
+	if c.paint = os.Getenv("BULLETTRAIN_CAR_DEMO_PAINT"); c.paint == "" {
+		c.paint = carPaint
 	}
 
-	return t.paint
+	return c.paint
 }
 
 func paintedSymbol() string {
@@ -55,7 +57,7 @@ func paintedSymbol() string {
 }
 
 // CanShow decides if this car needs to be displayed.
-func (t *Demo) CanShow() bool {
+func (c *Car) CanShow() bool {
 	s := false
 	if e := os.Getenv("BULLETTRAIN_CAR_DEMO_SHOW"); e == "true" {
 		s = true
@@ -66,23 +68,23 @@ func (t *Demo) CanShow() bool {
 
 // Render builds and passes the end product of a completely composed car onto
 // the channel.
-func (t *Demo) Render(out chan<- string) {
+func (c *Car) Render(out chan<- string) {
 	defer close(out)
-	carPaint := ansi.ColorFunc(t.GetPaint())
+	carPaint := ansi.ColorFunc(c.GetPaint())
 
 	
-	out <- fmt.Sprintf("%s%s", paintedSymbol(), carPaint("Demo text"))
+	out <- fmc.Sprintf("%s%s", paintedSymbol(), carPaint("Demo text"))
 }
 
 // GetSeparatorPaint overrides the Fg/Bg colours of the right hand side
 // separator through ENV variables.
-func (t *Demo) GetSeparatorPaint() string {
+func (c *Car) GetSeparatorPaint() string {
 	return os.Getenv("BULLETTRAIN_CAR_DEMO_SEPARATOR_PAINT")
 }
 
 // GetSeparatorSymbol overrides the symbol of the right hand side
 // separator through ENV variables.
-func (t *Demo) GetSeparatorSymbol() string {
+func (c *Car) GetSeparatorSymbol() string {
 	return os.Getenv("BULLETTRAIN_CAR_DEMO_SEPARATOR_SYMBOL")
 }
 ```
@@ -91,9 +93,11 @@ func (t *Demo) GetSeparatorSymbol() string {
 When you may want to just permanently change symbol or paint colours, you can simply change the constants on the top level and compile your custom version:
 
 ```go
-const carPaint = "black:white"
-const symbolIcon = "€"
-const symbolPaint = "black:white"
+const (
+    carPaint = "black:white"
+    symbolIcon = "€"
+    symbolPaint = "black:white"
+)
 ```
 
 To use your car, this is a checklist to be done in `bullettrain-go-core/bullettrain.go`:

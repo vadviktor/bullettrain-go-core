@@ -8,22 +8,24 @@ import (
 	"github.com/mgutz/ansi"
 )
 
-const carPaint = "black:white"
-const symbolIcon = ""
-const symbolPaint = "black:white"
+const (
+	carPaint    = "black:white"
+	symbolIcon  = ""
+	symbolPaint = "black:white"
+)
 
 // Time Car
-type Time struct {
+type Car struct {
 	paint string
 }
 
 // GetPaint returns the calculated end paint string for the car.
-func (t *Time) GetPaint() string {
-	if t.paint = os.Getenv("BULLETTRAIN_CAR_TIME_PAINT"); t.paint == "" {
-		t.paint = carPaint
+func (c *Car) GetPaint() string {
+	if c.paint = os.Getenv("BULLETTRAIN_CAR_TIME_PAINT"); c.paint == "" {
+		c.paint = carPaint
 	}
 
-	return t.paint
+	return c.paint
 }
 
 func paintedSymbol() string {
@@ -41,7 +43,7 @@ func paintedSymbol() string {
 }
 
 // CanShow decides if this car needs to be displayed.
-func (t *Time) CanShow() bool {
+func (c *Car) CanShow() bool {
 	s := false
 	if e := os.Getenv("BULLETTRAIN_CAR_TIME_SHOW"); e == "true" {
 		s = true
@@ -52,9 +54,9 @@ func (t *Time) CanShow() bool {
 
 // Render builds and passes the end product of a completely composed car onto
 // the channel.
-func (t *Time) Render(out chan<- string) {
+func (c *Car) Render(out chan<- string) {
 	defer close(out)
-	carPaint := ansi.ColorFunc(t.GetPaint())
+	carPaint := ansi.ColorFunc(c.GetPaint())
 
 	n := time.Now()
 	out <- fmt.Sprintf("%s%s",
@@ -65,12 +67,12 @@ func (t *Time) Render(out chan<- string) {
 
 // GetSeparatorPaint overrides the Fg/Bg colours of the right hand side
 // separator through ENV variables.
-func (t *Time) GetSeparatorPaint() string {
+func (c *Car) GetSeparatorPaint() string {
 	return os.Getenv("BULLETTRAIN_CAR_TIME_SEPARATOR_PAINT")
 }
 
 // GetSeparatorSymbol overrides the symbol of the right hand side
 // separator through ENV variables.
-func (t *Time) GetSeparatorSymbol() string {
+func (c *Car) GetSeparatorSymbol() string {
 	return os.Getenv("BULLETTRAIN_CAR_TIME_SEPARATOR_SYMBOL")
 }

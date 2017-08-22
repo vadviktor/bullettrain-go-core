@@ -10,25 +10,27 @@ import (
 	"github.com/mgutz/ansi"
 )
 
-const carPaint = "white:cyan"
-const symbolPaint = "white:cyan"
+const (
+	carPaint    = "white:cyan"
+	symbolPaint = "white:cyan"
+)
 
 // Os car
-type Os struct {
+type Car struct {
 	paint string
 }
 
 // GetPaint returns the calculated end paint string for the car.
-func (t *Os) GetPaint() string {
-	if t.paint = os.Getenv("BULLETTRAIN_CAR_OS_PAINT"); t.paint == "" {
-		t.paint = carPaint
+func (c *Car) GetPaint() string {
+	if c.paint = os.Getenv("BULLETTRAIN_CAR_OS_PAINT"); c.paint == "" {
+		c.paint = carPaint
 	}
 
-	return t.paint
+	return c.paint
 }
 
 // CanShow decides if this car needs to be displayed.
-func (t *Os) CanShow() bool {
+func (c *Car) CanShow() bool {
 	s := false
 	if e := os.Getenv("BULLETTRAIN_CAR_OS_SHOW"); e == "true" {
 		s = true
@@ -102,9 +104,9 @@ func findOutOs() string {
 
 // Render builds and passes the end product of a completely composed car onto
 // the channel.
-func (t *Os) Render(out chan<- string) {
+func (c *Car) Render(out chan<- string) {
 	defer close(out)
-	carPaint := ansi.ColorFunc(t.GetPaint())
+	carPaint := ansi.ColorFunc(c.GetPaint())
 
 	var n string
 	if n = os.Getenv("BULLETTRAIN_CAR_OS_NAME"); n == "" {
@@ -118,12 +120,12 @@ func (t *Os) Render(out chan<- string) {
 
 // GetSeparatorPaint overrides the Fg/Bg colours of the right hand side
 // separator through ENV variables.
-func (t *Os) GetSeparatorPaint() string {
+func (c *Car) GetSeparatorPaint() string {
 	return os.Getenv("BULLETTRAIN_CAR_OS_SEPARATOR_PAINT")
 }
 
 // GetSeparatorSymbol overrides the symbol of the right hand side
 // separator through ENV variables.
-func (t *Os) GetSeparatorSymbol() string {
+func (c *Car) GetSeparatorSymbol() string {
 	return os.Getenv("BULLETTRAIN_CAR_OS_SEPARATOR_SYMBOL")
 }

@@ -7,22 +7,24 @@ import (
 	"github.com/mgutz/ansi"
 )
 
-const carPaint = "white:red"
-const symbolIcon = ""
-const symbolPaint = "yellow:red"
+const (
+	carPaint    = "white:red"
+	symbolIcon  = ""
+	symbolPaint = "yellow:red"
+)
 
 // Status Car
-type Status struct {
+type Car struct {
 	paint string
 }
 
 // GetPaint returns the calculated end paint string for the car.
-func (t *Status) GetPaint() string {
-	if t.paint = os.Getenv("BULLETTRAIN_CAR_STATUS_PAINT"); t.paint == "" {
-		t.paint = carPaint
+func (c *Car) GetPaint() string {
+	if c.paint = os.Getenv("BULLETTRAIN_CAR_STATUS_PAINT"); c.paint == "" {
+		c.paint = carPaint
 	}
 
-	return t.paint
+	return c.paint
 }
 
 func paintedSymbol() string {
@@ -40,7 +42,7 @@ func paintedSymbol() string {
 }
 
 // CanShow decides if this car needs to be displayed.
-func (t *Status) CanShow() bool {
+func (c *Car) CanShow() bool {
 	if len(os.Args) > 1 {
 		return os.Args[1] != "" && os.Args[1] != "0"
 	}
@@ -50,9 +52,9 @@ func (t *Status) CanShow() bool {
 
 // Render builds and passes the end product of a completely composed car onto
 // the channel.
-func (t *Status) Render(out chan<- string) {
+func (c *Car) Render(out chan<- string) {
 	defer close(out)
-	carPaint := ansi.ColorFunc(t.GetPaint())
+	carPaint := ansi.ColorFunc(c.GetPaint())
 
 	out <- fmt.Sprintf("%s%s",
 		paintedSymbol(),
@@ -61,12 +63,12 @@ func (t *Status) Render(out chan<- string) {
 
 // GetSeparatorPaint overrides the Fg/Bg colours of the right hand side
 // separator through ENV variables.
-func (t *Status) GetSeparatorPaint() string {
+func (c *Car) GetSeparatorPaint() string {
 	return os.Getenv("BULLETTRAIN_CAR_STATUS_SEPARATOR_PAINT")
 }
 
 // GetSeparatorSymbol overrides the symbol of the right hand side
 // separator through ENV variables.
-func (t *Status) GetSeparatorSymbol() string {
+func (c *Car) GetSeparatorSymbol() string {
 	return os.Getenv("BULLETTRAIN_CAR_STATUS_SEPARATOR_SYMBOL")
 }
