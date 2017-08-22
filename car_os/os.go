@@ -60,7 +60,7 @@ func paintedSymbol(osName string) string {
 		"tux":        ""}
 
 	var symbol string
-	if symbol = os.Getenv("BULLETTRAIN_CAR_TIME_SYMBOL_ICON"); symbol == "" {
+	if symbol = os.Getenv("BULLETTRAIN_CAR_OS_SYMBOL_ICON"); symbol == "" {
 		var present bool
 		symbol, present = osSymbols[osName]
 		if !present {
@@ -70,7 +70,7 @@ func paintedSymbol(osName string) string {
 	}
 
 	var osSymbolPaint string
-	if osSymbolPaint = os.Getenv("BULLETTRAIN_CAR_TIME_SYMBOL_PAINT"); osSymbolPaint == "" {
+	if osSymbolPaint = os.Getenv("BULLETTRAIN_CAR_OS_SYMBOL_PAINT"); osSymbolPaint == "" {
 		osSymbolPaint = symbolPaint
 	}
 
