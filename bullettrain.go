@@ -31,8 +31,12 @@ func main() {
 		ansi.DisableColors(true)
 	}
 
+	buildAndPrintCars()
+}
+
+func buildAndPrintCars() {
 	// List of cars available for use.
-	trailers := carsOrderByTrigger()
+	trailers := carsToRender()
 
 	// Create a channel for each car.
 	noOfCars := len(trailers) * 2
@@ -49,7 +53,6 @@ func main() {
 		go trailers[k].Render(chans[j])
 
 		// Render separator.
-		sep := &separator{}
 		var newPaint string
 		if newPaint = trailers[k].GetSeparatorPaint(); newPaint == "" {
 			lastSeparator = j+2 == noOfCars
@@ -64,6 +67,7 @@ func main() {
 			}
 		}
 
+		sep := new(separator)
 		go sep.Render(chans[j+1], newPaint, trailers[k].GetSeparatorSymbol())
 	}
 
@@ -98,34 +102,36 @@ func pwd() string {
 	return d
 }
 
-func carsOrderByTrigger() []carRenderer {
-	// Cars basic, default order.
-	var o []string
+func carsOrder() (o []string) {
 	if envOrder := os.Getenv("BULLETTRAIN_CARS"); envOrder == "" {
 		o = strings.Split(strings.TrimSpace(defaultCarOrder), " ")
 	} else {
 		o = strings.Split(strings.TrimSpace(envOrder), " ")
 	}
 
+	return
+}
+
+func carsToRender() []carRenderer {
 	d := pwd()
 	// List of cars to be available for use.
 	trailers := map[string]carRenderer{
-		"context": &carContext.Context{},
-		"date":    &carDate.Date{},
-		"dir":     &carDirectory.Directory{Pwd: d},
+		"context": &carContext.Car{},
+		"date":    &carDate.Car{},
+		"dir":     &carDirectory.Car{Pwd: d},
 		"git":     &carGit.Car{Pwd: d},
 		"go":      &carGo.Car{Pwd: d},
 		"nodejs":  &carNodejs.Car{Pwd: d},
-		"os":      &carOs.Os{},
+		"os":      &carOs.Car{},
 		"php":     &carPhp.Car{Pwd: d},
 		"python":  &carPython.Car{Pwd: d},
 		"ruby":    &carRuby.Car{Pwd: d},
-		"status":  &carStatus.Status{},
-		"time":    &carTime.Time{},
+		"status":  &carStatus.Car{},
+		"time":    &carTime.Car{},
 	}
 
 	var carsToRender []carRenderer
-	for _, car := range o {
+	for _, car := range carsOrder() {
 		if trailers[car].CanShow() {
 			carsToRender = append(carsToRender, trailers[car])
 		}
@@ -208,7 +214,7 @@ type carRenderer interface {
 	GetSeparatorSymbol() string
 }
 
-type separator struct{}
+type separator string
 
 func (s *separator) Render(out chan<- string, paint, symbolOverride string) {
 	defer close(out)
