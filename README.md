@@ -293,9 +293,9 @@ feature that will make the prompt sluggish all of a sudden.
 
 **A:** As Go is statically linked and every car you need, needs to be compiled into the single executable, setting a single env var won't change the size of it, though will change the speed of execution somewhat. The main reason is that people like to see a variable doing a single job and doing it well. Therefore you are capable of not loading the cars by the `BULLETTRAIN_CARS` variable, but the `_SHOW` suffixed ones are really tasked doing just that.
 
-### Q: If Go will officialy support a stable plugin system, will you?
+### Q: What about plugins?
 
-**A:** Not likely as it will introduce dangling externals and probably performance penalty.
+**A:** Join our conversation here: https://github.com/bullettrain-sh/bullettrain-go-core/issues/31
 
 
 ## Credits
