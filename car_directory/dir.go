@@ -5,6 +5,8 @@ import (
 	"os"
 	"strings"
 
+	"strconv"
+
 	"github.com/mgutz/ansi"
 )
 
@@ -41,15 +43,30 @@ func (c *Car) CanShow() bool {
 func (c *Car) Render(out chan<- string) {
 	defer close(out)
 
-	d := c.Pwd
-	ps := string(os.PathSeparator)
-	e := strings.Split(d, ps)
-	if len(e) > 4 {
-		p := e[len(e)-3:]
-		d = fmt.Sprintf("...%s", strings.Join(p, ps))
+	dir := c.Pwd
+
+	if os.Getenv("HOME") == dir {
+		dir = "~"
+	} else {
+		ps := string(os.PathSeparator)
+
+		max_length := 3
+		if e := os.Getenv("BULLETTRAIN_CAR_DIRECTORY_MAX_LENGHT"); e != "" {
+			ml, err := strconv.Atoi(e)
+			if err == nil {
+				max_length = ml
+			}
+		}
+
+		dirs := strings.Split(dir, ps)
+		if max_length > 0 && len(dirs) > max_length+1 {
+			f := len(dirs) - max_length
+			p := dirs[f:]
+			dir = fmt.Sprintf("...%s", strings.Join(p, ps))
+		}
 	}
 
-	out <- ansi.Color(fmt.Sprintf("%s", d), c.GetPaint())
+	out <- ansi.Color(fmt.Sprintf("%s", dir), c.GetPaint())
 }
 
 // GetSeparatorPaint overrides the Fg/Bg colours of the right hand side

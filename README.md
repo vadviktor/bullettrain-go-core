@@ -137,10 +137,10 @@ Background Attributes
 
 | Environment variable               | Description                                                               | Default value                                                   |
 | :---                               | :---                                                                      | :---                                                            |
-| BULLETTRAIN_CARS                   | Control which cars to appear in what order, using their _callwords_.  | `os time date context dir python go ruby nodejs php git status` |
+| BULLETTRAIN_CARS                   | Control which cars to appear in what order, using their _callwords_.      | `os time date context dir python go ruby nodejs php git status` |
 | BULLETTRAIN_CARS_SEPARATE_LINE     | Whether the cars should be on their own line above the prompt.            | false                                                           |
 | BULLETTRAIN_NO_PAINT               | Whether you wish not to use paint at all, aka black and white mode.       | false                                                           |
-| BULLETTRAIN_DEBUG                  | Turning debug print mode on to help seeing actual character codes.         | false                                                           |
+| BULLETTRAIN_DEBUG                  | Turning debug print mode on to help seeing actual character codes.        | false                                                           |
 | BULLETTRAIN_SEPARATOR_ICON         | Defines the car separator icon.                                           | ``                                                             |
 | BULLETTRAIN_SEPARATOR_PAINT        | Defines the car separator icon's paint.                                   | calculated on the fly                                           |
 | BULLETTRAIN_PROMPT_CHAR            | Redefines the end char of the prompt when you are a normal user.          | `$ `                                                            |
@@ -207,12 +207,13 @@ Showing current directory.
 
 **Options**
 
-| Environment variable                       | Description                                                    | Default value                     |
-| :---                                       | :---                                                           | :---                              |
-| BULLETTRAIN_CAR_DIRECTORY_SHOW             | Whether the car needs to be shown.                             | true                              |
-| BULLETTRAIN_CAR_DIRECTORY_PAINT            | Colour override for the car's paint.                           | white:blue                        |
-| BULLETTRAIN_CAR_DIRECTORY_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
-| BULLETTRAIN_CAR_DIRECTORY_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.           | Using global symbol.              |
+| Environment variable                       | Description                                                                                | Default value                     |
+| :---                                       | :---                                                                                       | :---                              |
+| BULLETTRAIN_CAR_DIRECTORY_SHOW             | Whether the car needs to be shown.                                                         | true                              |
+| BULLETTRAIN_CAR_DIRECTORY_PAINT            | Colour override for the car's paint.                                                       | white:blue                        |
+| BULLETTRAIN_CAR_DIRECTORY_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint.                             | Using default painting algorythm. |
+| BULLETTRAIN_CAR_DIRECTORY_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.                                       | Using global symbol.              |
+| BULLETTRAIN_CAR_DIRECTORY_MAX_LENGHT       | Set the number of parent directories displayed. Setting it to 0 means to show all of them. | 3                                 |
 
 ### OS Car
 
