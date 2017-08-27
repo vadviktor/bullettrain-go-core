@@ -3,11 +3,10 @@ package carDirectory
 import (
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 
-	"strconv"
-
-	"github.com/mgutz/ansi"
+	"github.com/bullettrain-sh/bullettrain-go-core/ansi"
 )
 
 const carPaint = "white:blue"

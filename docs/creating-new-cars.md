@@ -10,7 +10,7 @@ The name is prefixed by `car`.
 
 ## Template:
 
-Here is a demo template you can use to start off your new `car`. It shows basic implementation of the `carRenderer` interface. 
+Here is a demo template you can use to start off your new `car`. It shows basic implementation of the `carRenderer` interface.
 
 ```go
 package carDemo
@@ -19,7 +19,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/mgutz/ansi"
+	"github.com/bullettrain-sh/bullettrain-go-core/ansi"
 )
 
 const (
@@ -72,7 +72,7 @@ func (c *Car) Render(out chan<- string) {
 	defer close(out)
 	carPaint := ansi.ColorFunc(c.GetPaint())
 
-	
+
 	out <- fmc.Sprintf("%s%s", paintedSymbol(), carPaint("Demo text"))
 }
 

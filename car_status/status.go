@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/mgutz/ansi"
+	"github.com/bullettrain-sh/bullettrain-go-core/ansi"
 )
 
 const (
@@ -56,9 +56,11 @@ func (c *Car) Render(out chan<- string) {
 	defer close(out)
 	carPaint := ansi.ColorFunc(c.GetPaint())
 
-	out <- fmt.Sprintf("%s%s",
-		paintedSymbol(),
-		carPaint(os.Args[1]))
+	if n := os.Getenv("BULLETTRAIN_CAR_STATUS_CODE_SHOW"); n == "false" {
+		out <- fmt.Sprintf("%s", paintedSymbol())
+	} else {
+		out <- fmt.Sprintf("%s%s", paintedSymbol(), carPaint(os.Args[1]))
+	}
 }
 
 // GetSeparatorPaint overrides the Fg/Bg colours of the right hand side

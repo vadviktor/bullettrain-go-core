@@ -1,19 +1,51 @@
-# BETA VERSION :bomb:
+# Bullet Train shell prompt [BETA VERSION :bomb:]
 
 <img src="http://rawgit.com/caiogondim/bullet-train-oh-my-zsh-theme/master/img/icon.svg" width="100%" />
 
 Bullet Train is a [zsh](http://www.zsh.org/) & [bash](https://www.gnu.org/software/bash/) shell prompt theme inspired by the [Powerline Vim plugin](https://github.com/Lokaltog/vim-powerline).
-It aims for simple but very powerful configuration options and
-showing information only when it's relevant.
 
-## Support
 
-[IRC channel](http://webchat.freenode.net?channels=%23bullettrain-sh) `#bullettrain-sh@freenode`
+- [Bullet Train shell prompt [BETA VERSION :bomb:]](#bullet-train-shell-prompt-beta-version-bomb)
+    - [Features](#features)
+    - [Requirements](#requirements)
+    - [Compatible terminal emulators](#compatible-terminal-emulators)
+    - [Installing](#installing)
+    - [Options](#options)
+        - [Defining colours and text effects](#defining-colours-and-text-effects)
+        - [Basic behaviours](#basic-behaviours)
+    - [Core cars](#core-cars)
+        - [Time Car](#time-car)
+        - [Date Car](#date-car)
+        - [Context Car](#context-car)
+        - [Directory Car](#directory-car)
+        - [OS Car](#os-car)
+        - [Last command exit code Car](#last-command-exit-code-car)
+        - [Background jobs Car](#background-jobs-car)
+    - [Development](#development)
+        - [Managing dependencies](#managing-dependencies)
+        - [Benchmarking](#benchmarking)
+    - [Support](#support)
+    - [FAQ](#faq)
+        - [Q: Why don't we use `BULLETTRAIN_CARS` to disable the unwanted cars?](#q-why-dont-we-use-`bullettraincars`-to-disable-the-unwanted-cars)
+        - [Q: What about plugins?](#q-what-about-plugins)
+    - [Credits](#credits)
+
 
 ## Features
 
-Core modules show:
-- Time and date
+* Single binary with wide architecture support: Mac, Linux, Raspberry Pi (ARM)
+* Go and 3rd party language plugin support
+* Is as slow as it's slowest car, won't slow down linearily the more car you use.
+* Latest Go version support for developers
+* Triggering system to show only relevant information
+* Almost everything can be overwritten through environment variables
+* UTF-8 support out of the box (thanks to Go)
+* 256 colour support, with special effects where the terminal software has support for them
+
+Core cars:
+
+- Time
+- Date
 - Current directory
 - Exit code of last command
 - User and hostname
@@ -21,13 +53,14 @@ Core modules show:
 - OS icon and name
 
 External modules can show:
+
 - Git status (https://github.com/bullettrain-sh/bullettrain-go-git)
 - Current Python version and/or virtualenv (https://github.com/bullettrain-sh/bullettrain-go-python)
 - Current Ruby version and/or gemset (https://github.com/bullettrain-sh/bullettrain-go-ruby)
 - Current Node.js version (https://github.com/bullettrain-sh/bullettrain-go-nodejs)
 - Current Golang version (https://github.com/bullettrain-sh/bullettrain-go-golang)
 - Current PHP version (https://github.com/bullettrain-sh/bullettrain-go-php)
-- _more are coming as we are going through the existing ones for the ZSH version_
+- _more are coming as we are going through the existing ones for the [ZSH version](https://github.com/caiogondim/bullet-train.zsh)_
 
     - perl
     - elixir
@@ -48,9 +81,8 @@ In order to use the theme, you will first need:
     * [Nerd fonts](https://nerdfonts.com/) ([Arch Linux AUR](https://aur.archlinux.org/packages/nerd-fonts-complete/))
     * Powerline compatible fonts like [Vim Powerline patched fonts](https://github.com/Lokaltog/powerline-fonts), [Input Mono](http://input.fontbureau.com/) or [Monoid](http://larsenwork.com/monoid/).
     * On Ubuntu like systems you'll need the `ttf-ancient-fonts` package to correctly display some unicode symbols that are not covered by the Powerline fonts above.
-    
-* Make sure terminal is using 256-colors mode with `export
-  TERM="xterm-256color"`
+
+* Make sure terminal is using 256-colors mode with `export TERM="xterm-256color"`
 * For [iTerm 2](http://iterm2.com/) users, make sure you go into your settings and set both the regular font and the non-ascii font to powerline compatible [fonts](https://github.com/powerline/fonts) or the prompt separators and special characters will not display correctly.
 
 ## Compatible terminal emulators
@@ -68,11 +100,13 @@ In order to use the theme, you will first need:
 ## Installing
 
 1, We have prepared release executables on our release page
-https://github.com/bullettrain-sh/bullettrain-go-core/releases. Download the one that matches your architecture and OS.
+
+https://github.com/bullettrain-sh/bullettrain-go-core/releases.
+
+Download the one that matches your architecture and OS.
 
 Of course you are more then welcomed to build your own, customised
 version if you feel comfortable with Go. [Here are some help to do that](docs/creating-new-cars.md).
-
 
 2, In your rc files you only need to set the single prompt variable.
 
@@ -99,8 +133,6 @@ All envirnment variables must be exported for Go to be able to pick up.
 E.g.: `export BULLETTRAIN_CAR_ORDER="time context python ruby"`
 
 ### Defining colours and text effects
-
-Anything that https://github.com/mgutz/ansi supports.
 
 Form of the colourization string: `foregroundColor+attributes:backgroundColor+attributes`
 
@@ -136,9 +168,9 @@ Background Attributes
 ### Basic behaviours
 
 | Environment variable               | Description                                                               | Default value                                                   |
-| :---                               | :---                                                                      | :---                                                            |
+| :--------------------------------- | :------------------------------------------------------------------------ | :-------------------------------------------------------------- |
 | BULLETTRAIN_CARS                   | Control which cars to appear in what order, using their _callwords_.      | `os time date context dir python go ruby nodejs php git status` |
-| BULLETTRAIN_CARS_SEPARATE_LINE     | Whether the cars should be on their own line above the prompt.            | false                                                           |
+| BULLETTRAIN_CARS_SEPARATE_LINE     | Whether the cars should be on their own line above the prompt.            | true                                                            |
 | BULLETTRAIN_NO_PAINT               | Whether you wish not to use paint at all, aka black and white mode.       | false                                                           |
 | BULLETTRAIN_DEBUG                  | Turning debug print mode on to help seeing actual character codes.        | false                                                           |
 | BULLETTRAIN_SEPARATOR_ICON         | Defines the car separator icon.                                           | ``                                                             |
@@ -159,7 +191,7 @@ Showing current time.
 **Options**
 
 | Environment variable                  | Description                                                    | Default value                     |
-| :---                                  | :---                                                           | :---                              |
+| :------------------------------------ | :------------------------------------------------------------- | :-------------------------------- |
 | BULLETTRAIN_CAR_TIME_SHOW             | Whether the car needs to be shown.                             | false                             |
 | BULLETTRAIN_CAR_TIME_SYMBOL_ICON      | Icon displayed on the car.                                     | ``                               |
 | BULLETTRAIN_CAR_TIME_SYMBOL_PAINT     | Colour override for the car's symbol.                          | white:black                       |
@@ -176,7 +208,7 @@ Showing current date. Format: `YYYY-MM-DD`
 **Options**
 
 | Environment variable                  | Description                                                    | Default value                     |
-| :---                                  | :---                                                           | :---                              |
+| :------------------------------------ | :------------------------------------------------------------- | :-------------------------------- |
 | BULLETTRAIN_CAR_DATE_SHOW             | Whether the car needs to be shown.                             | false                             |
 | BULLETTRAIN_CAR_DATE_PAINT            | Colour override for the car's paint.                           | red:black                         |
 | BULLETTRAIN_CAR_DATE_SYMBOL_ICON      | Icon displayed on the car.                                     | ``                               |
@@ -193,7 +225,7 @@ Showing current user and hostname.
 **Options**
 
 | Environment variable                     | Description                                                    | Default value                     |
-| :---                                     | :---                                                           | :---                              |
+| :--------------------------------------- | :------------------------------------------------------------- | :-------------------------------- |
 | BULLETTRAIN_CAR_CONTEXT_SHOW             | Whether the car needs to be shown.                             | true                              |
 | BULLETTRAIN_CAR_CONTEXT_PAINT            | Colour override for the car's paint.                           | black:white                       |
 | BULLETTRAIN_CAR_CONTEXT_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
@@ -208,7 +240,7 @@ Showing current directory.
 **Options**
 
 | Environment variable                       | Description                                                                                | Default value                     |
-| :---                                       | :---                                                                                       | :---                              |
+| :----------------------------------------- | :----------------------------------------------------------------------------------------- | :-------------------------------- |
 | BULLETTRAIN_CAR_DIRECTORY_SHOW             | Whether the car needs to be shown.                                                         | true                              |
 | BULLETTRAIN_CAR_DIRECTORY_PAINT            | Colour override for the car's paint.                                                       | white:blue                        |
 | BULLETTRAIN_CAR_DIRECTORY_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint.                             | Using default painting algorythm. |
@@ -225,7 +257,7 @@ element.
 **Options**
 
 | Environment variable                | Description                                                    | Default value                                      |
-| :---                                | :---                                                           | :---                                               |
+| :---------------------------------- | :------------------------------------------------------------- | :------------------------------------------------- |
 | BULLETTRAIN_CAR_OS_SHOW             | Whether the car needs to be shown.                             | false                                              |
 | BULLETTRAIN_CAR_OS_PAINT            | Colour override for the car's paint.                           | white:cyan                                         |
 | BULLETTRAIN_CAR_OS_NAME             | Override the car's text.                                       | Trying to figure out by the given tools of the OS. |
@@ -251,12 +283,18 @@ ZSH example:
 **Options**
 
 | Environment variable                    | Description                                                    | Default value                     |
-| :---                                    | :---                                                           | :---                              |
+| :-------------------------------------- | :------------------------------------------------------------- | :-------------------------------- |
 | BULLETTRAIN_CAR_STATUS_SYMBOL_ICON      | Icon displayed on the car.                                     | ``                               |
 | BULLETTRAIN_CAR_STATUS_SYMBOL_PAINT     | Colour override for the car's symbol.                          | yellow:red                        |
 | BULLETTRAIN_CAR_STATUS_PAINT            | Colour override for the car's paint.                           | white:red                         |
+| BULLETTRAIN_CAR_STATUS_CODE_SHOW        | Whether to show the exit code as the text of the car.          | true                              |
 | BULLETTRAIN_CAR_STATUS_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
 | BULLETTRAIN_CAR_STATUS_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.           | Using global symbol.              |
+
+
+### Background jobs Car
+
+TBD
 
 
 ## Development
@@ -286,6 +324,10 @@ $ repeat 5 (time (repeat 10 ./bullettrain > /dev/null))
 
 Be sure to benchmark your code to make sure you are not introducing a
 feature that will make the prompt sluggish all of a sudden.
+
+## Support
+
+[IRC channel](http://webchat.freenode.net?channels=%23bullettrain-sh) `#bullettrain-sh@freenode`
 
 
 ## FAQ

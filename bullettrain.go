@@ -9,6 +9,7 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/bullettrain-sh/bullettrain-go-core/ansi"
 	"github.com/bullettrain-sh/bullettrain-go-core/car_context"
 	"github.com/bullettrain-sh/bullettrain-go-core/car_date"
 	"github.com/bullettrain-sh/bullettrain-go-core/car_directory"
@@ -21,7 +22,6 @@ import (
 	"github.com/bullettrain-sh/bullettrain-go-php"
 	"github.com/bullettrain-sh/bullettrain-go-python"
 	"github.com/bullettrain-sh/bullettrain-go-ruby"
-	"github.com/mgutz/ansi"
 )
 
 const defaultCarOrder = "os time date context dir python go ruby nodejs php git status"
@@ -72,22 +72,26 @@ func buildAndPrintCars() {
 	}
 
 	var n bytes.Buffer
+	n.WriteString(ansi.Reset)
 	// Gather each goroutine's response through their channels,
 	// keeping their order.
 	for _, c := range chans {
 		n.WriteString(<-c)
 	}
 
-	if l := os.Getenv("BULLETTRAIN_CARS_SEPARATE_LINE"); l == "true" {
-		n.WriteString("\n")
+	if l := os.Getenv("BULLETTRAIN_CARS_SEPARATE_LINE"); l != "false" {
+		n.WriteRune('\n')
 	}
 
 	n.WriteString(lineEnding())
+	n.WriteRune(' ')
 
 	if d := os.Getenv("BULLETTRAIN_DEBUG"); d == "true" {
-		fmt.Printf("%q", n.String())
+		fmt.Printf("%+ x", n.String())
+		fmt.Println("")
+		fmt.Printf("%+q", n.String())
 	} else {
-		fmt.Printf("%s", n.String())
+		fmt.Print(n.String())
 	}
 }
 
@@ -146,26 +150,29 @@ func lineEnding() string {
 		panic("Can't figure out current username.")
 	}
 
-	var l, c string
+	// var c string
+	var l string
 	if u.Username == "root" {
 		if l = os.Getenv("BULLETTRAIN_PROMPT_CHAR_ROOT"); l == "" {
-			l = "# "
+			l = "#"
 		}
 
-		if c = os.Getenv("BULLETTRAIN_PROMPT_CHAR_ROOT_PAINT"); c == "" {
-			c = "red"
-		}
+		// if c = os.Getenv("BULLETTRAIN_PROMPT_CHAR_ROOT_PAINT"); c == "" {
+		// 	c = "red"
+		// }
 	} else {
 		if l = os.Getenv("BULLETTRAIN_PROMPT_CHAR"); l == "" {
-			l = "$ "
+			l = "$"
 		}
 
-		if c = os.Getenv("BULLETTRAIN_PROMPT_CHAR_PAINT"); c == "" {
-			c = "green"
-		}
+		// if c = os.Getenv("BULLETTRAIN_PROMPT_CHAR_PAINT"); c == "" {
+		// 	c = "green"
+		// }
 	}
 
-	return ansi.Color(l, c)
+	// FIXME disabled to test no colour in the last line
+	//return ansi.Color(l, c)
+	return l
 }
 
 // flipPaint flips the FG and BG setup in colour strings of cars for a separator.
@@ -223,7 +230,7 @@ func (s *separator) Render(out chan<- string, paint, symbolOverride string) {
 	if symbolOverride != "" {
 		symbol = symbolOverride
 	} else if symbol = os.Getenv("BULLETTRAIN_SEPARATOR_ICON"); symbol == "" {
-		symbol = " "
+		symbol = ""
 	}
 
 	out <- ansi.Color(symbol, paint)
