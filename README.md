@@ -246,6 +246,7 @@ Showing current directory.
 | BULLETTRAIN_CAR_DIRECTORY_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint.                             | Using default painting algorythm. |
 | BULLETTRAIN_CAR_DIRECTORY_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.                                       | Using global symbol.              |
 | BULLETTRAIN_CAR_DIRECTORY_MAX_LENGHT       | Set the number of parent directories displayed. Setting it to 0 means to show all of them. | 3                                 |
+| BULLETTRAIN_CAR_DIRECTORY_PATH_SEPARATOR   | Set a custom path separator character.                                                     | Using the OS's path separator.    |
 
 ### OS Car
 
