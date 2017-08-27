@@ -257,15 +257,15 @@ element.
 
 **Options**
 
-| Environment variable                | Description                                                    | Default value                                      |
-| :---------------------------------- | :------------------------------------------------------------- | :------------------------------------------------- |
-| BULLETTRAIN_CAR_OS_SHOW             | Whether the car needs to be shown.                             | false                                              |
-| BULLETTRAIN_CAR_OS_PAINT            | Colour override for the car's paint.                           | white:cyan                                         |
-| BULLETTRAIN_CAR_OS_NAME             | Override the car's text.                                       | Trying to figure out by the given tools of the OS. |
-| BULLETTRAIN_CAR_OS_SYMBOL_PAINT     | Colour override for the car's symbol.                          | white:cyan                                         |
-| BULLETTRAIN_CAR_OS_SYMBOL_ICON      | Icon displayed on the car.                                     | ``                                                |
-| BULLETTRAIN_CAR_OS_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm.                  |
-| BULLETTRAIN_CAR_OS_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.           | Using global symbol.                               |
+| Environment variable                | Description                                                    | Default value                     |
+| :---------------------------------- | :------------------------------------------------------------- | :-------------------------------- |
+| BULLETTRAIN_CAR_OS_SHOW             | Whether the car needs to be shown.                             | false                             |
+| BULLETTRAIN_CAR_OS_PAINT            | Colour override for the car's paint.                           | white:cyan                        |
+| BULLETTRAIN_CAR_OS_NAME_SHOW        | Whether to show the OS's name text.                            | true                              |
+| BULLETTRAIN_CAR_OS_SYMBOL_PAINT     | Colour override for the car's symbol.                          | white:cyan                        |
+| BULLETTRAIN_CAR_OS_SYMBOL_ICON      | Icon displayed on the car.                                     | ``                               |
+| BULLETTRAIN_CAR_OS_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
+| BULLETTRAIN_CAR_OS_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.           | Using global symbol.              |
 
 ### Last command exit code Car
 

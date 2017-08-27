@@ -108,14 +108,12 @@ func (c *Car) Render(out chan<- string) {
 	defer close(out)
 	carPaint := ansi.ColorFunc(c.GetPaint())
 
-	var n string
-	if n = os.Getenv("BULLETTRAIN_CAR_OS_NAME"); n == "" {
-		n = findOutOs()
+	n := findOutOs()
+	if s := os.Getenv("BULLETTRAIN_CAR_OS_NAME_SHOW"); s == "false" {
+		out <- fmt.Sprintf("%s", paintedSymbol(n))
+	} else {
+		out <- fmt.Sprintf("%s%s", paintedSymbol(n), carPaint(n))
 	}
-
-	out <- fmt.Sprintf("%s%s",
-		paintedSymbol(n),
-		carPaint(n))
 }
 
 // GetSeparatorPaint overrides the Fg/Bg colours of the right hand side
