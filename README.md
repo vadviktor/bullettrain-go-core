@@ -231,6 +231,22 @@ Showing current user and hostname.
 | BULLETTRAIN_CAR_CONTEXT_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
 | BULLETTRAIN_CAR_CONTEXT_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.           | Using global symbol.              |
 
+### Host Car
+
+Showing current hostname.
+
+**Callword**: `host`
+
+**Options**
+
+| Environment variable                     | Description                                                    | Default value                     |
+| :--------------------------------------- | :------------------------------------------------------------- | :-------------------------------- |
+| BULLETTRAIN_CAR_HOST_SHOW             | Whether the car needs to be shown.                             | true                              |
+| BULLETTRAIN_CAR_HOST_PAINT            | Colour override for the car's paint.                           | black:white                       |
+| BULLETTRAIN_CAR_HOST_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
+| BULLETTRAIN_CAR_HOST_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.           | Using global symbol.              |
+
+
 ### Directory Car
 
 Showing current directory.
@@ -291,6 +307,21 @@ ZSH example:
 | BULLETTRAIN_CAR_STATUS_CODE_SHOW        | Whether to show the exit code as the text of the car.          | true                              |
 | BULLETTRAIN_CAR_STATUS_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
 | BULLETTRAIN_CAR_STATUS_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.           | Using global symbol.              |
+
+### Context User
+
+Showing current username.
+
+**Callword**: `user`
+
+**Options**
+
+| Environment variable                     | Description                                                    | Default value                     |
+| :--------------------------------------- | :------------------------------------------------------------- | :-------------------------------- |
+| BULLETTRAIN_CAR_USER_SHOW             | Whether the car needs to be shown.                             | true                              |
+| BULLETTRAIN_CAR_USER_PAINT            | Colour override for the car's paint.                           | black:white                       |
+| BULLETTRAIN_CAR_USER_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
+| BULLETTRAIN_CAR_USER_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.           | Using global symbol.              |
 
 
 ### Background jobs Car
