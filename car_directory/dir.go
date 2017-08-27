@@ -58,12 +58,19 @@ func (c *Car) Render(out chan<- string) {
 			}
 		}
 
+		// Allow to override the default three dots by some other string.
+		depth_indicator := "..."
+		di, di_defined := os.LookupEnv("BULLETTRAIN_CAR_DIRECTORY_DEPTH_INDICATOR")
+		if di_defined {
+			depth_indicator = di
+		}
+
 		// Compose directory segments.
 		dirs := strings.Split(dir, ps)
 		if max_length > 0 && len(dirs) > max_length+1 {
 			f := len(dirs) - max_length
 			p := dirs[f:]
-			dir = fmt.Sprintf("...%s", strings.Join(p, ps))
+			dir = fmt.Sprintf("%s%s", depth_indicator, strings.Join(p, ps))
 		}
 
 		if s := os.Getenv("BULLETTRAIN_CAR_DIRECTORY_PATH_SEPARATOR"); s != "" {
