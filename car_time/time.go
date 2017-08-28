@@ -64,9 +64,7 @@ func (c *Car) Render(out chan<- string) {
 		t = n.Format("3:04:05")
 	}
 
-	out <- fmt.Sprintf("%s%s",
-		paintedSymbol(),
-		carPaint(fmt.Sprintf("%s", t)))
+	out <- fmt.Sprintf("%s%s", paintedSymbol(), carPaint(t))
 }
 
 // GetSeparatorPaint overrides the Fg/Bg colours of the right hand side
