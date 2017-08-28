@@ -198,6 +198,8 @@ Showing current time.
 | BULLETTRAIN_CAR_TIME_PAINT            | Colour override for the car's paint.                           | white:black                       |
 | BULLETTRAIN_CAR_TIME_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
 | BULLETTRAIN_CAR_TIME_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.           | Using global symbol.              |
+| BULLETTRAIN_CAR_TIME_12HR             | Use 12 hour format.                                            | false                             |
+
 
 ### Date Car
 
