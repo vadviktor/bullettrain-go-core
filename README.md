@@ -29,6 +29,7 @@ Bullet Train is a [zsh](http://www.zsh.org/) & [bash](https://www.gnu.org/softwa
     - [FAQ](#faq)
         - [Q: Why don't we use `BULLETTRAIN_CARS` to disable the unwanted cars?](#q-why-dont-we-use-`bullettraincars`-to-disable-the-unwanted-cars)
         - [Q: What about plugins?](#q-what-about-plugins)
+    - [Issues](#issues)
     - [Credits](#credits)
 
 
@@ -355,6 +356,9 @@ feature that will make the prompt sluggish all of a sudden.
 
 **A:** Join our conversation here: https://github.com/bullettrain-sh/bullettrain-go-core/issues/31
 
+## Issues
+
+Have a look at [the issues labeled as bugs](https://github.com/bullettrain-sh/bullettrain-go-core/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
 
 ## Credits
 
