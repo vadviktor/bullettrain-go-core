@@ -10,6 +10,7 @@ Bullet Train is a [zsh](http://www.zsh.org/) & [bash](https://www.gnu.org/softwa
     - [Requirements](#requirements)
     - [Compatible terminal emulators](#compatible-terminal-emulators)
     - [Installing](#installing)
+        - [Arch Linux - AUR](#arch-linux---aur)
     - [Options](#options)
         - [Defining colours and text effects](#defining-colours-and-text-effects)
         - [Basic behaviours](#basic-behaviours)
@@ -121,6 +122,16 @@ Two side prompt feature is planned too.
 **BASH - .bashrc**
 
 `export PS1='$(bullettrain $?)'`
+
+### Arch Linux - AUR
+
+Latest [release](https://github.com/bullettrain-sh/bullettrain-go-core/releases) binaries:
+
+https://aur.archlinux.org/packages/bullettrain
+
+Latest builds from the master branches:
+
+https://aur.archlinux.org/packages/bullettrain-git
 
 ## Options
 
