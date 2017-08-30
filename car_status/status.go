@@ -8,9 +8,9 @@ import (
 )
 
 const (
-	carPaint    = "white:red"
+	carPaint    = "255:160"
 	symbolIcon  = ""
-	symbolPaint = "yellow:red"
+	symbolPaint = "220:160"
 )
 
 // Status Car
