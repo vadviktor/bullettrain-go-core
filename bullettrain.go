@@ -77,7 +77,6 @@ func buildAndPrintCars() {
 	}
 
 	var n bytes.Buffer
-	n.WriteString(ansi.Reset)
 	// Gather each goroutine's response through their channels,
 	// keeping their order.
 	for _, c := range chans {
