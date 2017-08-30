@@ -7,6 +7,7 @@ import (
 	"os/exec"
 	"os/user"
 	"regexp"
+	"runtime"
 	"strings"
 
 	"github.com/bullettrain-sh/bullettrain-go-core/ansi"
@@ -25,6 +26,10 @@ import (
 )
 
 const defaultCarOrder = "os time date context dir python go ruby nodejs php git status"
+
+func init() {
+	runtime.GOMAXPROCS(runtime.NumCPU())
+}
 
 func main() {
 	if d := os.Getenv("BULLETTRAIN_NO_PAINT"); d == "true" {
