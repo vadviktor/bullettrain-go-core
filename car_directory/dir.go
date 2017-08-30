@@ -1,7 +1,6 @@
 package carDirectory
 
 import (
-	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -9,7 +8,10 @@ import (
 	"github.com/bullettrain-sh/bullettrain-go-core/ansi"
 )
 
-const carPaint = "white:blue"
+const (
+	carPaint        = "white:blue"
+	separatorSymbol = ""
+)
 
 // Directory car
 type Car struct {
@@ -48,37 +50,61 @@ func (c *Car) Render(out chan<- string) {
 		dir = strings.Replace(dir, os.Getenv("HOME"), "~", 1)
 	}
 
-	ps := string(os.PathSeparator)
-
 	// Calculate max directory elements to display.
-	max_length := 3
+	maxLength := 3
 	if e := os.Getenv("BULLETTRAIN_CAR_DIRECTORY_MAX_LENGHT"); e != "" {
-		ml, err := strconv.Atoi(e)
-		if err == nil {
-			max_length = ml
+		if ml, err := strconv.Atoi(e); err == nil && ml >= 3 {
+			maxLength = ml
 		}
 	}
 
-	// Allow to override the default three dots by some other string.
-	depth_indicator := "..."
-	di, di_defined := os.LookupEnv("BULLETTRAIN_CAR_DIRECTORY_DEPTH_INDICATOR")
-	if di_defined {
-		depth_indicator = di
-	}
-
 	// Compose directory segments.
+	ps := string(os.PathSeparator)
 	dirs := strings.Split(dir, ps)
-	if max_length > 0 && len(dirs) > max_length+1 {
-		f := len(dirs) - max_length
-		p := dirs[f:]
-		dir = fmt.Sprintf("%s%s", depth_indicator, strings.Join(p, ps))
+	if maxLength > 0 && len(dirs) > maxLength+1 {
+		newPath := make([]string, 0)
+		lastPathIdx := len(dirs) - maxLength
+
+		if s := os.Getenv("BULLETTRAIN_CAR_DIRECTORY_FIRST_DIR_SHOW"); s != "false" {
+			newPath = append(newPath, dirs[1])
+			lastPathIdx += 1
+		}
+
+		lastPath := dirs[lastPathIdx:]
+
+		depthIndicator := "..."
+		// Allow to override the default three dots by some other string.
+		if di, ex := os.LookupEnv("BULLETTRAIN_CAR_DIRECTORY_DEPTH_INDICATOR"); ex {
+			depthIndicator = di
+		}
+
+		newPath = append(newPath, depthIndicator)
+		newPath = append(newPath, lastPath...)
+
+		dir = joinDirs(newPath)
+	} else {
+		dir = joinDirs(dirs)
 	}
 
+	out <- ansi.Color(dir, c.GetPaint())
+}
+
+func joinDirs(dirs []string) string {
+	psSymbol := separatorSymbol
 	if s := os.Getenv("BULLETTRAIN_CAR_DIRECTORY_PATH_SEPARATOR"); s != "" {
-		dir = strings.Replace(dir, ps, s, -1)
+		psSymbol = s
 	}
 
-	out <- ansi.Color(fmt.Sprintf("%s", dir), c.GetPaint())
+	var p string
+	fds := os.Getenv("BULLETTRAIN_CAR_DIRECTORY_FIRST_DIR_SHOW")
+	fss := os.Getenv("BULLETTRAIN_CAR_DIRECTORY_FIRST_SEPARATOR_SHOW")
+	if fds != "false" && fss == "true" {
+		p += psSymbol
+	}
+
+	p += strings.Join(dirs, psSymbol)
+
+	return p
 }
 
 // GetSeparatorPaint overrides the Fg/Bg colours of the right hand side
