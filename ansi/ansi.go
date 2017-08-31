@@ -32,7 +32,7 @@ const (
 	strikethrough = "9;"
 
 	// Reset is the ANSI reset escape sequence.
-	Reset = "%{\u001b0m%}"
+	Reset = "%{\u001b[0m%}"
 )
 
 var (
