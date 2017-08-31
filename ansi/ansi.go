@@ -23,7 +23,8 @@ const (
 	normalIntensityBG = 40
 	highIntensityBG   = 100
 
-	start         = "\x1b["
+	start         = "%{\u001b["
+	end           = "%}"
 	bold          = "1;"
 	blink         = "5;"
 	underline     = "4;"
@@ -31,7 +32,7 @@ const (
 	strikethrough = "9;"
 
 	// Reset is the ANSI reset escape sequence.
-	Reset = "\x1b[0m"
+	Reset = "%{\u001b0m%}"
 )
 
 var (
@@ -140,6 +141,7 @@ func colorCode(style string) *bytes.Buffer {
 	// remove last ";"
 	buf.Truncate(buf.Len() - 1)
 	buf.WriteRune('m')
+	buf.WriteString(end)
 	return buf
 }
 

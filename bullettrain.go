@@ -99,6 +99,7 @@ func buildAndPrintCars() {
 	}
 }
 
+// pwd returns the current directory path.
 func pwd() string {
 	cmd := exec.Command("pwd", "-P")
 	pwd, err := cmd.Output()
@@ -154,29 +155,26 @@ func lineEnding() string {
 		panic("Can't figure out current username.")
 	}
 
-	// var c string
-	var l string
+	var c, l string
 	if u.Username == "root" {
 		if l = os.Getenv("BULLETTRAIN_PROMPT_CHAR_ROOT"); l == "" {
 			l = "#"
 		}
 
-		// if c = os.Getenv("BULLETTRAIN_PROMPT_CHAR_ROOT_PAINT"); c == "" {
-		// 	c = "red"
-		// }
+		if c = os.Getenv("BULLETTRAIN_PROMPT_CHAR_ROOT_PAINT"); c == "" {
+			c = "red"
+		}
 	} else {
 		if l = os.Getenv("BULLETTRAIN_PROMPT_CHAR"); l == "" {
 			l = "$"
 		}
 
-		// if c = os.Getenv("BULLETTRAIN_PROMPT_CHAR_PAINT"); c == "" {
-		// 	c = "green"
-		// }
+		if c = os.Getenv("BULLETTRAIN_PROMPT_CHAR_PAINT"); c == "" {
+			c = "green"
+		}
 	}
 
-	// FIXME disabled to test no colour in the last line
-	//return ansi.Color(l, c)
-	return l
+	return ansi.Color(l, c)
 }
 
 // flipPaint flips the FG and BG setup in colour strings of cars for a separator.
