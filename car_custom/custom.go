@@ -51,12 +51,19 @@ func (c *Car) Render(out chan<- string) {
 
 	cmdElem := strings.Fields(
 		os.Getenv("BULLETTRAIN_CAR_PLUGIN_" + c.callword + "_CMD"))
-	cmd := exec.Command(cmdElem[0], cmdElem[1:]...)
-	cmdOut, err := cmd.Output()
+
+	var cmd *exec.Cmd
+	if len(cmdElem) < 2 {
+		cmd = exec.Command(cmdElem[0])
+	} else {
+		cmd = exec.Command(cmdElem[0], cmdElem[1:]...)
+	}
+
+	cmdOut, err := cmd.CombinedOutput()
 	if err == nil {
 		stuff = string(cmdOut)
 	} else {
-		stuff = "xxx"
+		stuff = err.Error()
 	}
 
 	out <- fmt.Sprintf("%s%s", c.paintedSymbol(), carPaint(stuff))
