@@ -16,6 +16,7 @@ import (
 )
 
 const defaultCarOrder = "os time date context dir python go ruby nodejs php git status"
+const separatorSymbol = " "
 
 // trailers results in the list of cars to be available for use.
 func trailers(currentWorkingDir string) map[string]carRenderer {

@@ -209,7 +209,7 @@ func (s *separator) Render(out chan<- string, paint, symbolOverride string) {
 	if symbolOverride != "" {
 		symbol = symbolOverride
 	} else if symbol = os.Getenv("BULLETTRAIN_SEPARATOR_ICON"); symbol == "" {
-		symbol = ""
+		symbol = separatorSymbol
 	}
 
 	out <- ansi.Color(symbol, paint)

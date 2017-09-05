@@ -38,6 +38,8 @@ by the
 
 ## Features
 
+![preview](readme_assets/preview.jpg)
+
 * Single binary with wide architecture support: Mac, Linux, Raspberry Pi
   (ARM)
 * Go and 3rd party language plugin support
@@ -116,8 +118,7 @@ In order to use the theme, you will first need:
 
   - [Tilix](https://gnunn1.github.io/tilix-web/)
   - [Terminator](https://gnometerminator.blogspot.ie/p/introduction.html)
-    (with some bugs)
-  - [Konsole](https://konsole.kde.org/) (with some bugs)
+  - [Konsole](https://konsole.kde.org/)
 
 - Mac
 
