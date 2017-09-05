@@ -10,7 +10,7 @@ import (
 
 const (
 	carPaint        = "white:blue"
-	separatorSymbol = ""
+	separatorSymbol = "  "
 )
 
 // Directory car

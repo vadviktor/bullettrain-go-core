@@ -10,7 +10,7 @@ import (
 
 const (
 	carPaint    = "white:black"
-	symbolIcon  = ""
+	symbolIcon  = " "
 	symbolPaint = "red:black"
 )
 

@@ -9,7 +9,7 @@ import (
 
 const (
 	carPaint    = "255:160"
-	symbolIcon  = ""
+	symbolIcon  = " "
 	symbolPaint = "220:160"
 )
 

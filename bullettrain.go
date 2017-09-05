@@ -26,6 +26,7 @@ import (
 )
 
 const defaultCarOrder = "os time date context dir python go ruby nodejs php git status"
+const separatorSymbol = " "
 
 func init() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
@@ -232,7 +233,7 @@ func (s *separator) Render(out chan<- string, paint, symbolOverride string) {
 	if symbolOverride != "" {
 		symbol = symbolOverride
 	} else if symbol = os.Getenv("BULLETTRAIN_SEPARATOR_ICON"); symbol == "" {
-		symbol = ""
+		symbol = separatorSymbol
 	}
 
 	out <- ansi.Color(symbol, paint)
