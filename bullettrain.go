@@ -11,22 +11,8 @@ import (
 	"strings"
 
 	"github.com/bullettrain-sh/bullettrain-go-core/ansi"
-	"github.com/bullettrain-sh/bullettrain-go-core/car_context"
 	"github.com/bullettrain-sh/bullettrain-go-core/car_custom"
-	"github.com/bullettrain-sh/bullettrain-go-core/car_date"
-	"github.com/bullettrain-sh/bullettrain-go-core/car_directory"
-	"github.com/bullettrain-sh/bullettrain-go-core/car_os"
-	"github.com/bullettrain-sh/bullettrain-go-core/car_status"
-	"github.com/bullettrain-sh/bullettrain-go-core/car_time"
-	"github.com/bullettrain-sh/bullettrain-go-git"
-	"github.com/bullettrain-sh/bullettrain-go-golang"
-	"github.com/bullettrain-sh/bullettrain-go-nodejs"
-	"github.com/bullettrain-sh/bullettrain-go-php"
-	"github.com/bullettrain-sh/bullettrain-go-python"
-	"github.com/bullettrain-sh/bullettrain-go-ruby"
 )
-
-const defaultCarOrder = "os time date context dir python go ruby nodejs php git status"
 
 type carRenderer interface {
 	// Render builds and passes the end product of a completely composed car onto
@@ -132,31 +118,16 @@ func pwd() string {
 
 func carsOrder() (o []string) {
 	if envOrder := os.Getenv("BULLETTRAIN_CARS"); envOrder == "" {
-		o = strings.Split(strings.TrimSpace(defaultCarOrder), " ")
+		o = strings.Fields(defaultCarOrder)
 	} else {
-		o = strings.Split(strings.TrimSpace(envOrder), " ")
+		o = strings.Fields(envOrder)
 	}
 
 	return
 }
 
 func carsToRender() []carRenderer {
-	d := pwd()
-	// List of cars to be available for use.
-	trailers := map[string]carRenderer{
-		"context": &carContext.Car{},
-		"date":    &carDate.Car{},
-		"dir":     &carDirectory.Car{Pwd: d},
-		"git":     &carGit.Car{Pwd: d},
-		"go":      &carGo.Car{Pwd: d},
-		"nodejs":  &carNodejs.Car{Pwd: d},
-		"os":      &carOs.Car{},
-		"php":     &carPhp.Car{Pwd: d},
-		"python":  &carPython.Car{Pwd: d},
-		"ruby":    &carRuby.Car{Pwd: d},
-		"status":  &carStatus.Car{},
-		"time":    &carTime.Car{},
-	}
+	trailers := trailers(pwd())
 
 	var carsToRender []carRenderer
 	for _, car := range carsOrder() {
