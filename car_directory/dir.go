@@ -53,7 +53,7 @@ func (c *Car) Render(out chan<- string) {
 	// Calculate max directory elements to display.
 	maxLength := 3
 	if e := os.Getenv("BULLETTRAIN_CAR_DIRECTORY_MAX_LENGHT"); e != "" {
-		if ml, err := strconv.Atoi(e); err == nil && ml >= 3 {
+		if ml, err := strconv.Atoi(e); err == nil && ml >= 0 {
 			maxLength = ml
 		}
 	}
@@ -61,8 +61,17 @@ func (c *Car) Render(out chan<- string) {
 	// Compose directory segments.
 	ps := string(os.PathSeparator)
 	dirs := strings.Split(dir, ps)
-	if maxLength > 0 && len(dirs) > maxLength+1 {
-		newPath := make([]string, 0)
+	newPath := make([]string, 0)
+
+	if maxLength == 1 {
+		if len(dirs) == 2 {
+			newPath = append(newPath, "")
+			dir = joinDirs(dirs)
+		} else {
+			newPath = append(newPath, dirs[len(dirs)-1])
+			dir = joinDirs(newPath)
+		}
+	} else if maxLength > 0 && len(dirs) > maxLength+1 {
 		lastPathIdx := len(dirs) - maxLength
 
 		if s := os.Getenv("BULLETTRAIN_CAR_DIRECTORY_FIRST_DIR_SHOW"); s != "false" {
