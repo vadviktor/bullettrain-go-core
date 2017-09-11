@@ -11,7 +11,6 @@ import (
 	"strings"
 
 	"github.com/bullettrain-sh/bullettrain-go-core/ansi"
-	"github.com/bullettrain-sh/bullettrain-go-core/car_context"
 	"github.com/bullettrain-sh/bullettrain-go-core/car_date"
 	"github.com/bullettrain-sh/bullettrain-go-core/car_directory"
 	"github.com/bullettrain-sh/bullettrain-go-core/car_os"
@@ -25,7 +24,8 @@ import (
 	"github.com/bullettrain-sh/bullettrain-go-ruby"
 )
 
-const defaultCarOrder = "os time date context dir python go ruby nodejs php git status"
+
+const defaultCarOrder = "os time date user host dir python go ruby nodejs php git status"
 const separatorSymbol = " "
 
 func init() {
@@ -126,18 +126,19 @@ func carsToRender() []carRenderer {
 	d := pwd()
 	// List of cars to be available for use.
 	trailers := map[string]carRenderer{
-		"context": &carContext.Car{},
-		"date":    &carDate.Car{},
-		"dir":     &carDirectory.Car{Pwd: d},
-		"git":     &carGit.Car{Pwd: d},
-		"go":      &carGo.Car{Pwd: d},
-		"nodejs":  &carNodejs.Car{Pwd: d},
-		"os":      &carOs.Car{},
-		"php":     &carPhp.Car{Pwd: d},
-		"python":  &carPython.Car{Pwd: d},
-		"ruby":    &carRuby.Car{Pwd: d},
-		"status":  &carStatus.Car{},
-		"time":    &carTime.Car{},
+		"user":   &carUser.Car{},
+		"host":   &carHost.Car{},
+		"date":   &carDate.Car{},
+		"dir":    &carDirectory.Car{Pwd: d},
+		"git":    &carGit.Car{Pwd: d},
+		"go":     &carGo.Car{Pwd: d},
+		"nodejs": &carNodejs.Car{Pwd: d},
+		"os":     &carOs.Car{},
+		"php":    &carPhp.Car{Pwd: d},
+		"python": &carPython.Car{Pwd: d},
+		"ruby":   &carRuby.Car{Pwd: d},
+		"status": &carStatus.Car{},
+		"time":   &carTime.Car{},
 	}
 
 	var carsToRender []carRenderer
