@@ -9,32 +9,30 @@ by the
 
 
 - [Bullet Train shell prompt [BETA VERSION :bomb:]](#bullet-train-shell-prompt-beta-version-bomb)
-  - [Features](#features)
-  - [Requirements](#requirements)
-  - [Compatible terminal emulators](#compatible-terminal-emulators)
-  - [Installing](#installing)
+    - [Features](#features)
+    - [Requirements](#requirements)
+    - [Compatible terminal emulators](#compatible-terminal-emulators)
+    - [Installing](#installing)
     - [Arch Linux - AUR](#arch-linux---aur)
-  - [Options](#options)
-    - [Defining colours and text effects](#defining-colours-and-text-effects)
-    - [Basic behaviours](#basic-behaviours)
-  - [Core cars](#core-cars)
-    - [Time Car](#time-car)
-    - [Date Car](#date-car)
-    - [Context Car](#context-car)
-    - [Directory Car](#directory-car)
-    - [OS Car](#os-car)
-    - [Last command exit code Car](#last-command-exit-code-car)
-    - [Background jobs Car](#background-jobs-car)
-  - [Development](#development)
-    - [Managing dependencies](#managing-dependencies)
+    - [Options](#options)
+        - [Defining colours and text effects](#defining-colours-and-text-effects)
+        - [Basic behaviours](#basic-behaviours)
+    - [Core cars](#core-cars)
+        - [Time Car](#time-car)
+        - [Date Car](#date-car)
+        - [Directory Car](#directory-car)
+        - [Host Car](#host-car)
+        - [User Car](#user-car)
+        - [OS Car](#os-car)
+        - [Last command exit code Car](#last-command-exit-code-car)
+        - [Background jobs Car](#background-jobs-car)
+    - [Development](#development)
+        - [Managing dependencies](#managing-dependencies)
     - [Plugins](#plugins)
-    - [Benchmarking](#benchmarking)
-  - [Support](#support)
-  - [FAQ](#faq)
-    - [Q: Why don't we use `BULLETTRAIN_CARS` to disable the unwanted cars?](#q-why-dont-we-use-`bullettraincars`-to-disable-the-unwanted-cars)
-    - [Q: What about plugins?](#q-what-about-plugins)
-  - [Issues](#issues)
-  - [Credits](#credits)
+        - [Benchmarking](#benchmarking)
+    - [Support](#support)
+    - [FAQ](#faq)
+    - [Credits](#credits)
 
 
 ## Features
@@ -174,7 +172,7 @@ configuration information can be found on their respective READMEs.
 
 All envirnment variables must be exported for Go to be able to pick up.
 
-E.g.: `export BULLETTRAIN_CAR_ORDER="time context python ruby"`
+E.g.: `export BULLETTRAIN_CAR_ORDER="time user host python ruby"`
 
 ### Defining colours and text effects
 
@@ -213,18 +211,18 @@ Background Attributes
 
 ### Basic behaviours
 
-| Environment variable               | Description                                                               | Default value                                                   |
-|:-----------------------------------|:--------------------------------------------------------------------------|:----------------------------------------------------------------|
-| BULLETTRAIN_CARS                   | Control which cars to appear in what order, using their _callwords_.      | `os time date context dir python go ruby nodejs php git status` |
-| BULLETTRAIN_CARS_SEPARATE_LINE     | Whether the cars should be on their own line above the prompt.            | true                                                            |
-| BULLETTRAIN_NO_PAINT               | Whether you wish not to use paint at all, aka black and white mode.       | false                                                           |
-| BULLETTRAIN_DEBUG                  | Turning debug print mode on to help seeing actual character codes.        | false                                                           |
-| BULLETTRAIN_SEPARATOR_ICON         | Defines the car separator icon.                                           | ``                                                             |
-| BULLETTRAIN_SEPARATOR_PAINT        | Defines the car separator icon's paint.                                   | calculated on the fly                                           |
-| BULLETTRAIN_PROMPT_CHAR            | Redefines the end char of the prompt when you are a normal user.          | `$ `                                                            |
-| BULLETTRAIN_PROMPT_CHAR_PAINT      | Redefines the end char's colour of the prompt when you are a normal user. | green                                                           |
-| BULLETTRAIN_PROMPT_CHAR_ROOT       | Redefines the end char of the prompt when you are a root user.            | `# `                                                            |
-| BULLETTRAIN_PROMPT_CHAR_ROOT_PAINT | Redefines the end char's colour of the prompt when you are a root user.   | red                                                             |
+| Environment variable               | Description                                                               | Default value                                                     |
+|:-----------------------------------|:--------------------------------------------------------------------------|:------------------------------------------------------------------|
+| BULLETTRAIN_CARS                   | Control which cars to appear in what order, using their _callwords_.      | `os time date user host dir python go ruby nodejs php git status` |
+| BULLETTRAIN_CARS_SEPARATE_LINE     | Whether the cars should be on their own line above the prompt.            | true                                                              |
+| BULLETTRAIN_NO_PAINT               | Whether you wish not to use paint at all, aka black and white mode.       | false                                                             |
+| BULLETTRAIN_DEBUG                  | Turning debug print mode on to help seeing actual character codes.        | false                                                             |
+| BULLETTRAIN_SEPARATOR_ICON         | Defines the car separator icon.                                           | ``                                                               |
+| BULLETTRAIN_SEPARATOR_PAINT        | Defines the car separator icon's paint.                                   | calculated on the fly                                             |
+| BULLETTRAIN_PROMPT_CHAR            | Redefines the end char of the prompt when you are a normal user.          | `$ `                                                              |
+| BULLETTRAIN_PROMPT_CHAR_PAINT      | Redefines the end char's colour of the prompt when you are a normal user. | green                                                             |
+| BULLETTRAIN_PROMPT_CHAR_ROOT       | Redefines the end char of the prompt when you are a root user.            | `# `                                                              |
+| BULLETTRAIN_PROMPT_CHAR_ROOT_PAINT | Redefines the end char's colour of the prompt when you are a root user.   | red                                                               |
 
 ## Core cars
 
@@ -264,20 +262,21 @@ Showing current date. Format: `YYYY-MM-DD`
 | BULLETTRAIN_CAR_DATE_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
 | BULLETTRAIN_CAR_DATE_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.           | Using global symbol.              |
 
-### Context Car
+### Host Car
 
-Showing current user and hostname.
+Showing current hostname.
 
-**Callword**: `context`
+**Callword**: `host`
 
 **Options**
 
-| Environment variable                     | Description                                                    | Default value                     |
-|:-----------------------------------------|:---------------------------------------------------------------|:----------------------------------|
-| BULLETTRAIN_CAR_CONTEXT_SHOW             | Whether the car needs to be shown.                             | true                              |
-| BULLETTRAIN_CAR_CONTEXT_PAINT            | Colour override for the car's paint.                           | black:white                       |
-| BULLETTRAIN_CAR_CONTEXT_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
-| BULLETTRAIN_CAR_CONTEXT_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.           | Using global symbol.              |
+| Environment variable                  | Description                                                    | Default value                     |
+|:--------------------------------------|:---------------------------------------------------------------|:----------------------------------|
+| BULLETTRAIN_CAR_HOST_SHOW             | Whether the car needs to be shown.                             | true                              |
+| BULLETTRAIN_CAR_HOST_PAINT            | Colour override for the car's paint.                           | black:white                       |
+| BULLETTRAIN_CAR_HOST_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
+| BULLETTRAIN_CAR_HOST_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.           | Using global symbol.              |
+
 
 ### Directory Car
 
@@ -345,6 +344,21 @@ ZSH example:
 | BULLETTRAIN_CAR_STATUS_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
 | BULLETTRAIN_CAR_STATUS_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.           | Using global symbol.              |
 
+### User Car
+
+Showing current username.
+
+**Callword**: `user`
+
+**Options**
+
+| Environment variable                  | Description                                                    | Default value                     |
+|:--------------------------------------|:---------------------------------------------------------------|:----------------------------------|
+| BULLETTRAIN_CAR_USER_SHOW             | Whether the car needs to be shown.                             | true                              |
+| BULLETTRAIN_CAR_USER_PAINT            | Colour override for the car's paint.                           | black:white                       |
+| BULLETTRAIN_CAR_USER_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
+| BULLETTRAIN_CAR_USER_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.           | Using global symbol.              |
+
 
 ### Background jobs Car
 
@@ -392,7 +406,7 @@ feature that will make the prompt sluggish all of a sudden.
 
 ## FAQ
 
-### Q: Why don't we use `BULLETTRAIN_CARS` to disable the unwanted cars?
+**Q: Why don't we use BULLETTRAIN_CARS to disable the unwanted cars?**
 
 **A:** As Go is statically linked and every car you need, needs to be
 compiled into the single executable, setting a single env var won't
@@ -410,5 +424,6 @@ Have a look at
 ## Credits
 
 This theme is highly inspired by the following themes:
+
 - [Powerline](https://github.com/jeremyFreeAgent/oh-my-zsh-powerline-theme)
 - [Agnoster](https://gist.github.com/agnoster/3712874)
