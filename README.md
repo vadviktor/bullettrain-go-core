@@ -16,8 +16,9 @@ Bullet Train is a [zsh](http://www.zsh.org/) & [bash](https://www.gnu.org/softwa
     - [Core cars](#core-cars)
         - [Time Car](#time-car)
         - [Date Car](#date-car)
-        - [Context Car](#context-car)
         - [Directory Car](#directory-car)
+        - [Host](#host-car)
+        - [User](#user-car)
         - [OS Car](#os-car)
         - [Last command exit code Car](#last-command-exit-code-car)
         - [Background jobs Car](#background-jobs-car)
@@ -169,7 +170,7 @@ Background Attributes
 
 | Environment variable               | Description                                                               | Default value                                                   |
 | :--------------------------------- | :------------------------------------------------------------------------ | :-------------------------------------------------------------- |
-| BULLETTRAIN_CARS                   | Control which cars to appear in what order, using their _callwords_.      | `os time date context dir python go ruby nodejs php git status` |
+| BULLETTRAIN_CARS                   | Control which cars to appear in what order, using their _callwords_.      | `os time date user host dir python go ruby nodejs php git status` |
 | BULLETTRAIN_CARS_SEPARATE_LINE     | Whether the cars should be on their own line above the prompt.            | true                                                            |
 | BULLETTRAIN_NO_PAINT               | Whether you wish not to use paint at all, aka black and white mode.       | false                                                           |
 | BULLETTRAIN_DEBUG                  | Turning debug print mode on to help seeing actual character codes.        | false                                                           |
@@ -215,21 +216,6 @@ Showing current date. Format: `YYYY-MM-DD`
 | BULLETTRAIN_CAR_DATE_SYMBOL_PAINT     | Colour override for the car's symbol.                          | white:black                       |
 | BULLETTRAIN_CAR_DATE_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
 | BULLETTRAIN_CAR_DATE_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.           | Using global symbol.              |
-
-### Context Car
-
-Showing current user and hostname.
-
-**Callword**: `context`
-
-**Options**
-
-| Environment variable                     | Description                                                    | Default value                     |
-| :--------------------------------------- | :------------------------------------------------------------- | :-------------------------------- |
-| BULLETTRAIN_CAR_CONTEXT_SHOW             | Whether the car needs to be shown.                             | true                              |
-| BULLETTRAIN_CAR_CONTEXT_PAINT            | Colour override for the car's paint.                           | black:white                       |
-| BULLETTRAIN_CAR_CONTEXT_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
-| BULLETTRAIN_CAR_CONTEXT_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.           | Using global symbol.              |
 
 ### Host Car
 
