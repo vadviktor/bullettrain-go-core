@@ -10,38 +10,41 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/bullettrain-sh/bullettrain-go-core/ansi"
-	"github.com/bullettrain-sh/bullettrain-go-core/car_date"
-	"github.com/bullettrain-sh/bullettrain-go-core/car_directory"
-	"github.com/bullettrain-sh/bullettrain-go-core/car_host"
-	"github.com/bullettrain-sh/bullettrain-go-core/car_os"
-	"github.com/bullettrain-sh/bullettrain-go-core/car_status"
-	"github.com/bullettrain-sh/bullettrain-go-core/car_time"
-	"github.com/bullettrain-sh/bullettrain-go-core/car_user"
-	"github.com/bullettrain-sh/bullettrain-go-git"
-	"github.com/bullettrain-sh/bullettrain-go-golang"
-	"github.com/bullettrain-sh/bullettrain-go-nodejs"
-	"github.com/bullettrain-sh/bullettrain-go-php"
-	"github.com/bullettrain-sh/bullettrain-go-python"
-	"github.com/bullettrain-sh/bullettrain-go-ruby"
+	"github.com/bullettrain-sh/bullettrain-go-core/pkg/ansi"
+	"github.com/bullettrain-sh/bullettrain-go-core/pkg/car/custom"
 )
 
-const defaultCarOrder = "os time date user host dir python go ruby nodejs php git status"
-const separatorSymbol = " "
+type carRenderer interface {
+	// Render builds and passes the end product of a completely composed car onto
+	// the channel.
+	Render(out chan<- string)
+
+	// GetPaint returns the calculated end paint string for the car.
+	GetPaint() string
+
+	// CanShow decides if this car needs to be displayed.
+	CanShow() bool
+
+	// GetSeparatorPaint overrides the Fg/Bg colours of the right hand side
+	// separator through ENV variables.
+	GetSeparatorPaint() string
+
+	// GetSeparatorSymbol overrides the symbol of the right hand side
+	// separator through ENV variables.
+	GetSeparatorSymbol() string
+}
+
+type separator string
 
 func init() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
-}
 
-func main() {
 	if d := os.Getenv("BULLETTRAIN_NO_PAINT"); d == "true" {
 		ansi.DisableColors(true)
 	}
-
-	buildAndPrintCars()
 }
 
-func buildAndPrintCars() {
+func main() {
 	// List of cars available for use.
 	trailers := carsToRender()
 
@@ -115,37 +118,30 @@ func pwd() string {
 
 func carsOrder() (o []string) {
 	if envOrder := os.Getenv("BULLETTRAIN_CARS"); envOrder == "" {
-		o = strings.Split(strings.TrimSpace(defaultCarOrder), " ")
+		o = strings.Fields(defaultCarOrder)
 	} else {
-		o = strings.Split(strings.TrimSpace(envOrder), " ")
+		o = strings.Fields(envOrder)
 	}
 
 	return
 }
 
 func carsToRender() []carRenderer {
-	d := pwd()
-	// List of cars to be available for use.
-	trailers := map[string]carRenderer{
-		"user":   &carUser.Car{},
-		"host":   &carHost.Car{},
-		"date":   &carDate.Car{},
-		"dir":    &carDirectory.Car{Pwd: d},
-		"git":    &carGit.Car{Pwd: d},
-		"go":     &carGo.Car{Pwd: d},
-		"nodejs": &carNodejs.Car{Pwd: d},
-		"os":     &carOs.Car{},
-		"php":    &carPhp.Car{Pwd: d},
-		"python": &carPython.Car{Pwd: d},
-		"ruby":   &carRuby.Car{Pwd: d},
-		"status": &carStatus.Car{},
-		"time":   &carTime.Car{},
-	}
+	trailers := trailers(pwd())
 
 	var carsToRender []carRenderer
 	for _, car := range carsOrder() {
-		if trailers[car].CanShow() {
-			carsToRender = append(carsToRender, trailers[car])
+		c, ex := trailers[car]
+		if ex {
+			if c.CanShow() {
+				carsToRender = append(carsToRender, c)
+			}
+		} else {
+			customCar := new(carCustom.Car)
+			customCar.SetCallword(car)
+			if customCar.CanShow() {
+				carsToRender = append(carsToRender, customCar)
+			}
 		}
 	}
 
@@ -205,28 +201,6 @@ func flipPaint() func(string, string) string {
 
 	return flipped
 }
-
-type carRenderer interface {
-	// Render builds and passes the end product of a completely composed car onto
-	// the channel.
-	Render(out chan<- string)
-
-	// GetPaint returns the calculated end paint string for the car.
-	GetPaint() string
-
-	// CanShow decides if this car needs to be displayed.
-	CanShow() bool
-
-	// GetSeparatorPaint overrides the Fg/Bg colours of the right hand side
-	// separator through ENV variables.
-	GetSeparatorPaint() string
-
-	// GetSeparatorSymbol overrides the symbol of the right hand side
-	// separator through ENV variables.
-	GetSeparatorSymbol() string
-}
-
-type separator string
 
 func (s *separator) Render(out chan<- string, paint, symbolOverride string) {
 	defer close(out)

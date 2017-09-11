@@ -13,6 +13,7 @@ by the
     - [Requirements](#requirements)
     - [Compatible terminal emulators](#compatible-terminal-emulators)
     - [Installing](#installing)
+    - [Arch Linux - AUR](#arch-linux---aur)
     - [Options](#options)
         - [Defining colours and text effects](#defining-colours-and-text-effects)
         - [Basic behaviours](#basic-behaviours)
@@ -27,6 +28,7 @@ by the
         - [Background jobs Car](#background-jobs-car)
     - [Development](#development)
         - [Managing dependencies](#managing-dependencies)
+    - [Plugins](#plugins)
         - [Benchmarking](#benchmarking)
     - [Support](#support)
     - [FAQ](#faq)
@@ -362,7 +364,6 @@ Showing current username.
 
 TBD
 
-
 ## Development
 
 ### Managing dependencies
@@ -370,6 +371,11 @@ TBD
 We use `go dep` as it is now production ready.
 
 https://github.com/golang/dep
+
+### Plugins
+
+We support [native Go cars](docs/creating-new-cars.md) compiled right into the prompt builder, or ones [written in other languages](docs/creating-plugin-car.md) .
+Plugins written in other languages will still benefit (to a degree) from Go's parallel execution.
 
 ### Benchmarking
 
@@ -409,11 +415,6 @@ somewhat. The main reason is that people like to see a variable doing a
 single job and doing it well. Therefore you are capable of not loading
 the cars by the `BULLETTRAIN_CARS` variable, but the `_SHOW` suffixed
 ones are really tasked doing just that.
-
-**Q: What about plugins?**
-
-**A:** Join our conversation here:
-https://github.com/bullettrain-sh/bullettrain-go-core/issues/31
 
 ## Issues
 
