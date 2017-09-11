@@ -6,7 +6,7 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/bullettrain-sh/bullettrain-go-core/ansi"
+	"github.com/bullettrain-sh/bullettrain-go-core/pkg/ansi"
 )
 
 // Custom car

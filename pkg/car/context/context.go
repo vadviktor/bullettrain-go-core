@@ -5,7 +5,7 @@ import (
 	"os"
 	"os/user"
 
-	"github.com/bullettrain-sh/bullettrain-go-core/ansi"
+	"github.com/bullettrain-sh/bullettrain-go-core/pkg/ansi"
 )
 
 const carPaint = "black:white"

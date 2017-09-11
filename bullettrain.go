@@ -10,8 +10,8 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/bullettrain-sh/bullettrain-go-core/ansi"
-	"github.com/bullettrain-sh/bullettrain-go-core/car_custom"
+	"github.com/bullettrain-sh/bullettrain-go-core/pkg/ansi"
+	"github.com/bullettrain-sh/bullettrain-go-core/pkg/car/custom"
 )
 
 type carRenderer interface {
