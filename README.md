@@ -30,8 +30,6 @@ by the
         - [Benchmarking](#benchmarking)
     - [Support](#support)
     - [FAQ](#faq)
-        - [Q: Why don't we use `BULLETTRAIN_CARS` to disable the unwanted cars?](#q-why-dont-we-use-`bullettraincars`-to-disable-the-unwanted-cars)
-        - [Q: What about plugins?](#q-what-about-plugins)
     - [Credits](#credits)
 
 
@@ -402,7 +400,7 @@ feature that will make the prompt sluggish all of a sudden.
 
 ## FAQ
 
-### Q: Why don't we use `BULLETTRAIN_CARS` to disable the unwanted cars?
+**Q: Why don't we use BULLETTRAIN_CARS to disable the unwanted cars?**
 
 **A:** As Go is statically linked and every car you need, needs to be
 compiled into the single executable, setting a single env var won't
@@ -412,7 +410,7 @@ single job and doing it well. Therefore you are capable of not loading
 the cars by the `BULLETTRAIN_CARS` variable, but the `_SHOW` suffixed
 ones are really tasked doing just that.
 
-### Q: What about plugins?
+**Q: What about plugins?**
 
 **A:** Join our conversation here:
 https://github.com/bullettrain-sh/bullettrain-go-core/issues/31
