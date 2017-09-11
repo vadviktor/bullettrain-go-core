@@ -1,7 +1,6 @@
-# [DRAFT]
-
 # How to create a new car
 
+This document will describe the process to add new car plugin in Go.
 
 ## Naming
 
@@ -43,9 +42,9 @@ func (c *Car) GetPaint() string {
 }
 
 func paintedSymbol() string {
-	var timeSymbol string
-	if timeSymbol = os.Getenv("BULLETTRAIN_CAR_DEMO_SYMBOL_ICON"); timeSymbol == "" {
-		timeSymbol = symbolIcon
+	var demoSymbol string
+	if demoSymbol = os.Getenv("BULLETTRAIN_CAR_DEMO_SYMBOL_ICON"); demoSymbol == "" {
+		demoSymbol = symbolIcon
 	}
 
 	var timeSymbolPaint string
@@ -53,7 +52,7 @@ func paintedSymbol() string {
 		timeSymbolPaint = symbolPaint
 	}
 
-	return ansi.Color(timeSymbol, timeSymbolPaint)
+	return ansi.Color(demoSymbol, timeSymbolPaint)
 }
 
 // CanShow decides if this car needs to be displayed.
