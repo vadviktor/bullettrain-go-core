@@ -13,9 +13,11 @@ import (
 	"github.com/bullettrain-sh/bullettrain-go-core/ansi"
 	"github.com/bullettrain-sh/bullettrain-go-core/car_date"
 	"github.com/bullettrain-sh/bullettrain-go-core/car_directory"
+	"github.com/bullettrain-sh/bullettrain-go-core/car_host"
 	"github.com/bullettrain-sh/bullettrain-go-core/car_os"
 	"github.com/bullettrain-sh/bullettrain-go-core/car_status"
 	"github.com/bullettrain-sh/bullettrain-go-core/car_time"
+	"github.com/bullettrain-sh/bullettrain-go-core/car_user"
 	"github.com/bullettrain-sh/bullettrain-go-git"
 	"github.com/bullettrain-sh/bullettrain-go-golang"
 	"github.com/bullettrain-sh/bullettrain-go-nodejs"
@@ -23,7 +25,6 @@ import (
 	"github.com/bullettrain-sh/bullettrain-go-python"
 	"github.com/bullettrain-sh/bullettrain-go-ruby"
 )
-
 
 const defaultCarOrder = "os time date user host dir python go ruby nodejs php git status"
 const separatorSymbol = " "
