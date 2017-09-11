@@ -28,7 +28,7 @@ by the
         - [Background jobs Car](#background-jobs-car)
     - [Development](#development)
         - [Managing dependencies](#managing-dependencies)
-    - [Plugins](#plugins)
+        - [Plugins](#plugins)
         - [Benchmarking](#benchmarking)
     - [Support](#support)
     - [FAQ](#faq)
