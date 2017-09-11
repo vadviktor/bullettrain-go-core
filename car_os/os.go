@@ -41,25 +41,25 @@ func (c *Car) CanShow() bool {
 
 func paintedSymbol(osName string) string {
 	osSymbols := map[string]string{
-		"arch":       "",
-		"centos":     "",
-		"coreos":     "",
-		"darwin":     "",
-		"debian":     "",
-		"elementary": "",
-		"fedora":     "",
-		"freebsd":    "",
-		"gentoo":     "",
-		"linuxmint":  "",
-		"mageia":     "",
-		"mandriva":   "",
-		"opensuse":   "",
-		"raspbian":   "",
-		"redhat":     "",
-		"sabayon":    "",
-		"slackware":  "",
-		"ubuntu":     "",
-		"tux":        ""}
+		"arch":       " ",
+		"centos":     " ",
+		"coreos":     " ",
+		"darwin":     " ",
+		"debian":     " ",
+		"elementary": " ",
+		"fedora":     " ",
+		"freebsd":    " ",
+		"gentoo":     " ",
+		"linuxmint":  " ",
+		"mageia":     " ",
+		"mandriva":   " ",
+		"opensuse":   " ",
+		"raspbian":   " ",
+		"redhat":     " ",
+		"sabayon":    " ",
+		"slackware":  " ",
+		"ubuntu":     " ",
+		"tux":        " "}
 
 	var symbol string
 	if symbol = os.Getenv("BULLETTRAIN_CAR_OS_SYMBOL_ICON"); symbol == "" {

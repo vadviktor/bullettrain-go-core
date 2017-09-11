@@ -10,7 +10,7 @@ import (
 
 const (
 	carPaint    = "black:white"
-	symbolIcon  = ""
+	symbolIcon  = " "
 	symbolPaint = "black:white"
 )
 
@@ -57,12 +57,14 @@ func (c *Car) CanShow() bool {
 func (c *Car) Render(out chan<- string) {
 	defer close(out)
 	carPaint := ansi.ColorFunc(c.GetPaint())
-
 	n := time.Now()
-	out <- fmt.Sprintf("%s%s",
-		paintedSymbol(),
-		carPaint(fmt.Sprintf("%02d:%02d:%02d",
-			n.Hour(), n.Minute(), n.Second())))
+
+	t := n.Format("15:04:05")
+	if h := os.Getenv("BULLETTRAIN_CAR_TIME_12HR"); h == "true" {
+		t = n.Format("3:04:05")
+	}
+
+	out <- fmt.Sprintf("%s%s", paintedSymbol(), carPaint(t))
 }
 
 // GetSeparatorPaint overrides the Fg/Bg colours of the right hand side
