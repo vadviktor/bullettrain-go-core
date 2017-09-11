@@ -211,18 +211,18 @@ Background Attributes
 
 ### Basic behaviours
 
-| Environment variable               | Description                                                               | Default value                                                   |
-| :--------------------------------- | :------------------------------------------------------------------------ | :-------------------------------------------------------------- |
+| Environment variable               | Description                                                               | Default value                                                     |
+|:-----------------------------------|:--------------------------------------------------------------------------|:------------------------------------------------------------------|
 | BULLETTRAIN_CARS                   | Control which cars to appear in what order, using their _callwords_.      | `os time date user host dir python go ruby nodejs php git status` |
-| BULLETTRAIN_CARS_SEPARATE_LINE     | Whether the cars should be on their own line above the prompt.            | true                                                            |
-| BULLETTRAIN_NO_PAINT               | Whether you wish not to use paint at all, aka black and white mode.       | false                                                           |
-| BULLETTRAIN_DEBUG                  | Turning debug print mode on to help seeing actual character codes.        | false                                                           |
-| BULLETTRAIN_SEPARATOR_ICON         | Defines the car separator icon.                                           | ``                                                             |
-| BULLETTRAIN_SEPARATOR_PAINT        | Defines the car separator icon's paint.                                   | calculated on the fly                                           |
-| BULLETTRAIN_PROMPT_CHAR            | Redefines the end char of the prompt when you are a normal user.          | `$ `                                                            |
-| BULLETTRAIN_PROMPT_CHAR_PAINT      | Redefines the end char's colour of the prompt when you are a normal user. | green                                                           |
-| BULLETTRAIN_PROMPT_CHAR_ROOT       | Redefines the end char of the prompt when you are a root user.            | `# `                                                            |
-| BULLETTRAIN_PROMPT_CHAR_ROOT_PAINT | Redefines the end char's colour of the prompt when you are a root user.   | red                                                             |
+| BULLETTRAIN_CARS_SEPARATE_LINE     | Whether the cars should be on their own line above the prompt.            | true                                                              |
+| BULLETTRAIN_NO_PAINT               | Whether you wish not to use paint at all, aka black and white mode.       | false                                                             |
+| BULLETTRAIN_DEBUG                  | Turning debug print mode on to help seeing actual character codes.        | false                                                             |
+| BULLETTRAIN_SEPARATOR_ICON         | Defines the car separator icon.                                           | ``                                                               |
+| BULLETTRAIN_SEPARATOR_PAINT        | Defines the car separator icon's paint.                                   | calculated on the fly                                             |
+| BULLETTRAIN_PROMPT_CHAR            | Redefines the end char of the prompt when you are a normal user.          | `$ `                                                              |
+| BULLETTRAIN_PROMPT_CHAR_PAINT      | Redefines the end char's colour of the prompt when you are a normal user. | green                                                             |
+| BULLETTRAIN_PROMPT_CHAR_ROOT       | Redefines the end char of the prompt when you are a root user.            | `# `                                                              |
+| BULLETTRAIN_PROMPT_CHAR_ROOT_PAINT | Redefines the end char's colour of the prompt when you are a root user.   | red                                                               |
 
 ## Core cars
 
@@ -270,8 +270,8 @@ Showing current hostname.
 
 **Options**
 
-| Environment variable                     | Description                                                    | Default value                     |
-| :--------------------------------------- | :------------------------------------------------------------- | :-------------------------------- |
+| Environment variable                  | Description                                                    | Default value                     |
+|:--------------------------------------|:---------------------------------------------------------------|:----------------------------------|
 | BULLETTRAIN_CAR_HOST_SHOW             | Whether the car needs to be shown.                             | true                              |
 | BULLETTRAIN_CAR_HOST_PAINT            | Colour override for the car's paint.                           | black:white                       |
 | BULLETTRAIN_CAR_HOST_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
@@ -352,8 +352,8 @@ Showing current username.
 
 **Options**
 
-| Environment variable                     | Description                                                    | Default value                     |
-| :--------------------------------------- | :------------------------------------------------------------- | :-------------------------------- |
+| Environment variable                  | Description                                                    | Default value                     |
+|:--------------------------------------|:---------------------------------------------------------------|:----------------------------------|
 | BULLETTRAIN_CAR_USER_SHOW             | Whether the car needs to be shown.                             | true                              |
 | BULLETTRAIN_CAR_USER_PAINT            | Colour override for the car's paint.                           | black:white                       |
 | BULLETTRAIN_CAR_USER_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
@@ -425,5 +425,6 @@ Have a look at
 ## Credits
 
 This theme is highly inspired by the following themes:
+
 - [Powerline](https://github.com/jeremyFreeAgent/oh-my-zsh-powerline-theme)
 - [Agnoster](https://gist.github.com/agnoster/3712874)
