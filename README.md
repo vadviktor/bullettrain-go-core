@@ -20,8 +20,8 @@ by the
         - [Time Car](#time-car)
         - [Date Car](#date-car)
         - [Directory Car](#directory-car)
-        - [Host](#host-car)
-        - [User](#user-car)
+        - [Host Car](#host-car)
+        - [User Car](#user-car)
         - [OS Car](#os-car)
         - [Last command exit code Car](#last-command-exit-code-car)
         - [Background jobs Car](#background-jobs-car)
@@ -344,7 +344,7 @@ ZSH example:
 | BULLETTRAIN_CAR_STATUS_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
 | BULLETTRAIN_CAR_STATUS_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.           | Using global symbol.              |
 
-### User
+### User Car
 
 Showing current username.
 
