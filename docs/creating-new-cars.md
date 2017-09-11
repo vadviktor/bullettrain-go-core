@@ -1,7 +1,6 @@
-# [DRAFT]
+# How to create a new car in Go
 
-# How to create a new car
-
+This document will describe the process to add new car plugin in Go.
 
 ## Naming
 
@@ -19,7 +18,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/bullettrain-sh/bullettrain-go-core/ansi"
+	"github.com/bullettrain-sh/bullettrain-go-core/pkg/ansi"
 )
 
 const (
@@ -43,17 +42,17 @@ func (c *Car) GetPaint() string {
 }
 
 func paintedSymbol() string {
-	var timeSymbol string
-	if timeSymbol = os.Getenv("BULLETTRAIN_CAR_DEMO_SYMBOL_ICON"); timeSymbol == "" {
-		timeSymbol = symbolIcon
+	var demoSymbol string
+	if demoSymbol = os.Getenv("BULLETTRAIN_CAR_DEMO_SYMBOL_ICON"); demoSymbol == "" {
+		demoSymbol = symbolIcon
 	}
 
-	var timeSymbolPaint string
-	if timeSymbolPaint = os.Getenv("BULLETTRAIN_CAR_DEMO_SYMBOL_PAINT"); timeSymbolPaint == "" {
-		timeSymbolPaint = symbolPaint
+	var demoSymbolPaint string
+	if demoSymbolPaint = os.Getenv("BULLETTRAIN_CAR_DEMO_SYMBOL_PAINT"); demoSymbolPaint == "" {
+		demoSymbolPaint = symbolPaint
 	}
 
-	return ansi.Color(timeSymbol, timeSymbolPaint)
+	return ansi.Color(demoSymbol, demoSymbolPaint)
 }
 
 // CanShow decides if this car needs to be displayed.
@@ -100,10 +99,11 @@ const (
 )
 ```
 
-To use your car, this is a checklist to be done in `bullettrain-go-core/bullettrain.go`:
+To use your car, this is a checklist to be done in [bullettrain-go-core/defaults.go](../defaults.go):
 
-* TODO
-
+* add you package path to the imports
+* add your car's instance to the `trailers` function
+* add your car's callword to the list in the `defaultCarOrder` constant
 
 ## Documenting cars
 
