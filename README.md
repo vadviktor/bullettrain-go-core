@@ -131,7 +131,7 @@ These are the **core** feature configuration variables and module configuration 
 
 All envirnment variables must be exported for Go to be able to pick up.
 
-E.g.: `export BULLETTRAIN_CAR_ORDER="time context python ruby"`
+E.g.: `export BULLETTRAIN_CAR_ORDER="time user host python ruby"`
 
 ### Defining colours and text effects
 
@@ -294,7 +294,7 @@ ZSH example:
 | BULLETTRAIN_CAR_STATUS_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
 | BULLETTRAIN_CAR_STATUS_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.           | Using global symbol.              |
 
-### Context User
+### User
 
 Showing current username.
 
