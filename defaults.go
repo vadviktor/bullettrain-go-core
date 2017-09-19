@@ -16,7 +16,7 @@ import (
 	"github.com/bullettrain-sh/bullettrain-go-ruby"
 )
 
-const defaultCarOrder = "os time date context dir python go ruby nodejs php git status"
+const defaultCarOrder = "os time date user host dir python go ruby nodejs php git status"
 const separatorSymbol = " "
 
 // trailers results in the list of cars to be available for use.
