@@ -144,8 +144,6 @@ variable, but to reevaluate on every call.)
 
 `PROMPT='$(bullettrain $?)'`
 
-Two side prompt feature is planned too.
-
 **BASH - .bashrc**
 
 `export PS1='$(bullettrain $?)'`
@@ -216,6 +214,7 @@ Background Attributes
 | BULLETTRAIN_CARS                   | Control which cars to appear in what order, using their _callwords_.      | `os time date user host dir python go ruby nodejs php git status` |
 | BULLETTRAIN_CARS_SEPARATE_LINE     | Whether the cars should be on their own line above the prompt.            | true                                                              |
 | BULLETTRAIN_NO_PAINT               | Whether you wish not to use paint at all, aka black and white mode.       | false                                                             |
+| BULLETTRAIN_SHELL                  | Define which shell is used. (bash, zsh)                                   | zsh                                                               |
 | BULLETTRAIN_DEBUG                  | Turning debug print mode on to help seeing actual character codes.        | false                                                             |
 | BULLETTRAIN_SEPARATOR_ICON         | Defines the car separator icon.                                           | ``                                                               |
 | BULLETTRAIN_SEPARATOR_PAINT        | Defines the car separator icon's paint.                                   | calculated on the fly                                             |

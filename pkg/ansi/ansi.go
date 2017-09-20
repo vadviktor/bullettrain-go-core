@@ -3,6 +3,7 @@ package ansi
 import (
 	"bytes"
 	"fmt"
+	"os"
 	"strconv"
 	"strings"
 )
@@ -23,20 +24,21 @@ const (
 	normalIntensityBG = 40
 	highIntensityBG   = 100
 
-	start         = "%{\u001b["
-	end           = "%}"
 	bold          = "1;"
 	blink         = "5;"
 	underline     = "4;"
 	inverse       = "7;"
 	strikethrough = "9;"
-
-	// Reset is the ANSI reset escape sequence.
-	Reset = "%{\u001b[0m%}"
 )
 
 var (
 	plain = false
+
+	start = "%{\u001b["
+	end   = "%}"
+	// Reset is the ANSI reset escape sequence.
+	Reset = "%{\u001b[0m%}"
+
 	// Colors maps common color names to their ANSI color code.
 	Colors = map[string]int{
 		"black":   black,
@@ -52,6 +54,14 @@ var (
 )
 
 func init() {
+	// Overrides for BASH
+	if sh := os.Getenv("BULLETTRAIN_SHELL"); sh == "bash" {
+		start = "\u001b["
+		end = ""
+		// Reset is the ANSI reset escape sequence.
+		Reset = "\u001b[0m"
+	}
+
 	for i := 0; i < 256; i++ {
 		Colors[strconv.Itoa(i)] = i
 	}
