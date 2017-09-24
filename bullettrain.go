@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"log"
 	"os"
 	"os/exec"
 	"os/user"
@@ -151,7 +152,7 @@ func carsToRender() []carRenderer {
 func lineEnding() string {
 	u, e := user.Current()
 	if e != nil {
-		panic("Can't figure out current username.")
+		log.Fatalf("Can't figure out current username: %s\n", e.Error())
 	}
 
 	var c, l string

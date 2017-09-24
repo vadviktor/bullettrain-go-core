@@ -3,6 +3,7 @@ package carOs
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 	"regexp"
 	"runtime"
@@ -88,7 +89,7 @@ func findOutOs() string {
 	fName := "/etc/os-release"
 	fBody, fErr := ioutil.ReadFile(fName)
 	if fErr != nil {
-		panic("/etc/os-release could not be read.")
+		log.Fatalln("/etc/os-release could not be read.")
 	}
 
 	flavourExp := regexp.MustCompile(`ID=([a-z]+)`)
