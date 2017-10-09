@@ -4,65 +4,42 @@
 [[projects]]
   name = "github.com/bullettrain-sh/bullettrain-go-git"
   packages = ["."]
-  revision = "819eda767725998fe4861ef611db74ce87addb81"
-  version = "v0.5"
+  revision = "80320561f221764bd50cf8d86a42417868916e29"
+  version = "v0.7"
 
 [[projects]]
   name = "github.com/bullettrain-sh/bullettrain-go-golang"
   packages = ["."]
-  revision = "cd980290535e3eb9f000358aa16c063b1a226a68"
-  version = "v0.5"
+  revision = "b9a4b1d112bcc6ee6663fb4f5dd22c7b0d596533"
+  version = "v0.7"
 
 [[projects]]
   name = "github.com/bullettrain-sh/bullettrain-go-nodejs"
   packages = ["."]
-  revision = "710f02a54cfe9d0ebf180da7376898c0a0c3b7a7"
-  version = "v0.5"
+  revision = "86d0bfdaa5d245c5b344da8278940995e2dc449d"
+  version = "v0.7"
 
 [[projects]]
   name = "github.com/bullettrain-sh/bullettrain-go-php"
   packages = ["."]
-  revision = "4d0ff46ad2e5a515bc192a844231d45f45101701"
-  version = "v0.5"
+  revision = "bc786849e81010c39a643a8c25d28c00fa3a36bc"
+  version = "v0.7"
 
 [[projects]]
   name = "github.com/bullettrain-sh/bullettrain-go-python"
   packages = ["."]
-  revision = "93cb479a1a378c8fb0a34ba920e27074cf85d267"
-  version = "v0.5"
+  revision = "13d79e73e5fa796f75265316016ad67764c889c3"
+  version = "v0.7"
 
 [[projects]]
   name = "github.com/bullettrain-sh/bullettrain-go-ruby"
   packages = ["."]
-  revision = "3738afc8213782a166ae0ba5a8bc9e266f621042"
-  version = "v0.5"
-
-[[projects]]
-  name = "github.com/mattn/go-colorable"
-  packages = ["."]
-  revision = "167de6bfdfba052fa6b2d3664c8f5272e23c9072"
-  version = "v0.0.9"
-
-[[projects]]
-  name = "github.com/mattn/go-isatty"
-  packages = ["."]
-  revision = "fc9e8d8ef48496124e79ae0df75490096eccf6fe"
-  version = "v0.0.2"
-
-[[projects]]
-  name = "github.com/mgutz/ansi"
-  packages = ["."]
-  revision = "9520e82c474b0a04dd04f8a40959027271bab992"
-
-[[projects]]
-  branch = "master"
-  name = "golang.org/x/sys"
-  packages = ["unix"]
-  revision = "43e60d72a8e2bd92ee98319ba9a384a0e9837c08"
+  revision = "c7388d51c74e2bba8335d798b5dfb64dd9d145d5"
+  version = "v0.7"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "e2f7afdff05ffce6bffac6ee11069bebaf9be568e19e8d8baaca3da083b476ae"
+  inputs-digest = "0d19f348422bb9a72b695daa8b5324390183f70ce3d8d95bc46b6d29c5ce083a"
   solver-name = "gps-cdcl"
   solver-version = 1

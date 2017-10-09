@@ -1,27 +1,23 @@
 [[constraint]]
-  version = "v0.5"
+  version = "v0.7"
   name = "github.com/bullettrain-sh/bullettrain-go-git"
 
 [[constraint]]
-  version = "v0.5"
+  version = "v0.7"
   name = "github.com/bullettrain-sh/bullettrain-go-golang"
 
 [[constraint]]
-  version = "v0.5"
+  version = "v0.7"
   name = "github.com/bullettrain-sh/bullettrain-go-nodejs"
 
 [[constraint]]
-  version = "v0.5"
+  version = "v0.7"
   name = "github.com/bullettrain-sh/bullettrain-go-php"
 
 [[constraint]]
-  version = "v0.5"
+  version = "v0.7"
   name = "github.com/bullettrain-sh/bullettrain-go-python"
 
 [[constraint]]
-  version = "v0.5"
+  version = "v0.7"
   name = "github.com/bullettrain-sh/bullettrain-go-ruby"
-
-[[constraint]]
-  revision = "9520e82c474b0a04dd04f8a40959027271bab992"
-  name = "github.com/mgutz/ansi"
