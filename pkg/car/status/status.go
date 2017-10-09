@@ -1,16 +1,19 @@
 package carStatus
 
 import (
-	"fmt"
+	"bytes"
+	"log"
 	"os"
+	"text/template"
 
 	"github.com/bullettrain-sh/bullettrain-go-core/pkg/ansi"
 )
 
 const (
 	carPaint    = "255:160"
-	symbolIcon  = " "
+	symbolIcon  = ""
 	symbolPaint = "220:160"
+	carTemplate = `{{.Icon | printf "%s " | cs}}{{.Code | c}}`
 )
 
 // Status Car
@@ -27,20 +30,6 @@ func (c *Car) GetPaint() string {
 	return c.paint
 }
 
-func paintedSymbol() string {
-	var timeSymbol string
-	if timeSymbol = os.Getenv("BULLETTRAIN_CAR_STATUS_SYMBOL_ICON"); timeSymbol == "" {
-		timeSymbol = symbolIcon
-	}
-
-	var timeSymbolPaint string
-	if timeSymbolPaint = os.Getenv("BULLETTRAIN_CAR_STATUS_SYMBOL_PAINT"); timeSymbolPaint == "" {
-		timeSymbolPaint = symbolPaint
-	}
-
-	return ansi.Color(timeSymbol, timeSymbolPaint)
-}
-
 // CanShow decides if this car needs to be displayed.
 func (c *Car) CanShow() bool {
 	if len(os.Args) > 1 {
@@ -54,13 +43,40 @@ func (c *Car) CanShow() bool {
 // the channel.
 func (c *Car) Render(out chan<- string) {
 	defer close(out)
-	carPaint := ansi.ColorFunc(c.GetPaint())
 
-	if n := os.Getenv("BULLETTRAIN_CAR_STATUS_CODE_SHOW"); n == "false" {
-		out <- fmt.Sprintf("%s", paintedSymbol())
-	} else {
-		out <- fmt.Sprintf("%s%s", paintedSymbol(), carPaint(os.Args[1]))
+	var statusSymbol string
+	if statusSymbol = os.Getenv("BULLETTRAIN_CAR_STATUS_SYMBOL_ICON"); statusSymbol == "" {
+		statusSymbol = symbolIcon
 	}
+
+	var statusSymbolPaint string
+	if statusSymbolPaint = os.Getenv("BULLETTRAIN_CAR_STATUS_SYMBOL_PAINT"); statusSymbolPaint == "" {
+		statusSymbolPaint = symbolPaint
+	}
+
+	var s string
+	if s = os.Getenv("BULLETTRAIN_CAR_STATUS_TEMPLATE"); s == "" {
+		s = carTemplate
+	}
+
+	funcMap := template.FuncMap{
+		// Pipeline functions for colouring.
+		"c":  func(t string) string { return ansi.Color(t, c.GetPaint()) },
+		"cs": func(t string) string { return ansi.Color(t, statusSymbolPaint) },
+	}
+
+	tpl := template.Must(template.New("status").Funcs(funcMap).Parse(s))
+	data := struct {
+		Icon string
+		Code string
+	}{Icon: statusSymbol, Code: os.Args[1]}
+	fromTpl := new(bytes.Buffer)
+	err := tpl.Execute(fromTpl, data)
+	if err != nil {
+		log.Fatalf("Can't generate the user template: %s", err.Error())
+	}
+
+	out <- fromTpl.String()
 }
 
 // GetSeparatorPaint overrides the Fg/Bg colours of the right hand side
@@ -73,4 +89,10 @@ func (c *Car) GetSeparatorPaint() string {
 // separator through ENV variables.
 func (c *Car) GetSeparatorSymbol() string {
 	return os.Getenv("BULLETTRAIN_CAR_STATUS_SEPARATOR_SYMBOL")
+}
+
+// GetSeparatorTemplate overrides the template of the right hand side
+// separator through ENV variable.
+func (c *Car) GetSeparatorTemplate() string {
+	return os.Getenv("BULLETTRAIN_CAR_STATUS_SEPARATOR_TEMPLATE")
 }

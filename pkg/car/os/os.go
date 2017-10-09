@@ -1,12 +1,13 @@
 package carOs
 
 import (
-	"fmt"
+	"bytes"
 	"io/ioutil"
 	"log"
 	"os"
 	"regexp"
 	"runtime"
+	"text/template"
 
 	"github.com/bullettrain-sh/bullettrain-go-core/pkg/ansi"
 )
@@ -14,6 +15,7 @@ import (
 const (
 	carPaint    = "white:cyan"
 	symbolPaint = "white:cyan"
+	carTemplate = `{{.Icon | printf "%s " | cs}}{{.Name | c}}`
 )
 
 // Os car
@@ -40,27 +42,27 @@ func (c *Car) CanShow() bool {
 	return s
 }
 
-func paintedSymbol(osName string) string {
+func symbol(osName string) string {
 	osSymbols := map[string]string{
-		"arch":       " ",
-		"centos":     " ",
-		"coreos":     " ",
-		"darwin":     " ",
-		"debian":     " ",
-		"elementary": " ",
-		"fedora":     " ",
-		"freebsd":    " ",
-		"gentoo":     " ",
-		"linuxmint":  " ",
-		"mageia":     " ",
-		"mandriva":   " ",
-		"opensuse":   " ",
-		"raspbian":   " ",
-		"redhat":     " ",
-		"sabayon":    " ",
-		"slackware":  " ",
-		"ubuntu":     " ",
-		"tux":        " "}
+		"arch":       "",
+		"centos":     "",
+		"coreos":     "",
+		"darwin":     "",
+		"debian":     "",
+		"elementary": "",
+		"fedora":     "",
+		"freebsd":    "",
+		"gentoo":     "",
+		"linuxmint":  "",
+		"mageia":     "",
+		"mandriva":   "",
+		"opensuse":   "",
+		"raspbian":   "",
+		"redhat":     "",
+		"sabayon":    "",
+		"slackware":  "",
+		"ubuntu":     "",
+		"tux":        ""}
 
 	var symbol string
 	if symbol = os.Getenv("BULLETTRAIN_CAR_OS_SYMBOL_ICON"); symbol == "" {
@@ -69,15 +71,9 @@ func paintedSymbol(osName string) string {
 		if !present {
 			symbol = osSymbols["tux"]
 		}
-		symbol = fmt.Sprintf(" %s ", symbol)
 	}
 
-	var osSymbolPaint string
-	if osSymbolPaint = os.Getenv("BULLETTRAIN_CAR_OS_SYMBOL_PAINT"); osSymbolPaint == "" {
-		osSymbolPaint = symbolPaint
-	}
-
-	return ansi.Color(symbol, osSymbolPaint)
+	return symbol
 }
 
 func findOutOs() string {
@@ -107,14 +103,36 @@ func findOutOs() string {
 // the channel.
 func (c *Car) Render(out chan<- string) {
 	defer close(out)
-	carPaint := ansi.ColorFunc(c.GetPaint())
 
-	n := findOutOs()
-	if s := os.Getenv("BULLETTRAIN_CAR_OS_NAME_SHOW"); s == "false" {
-		out <- fmt.Sprintf("%s", paintedSymbol(n))
-	} else {
-		out <- fmt.Sprintf("%s%s", paintedSymbol(n), carPaint(n))
+	var osSymbolPaint string
+	if osSymbolPaint = os.Getenv("BULLETTRAIN_CAR_OS_SYMBOL_PAINT"); osSymbolPaint == "" {
+		osSymbolPaint = symbolPaint
 	}
+
+	var s string
+	if s = os.Getenv("BULLETTRAIN_CAR_OS_TEMPLATE"); s == "" {
+		s = carTemplate
+	}
+
+	funcMap := template.FuncMap{
+		// Pipeline functions for colouring.
+		"c":  func(t string) string { return ansi.Color(t, c.GetPaint()) },
+		"cs": func(t string) string { return ansi.Color(t, osSymbolPaint) },
+	}
+
+	osName := findOutOs()
+	tpl := template.Must(template.New("os").Funcs(funcMap).Parse(s))
+	data := struct {
+		Icon string
+		Name string
+	}{Icon: symbol(osName), Name: osName}
+	fromTpl := new(bytes.Buffer)
+	err := tpl.Execute(fromTpl, data)
+	if err != nil {
+		log.Fatalf("Can't generate the OS template: %s", err.Error())
+	}
+
+	out <- fromTpl.String()
 }
 
 // GetSeparatorPaint overrides the Fg/Bg colours of the right hand side
@@ -127,4 +145,10 @@ func (c *Car) GetSeparatorPaint() string {
 // separator through ENV variables.
 func (c *Car) GetSeparatorSymbol() string {
 	return os.Getenv("BULLETTRAIN_CAR_OS_SEPARATOR_SYMBOL")
+}
+
+// GetSeparatorTemplate overrides the template of the right hand side
+// separator through ENV variable.
+func (c *Car) GetSeparatorTemplate() string {
+	return os.Getenv("BULLETTRAIN_CAR_OS_SEPARATOR_TEMPLATE")
 }

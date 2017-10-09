@@ -1,8 +1,10 @@
 package carTime
 
 import (
-	"fmt"
+	"bytes"
+	"log"
 	"os"
+	"text/template"
 	"time"
 
 	"github.com/bullettrain-sh/bullettrain-go-core/pkg/ansi"
@@ -10,8 +12,9 @@ import (
 
 const (
 	carPaint    = "black:white"
-	symbolIcon  = " "
+	symbolIcon  = ""
 	symbolPaint = "black:white"
+	carTemplate = `{{.Icon | printf " %s " | cs}}{{.Time | c}}`
 )
 
 // Time Car
@@ -28,20 +31,6 @@ func (c *Car) GetPaint() string {
 	return c.paint
 }
 
-func paintedSymbol() string {
-	var timeSymbol string
-	if timeSymbol = os.Getenv("BULLETTRAIN_CAR_TIME_SYMBOL_ICON"); timeSymbol == "" {
-		timeSymbol = symbolIcon
-	}
-
-	var timeSymbolPaint string
-	if timeSymbolPaint = os.Getenv("BULLETTRAIN_CAR_TIME_SYMBOL_PAINT"); timeSymbolPaint == "" {
-		timeSymbolPaint = symbolPaint
-	}
-
-	return ansi.Color(timeSymbol, timeSymbolPaint)
-}
-
 // CanShow decides if this car needs to be displayed.
 func (c *Car) CanShow() bool {
 	s := false
@@ -56,15 +45,46 @@ func (c *Car) CanShow() bool {
 // the channel.
 func (c *Car) Render(out chan<- string) {
 	defer close(out)
-	carPaint := ansi.ColorFunc(c.GetPaint())
-	n := time.Now()
 
+	var timeSymbol string
+	if timeSymbol = os.Getenv("BULLETTRAIN_CAR_TIME_SYMBOL_ICON"); timeSymbol == "" {
+		timeSymbol = symbolIcon
+	}
+
+	var timeSymbolPaint string
+	if timeSymbolPaint = os.Getenv("BULLETTRAIN_CAR_TIME_SYMBOL_PAINT"); timeSymbolPaint == "" {
+		timeSymbolPaint = symbolPaint
+	}
+
+	n := time.Now()
 	t := n.Format("15:04:05")
 	if h := os.Getenv("BULLETTRAIN_CAR_TIME_12HR"); h == "true" {
 		t = n.Format("3:04:05")
 	}
 
-	out <- fmt.Sprintf("%s%s", paintedSymbol(), carPaint(t))
+	var s string
+	if s = os.Getenv("BULLETTRAIN_CAR_TIME_TEMPLATE"); s == "" {
+		s = carTemplate
+	}
+
+	funcMap := template.FuncMap{
+		// Pipeline functions for colouring.
+		"c":  func(t string) string { return ansi.Color(t, c.GetPaint()) },
+		"cs": func(t string) string { return ansi.Color(t, timeSymbolPaint) },
+	}
+
+	tpl := template.Must(template.New("time").Funcs(funcMap).Parse(s))
+	data := struct {
+		Icon string
+		Time string
+	}{Icon: timeSymbol, Time: t}
+	timeFromTpl := new(bytes.Buffer)
+	err := tpl.Execute(timeFromTpl, data)
+	if err != nil {
+		log.Fatalf("Can't generate the time template: %s", err.Error())
+	}
+
+	out <- timeFromTpl.String()
 }
 
 // GetSeparatorPaint overrides the Fg/Bg colours of the right hand side
@@ -77,4 +97,10 @@ func (c *Car) GetSeparatorPaint() string {
 // separator through ENV variables.
 func (c *Car) GetSeparatorSymbol() string {
 	return os.Getenv("BULLETTRAIN_CAR_TIME_SEPARATOR_SYMBOL")
+}
+
+// GetSeparatorTemplate overrides the template of the right hand side
+// separator through ENV variable.
+func (c *Car) GetSeparatorTemplate() string {
+	return os.Getenv("BULLETTRAIN_CAR_TIME_SEPARATOR_TEMPLATE")
 }

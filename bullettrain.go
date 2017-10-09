@@ -8,8 +8,8 @@ import (
 	"os/exec"
 	"os/user"
 	"regexp"
-	"runtime"
 	"strings"
+	"text/template"
 
 	"github.com/bullettrain-sh/bullettrain-go-core/pkg/ansi"
 	"github.com/bullettrain-sh/bullettrain-go-core/pkg/car/custom"
@@ -27,19 +27,22 @@ type carRenderer interface {
 	CanShow() bool
 
 	// GetSeparatorPaint overrides the Fg/Bg colours of the right hand side
-	// separator through ENV variables.
+	// separator through ENV variable.
 	GetSeparatorPaint() string
 
 	// GetSeparatorSymbol overrides the symbol of the right hand side
-	// separator through ENV variables.
+	// separator through ENV variable.
 	GetSeparatorSymbol() string
+
+	// GetSeparatorTemplate overrides the template of the right hand side
+	// separator through ENV variable.
+	GetSeparatorTemplate() string
 }
 
 type separator string
 
+// init defines some steps that affects running the program and needs provisioning.
 func init() {
-	runtime.GOMAXPROCS(runtime.NumCPU())
-
 	if d := os.Getenv("BULLETTRAIN_NO_PAINT"); d == "true" {
 		ansi.DisableColors(true)
 	}
@@ -79,7 +82,9 @@ func main() {
 		}
 
 		sep := new(separator)
-		go sep.Render(chans[j+1], newPaint, trailers[k].GetSeparatorSymbol())
+		go sep.Render(chans[j+1], newPaint,
+			trailers[k].GetSeparatorSymbol(),
+			trailers[k].GetSeparatorTemplate())
 	}
 
 	var n bytes.Buffer
@@ -94,7 +99,6 @@ func main() {
 	}
 
 	n.WriteString(lineEnding())
-	n.WriteRune(' ')
 
 	if d := os.Getenv("BULLETTRAIN_DEBUG"); d == "true" {
 		fmt.Printf("%+ x", n.String())
@@ -155,26 +159,47 @@ func lineEnding() string {
 		log.Fatalf("Can't figure out current username: %s\n", e.Error())
 	}
 
-	var c, l string
+	var c, s, t string
 	if u.Username == "root" {
-		if l = os.Getenv("BULLETTRAIN_PROMPT_CHAR_ROOT"); l == "" {
-			l = "#"
+		if s = os.Getenv("BULLETTRAIN_PROMPT_CHAR_ROOT"); s == "" {
+			s = "#"
 		}
 
 		if c = os.Getenv("BULLETTRAIN_PROMPT_CHAR_ROOT_PAINT"); c == "" {
 			c = "red"
 		}
+
+		if t = os.Getenv("BULLETTRAIN_PROMPT_CHAR_ROOT_TEMPLATE"); t == "" {
+			t = promptCharTemplate
+		}
 	} else {
-		if l = os.Getenv("BULLETTRAIN_PROMPT_CHAR"); l == "" {
-			l = "$"
+		if s = os.Getenv("BULLETTRAIN_PROMPT_CHAR"); s == "" {
+			s = "$"
 		}
 
 		if c = os.Getenv("BULLETTRAIN_PROMPT_CHAR_PAINT"); c == "" {
 			c = "green"
 		}
+
+		if t = os.Getenv("BULLETTRAIN_PROMPT_CHAR_TEMPLATE"); t == "" {
+			t = promptCharTemplate
+		}
 	}
 
-	return ansi.Color(l, c)
+	funcMap := template.FuncMap{
+		// Pipeline function for colouring.
+		"c": func(t string) string { return ansi.Color(t, c) },
+	}
+
+	tpl := template.Must(template.New("promptChar").Funcs(funcMap).Parse(t))
+	d := struct{ Icon string }{Icon: s}
+	symbolFromTpl := new(bytes.Buffer)
+	err := tpl.Execute(symbolFromTpl, d)
+	if err != nil {
+		log.Fatalf("Can't generate the prompt char template: %s", err.Error())
+	}
+
+	return symbolFromTpl.String()
 }
 
 // flipPaint flips the FG and BG setup in colour strings of cars for a separator.
@@ -203,7 +228,7 @@ func flipPaint() func(string, string) string {
 	return flipped
 }
 
-func (s *separator) Render(out chan<- string, paint, symbolOverride string) {
+func (s *separator) Render(out chan<- string, paint, symbolOverride, templateOverride string) {
 	defer close(out)
 
 	var symbol string
@@ -213,5 +238,25 @@ func (s *separator) Render(out chan<- string, paint, symbolOverride string) {
 		symbol = separatorSymbol
 	}
 
-	out <- ansi.Color(symbol, paint)
+	var t string
+	if templateOverride != "" {
+		t = templateOverride
+	} else if t = os.Getenv("BULLETTRAIN_SEPARATOR_TEMPLATE"); t == "" {
+		t = separatorTemplate
+	}
+
+	funcMap := template.FuncMap{
+		// Pipeline function for colouring.
+		"c": func(t string) string { return ansi.Color(t, paint) },
+	}
+
+	tpl := template.Must(template.New("separator").Funcs(funcMap).Parse(t))
+	d := struct{ Icon string }{Icon: symbol}
+	symbolFromTpl := new(bytes.Buffer)
+	err := tpl.Execute(symbolFromTpl, d)
+	if err != nil {
+		log.Fatalf("Can't generate the separator template: %s", err.Error())
+	}
+
+	out <- symbolFromTpl.String()
 }

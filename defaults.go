@@ -16,8 +16,12 @@ import (
 	"github.com/bullettrain-sh/bullettrain-go-ruby"
 )
 
-const defaultCarOrder = "os time date user host dir python go ruby nodejs php git status"
-const separatorSymbol = " "
+const (
+	defaultCarOrder    = "os time date user host dir python go ruby nodejs php git status"
+	separatorSymbol    = ""
+	separatorTemplate  = `{{.Icon | printf "%s " | c}}`
+	promptCharTemplate = `{{.Icon | printf "%s " | c}}`
+)
 
 // trailers results in the list of cars to be available for use.
 func trailers(currentWorkingDir string) map[string]carRenderer {

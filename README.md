@@ -7,35 +7,35 @@ Bullet Train is a [zsh](http://www.zsh.org/) &
 by the
 [Powerline Vim plugin](https://github.com/Lokaltog/vim-powerline).
 
+[TOC]: #
 
-- [Bullet Train shell prompt [BETA VERSION :bomb:]](#bullet-train-shell-prompt-beta-version-bomb)
-    - [Features](#features)
-    - [Requirements](#requirements)
-    - [Compatible terminal emulators](#compatible-terminal-emulators)
-    - [Installing](#installing)
+# Table of Contents
+- [Requirements](#requirements)
+- [Compatible terminal emulators](#compatible-terminal-emulators)
+- [Installing](#installing)
     - [Arch Linux - AUR](#arch-linux---aur)
-    - [Options](#options)
-        - [Defining colours and text effects](#defining-colours-and-text-effects)
-        - [Basic behaviours](#basic-behaviours)
-    - [Core cars](#core-cars)
-        - [Time Car](#time-car)
-        - [Date Car](#date-car)
-        - [Directory Car](#directory-car)
-        - [Host Car](#host-car)
-        - [User Car](#user-car)
-        - [OS Car](#os-car)
-        - [Last command exit code Car](#last-command-exit-code-car)
-        - [Background jobs Car](#background-jobs-car)
-    - [Development](#development)
-        - [Managing dependencies](#managing-dependencies)
-        - [Plugins](#plugins)
-        - [Benchmarking](#benchmarking)
-    - [Support](#support)
-    - [FAQ](#faq)
-    - [Credits](#credits)
+- [Options](#options)
+    - [Defining colours and text effects](#defining-colours-and-text-effects)
+    - [Defining car templates](#defining-car-templates)
+    - [Basic behaviours](#basic-behaviours)
+- [Core cars](#core-cars)
+    - [Time Car](#time-car)
+    - [Date Car](#date-car)
+    - [User Car](#user-car)
+    - [Host Car](#host-car)
+    - [Directory Car](#directory-car)
+    - [OS Car](#os-car)
+    - [Last command exit code Car](#last-command-exit-code-car)
+    - [Background jobs Car](#background-jobs-car)
+- [Development](#development)
+    - [Managing dependencies](#managing-dependencies)
+    - [Plugins](#plugins)
+    - [Benchmarking](#benchmarking)
+- [Support](#support)
+- [FAQ](#faq)
+- [Issues](#issues)
+- [Credits](#credits)
 
-
-## Features
 
 ![preview](readme_assets/preview.jpg)
 
@@ -95,13 +95,15 @@ In order to use the theme, you will first need:
 
   * [Nerd fonts](https://nerdfonts.com/)
     ([Arch Linux AUR](https://aur.archlinux.org/packages/nerd-fonts-complete/))
-  * Powerline compatible fonts like
+     <-- our default
+  * Alternatively a Powerline compatible font like
     [Vim Powerline patched fonts](https://github.com/Lokaltog/powerline-fonts),
     [Input Mono](http://input.fontbureau.com/) or
     [Monoid](http://larsenwork.com/monoid/).
   * On Ubuntu like systems you'll need the `ttf-ancient-fonts` package
     to correctly display some unicode symbols that are not covered by
     the Powerline fonts above.
+    ([Arch Linux AUR](https://aur.archlinux.org/packages/ttf-ancient-fonts/))
 
 * Make sure terminal is using 256-colors mode with `export
   TERM="xterm-256color"`
@@ -146,7 +148,10 @@ variable, but to reevaluate on every call.)
 
 **BASH - .bashrc**
 
-`export PS1='$(bullettrain $?)'`
+```
+export BULLETTRAIN_SHELL=bash
+export PS1='$(bullettrain $?)'
+```
 
 ### Arch Linux - AUR
 
@@ -207,23 +212,72 @@ Background Attributes
 
 - h = high intensity (bright)
 
+### Defining car templates
+
+Car templates gives the user the most flexibility to rearrange/decorate
+the car's content further. With the template's help the user can also
+control which element of the car she wants to hide (although the
+processing of it is still done, so she gains no speed). The template
+language is using Go's standard library `text/template` package.
+
+Here is an example which will introduce the concepts and usage:
+
+The Time car could expose it's icon and printed text (time).
+
+There are a few rules to follow:
+
+* exposed names start with a dot, because they will internally be
+  bundled within a Go struct
+* exposed names start with capital letter, because the struct needs to
+  expose them and everything is exposed (aka public) in Go if it is
+  capitalised
+* cars should define colouring functions that it should expose, with
+  suggested naming:
+  * `cs`: function to colour the symbol
+  * `ci`: function to colour the information the car exposes
+  * `c`: function to colour the car's base colouring
+* exposed names are enclosed in `{{` and `}}` as they are the Go
+  template system's chosen delimiters
+* template environment variables
+  have the suffix of `_TEMPLATE`
+
+Colour function names are suggestion and can vary in number and naming
+in plugins.
+
+`{{.Icon}}` : the icon of the car
+`{{.Time}}` : the information this car exposes
+
+Then one could surround the car's output text with spaces to her liking
+and define it in the env var:
+
+`export BULLETTRAIN_CAR_TIME_TEMPLATE="{{.Icon | printf " %s " | cs
+}}{{.Time | c}}"`
+
+`printf` is mapped to `fmt.Printf` and is perfect for adding spaces and
+other chars around the symbol, while in the second step of the pipeline
+is the colouring. This makes it easy not to leave the spaces without colours.
+
 ### Basic behaviours
 
-| Environment variable               | Description                                                               | Default value                                                     |
-|:-----------------------------------|:--------------------------------------------------------------------------|:------------------------------------------------------------------|
-| BULLETTRAIN_CARS                   | Control which cars to appear in what order, using their _callwords_.      | `os time date user host dir python go ruby nodejs php git status` |
-| BULLETTRAIN_CARS_SEPARATE_LINE     | Whether the cars should be on their own line above the prompt.            | true                                                              |
-| BULLETTRAIN_NO_PAINT               | Whether you wish not to use paint at all, aka black and white mode.       | false                                                             |
-| BULLETTRAIN_SHELL                  | Define which shell is used. (bash, zsh)                                   | zsh                                                               |
-| BULLETTRAIN_DEBUG                  | Turning debug print mode on to help seeing actual character codes.        | false                                                             |
-| BULLETTRAIN_SEPARATOR_ICON         | Defines the car separator icon.                                           | ``                                                               |
-| BULLETTRAIN_SEPARATOR_PAINT        | Defines the car separator icon's paint.                                   | calculated on the fly                                             |
-| BULLETTRAIN_PROMPT_CHAR            | Redefines the end char of the prompt when you are a normal user.          | `$ `                                                              |
-| BULLETTRAIN_PROMPT_CHAR_PAINT      | Redefines the end char's colour of the prompt when you are a normal user. | green                                                             |
-| BULLETTRAIN_PROMPT_CHAR_ROOT       | Redefines the end char of the prompt when you are a root user.            | `# `                                                              |
-| BULLETTRAIN_PROMPT_CHAR_ROOT_PAINT | Redefines the end char's colour of the prompt when you are a root user.   | red                                                               |
+| Environment variable                  | Description                                                               | Default value                                                     |
+|:--------------------------------------|:--------------------------------------------------------------------------|:------------------------------------------------------------------|
+| BULLETTRAIN_CARS                      | Control which cars to appear in what order, using their _callwords_.      | `os time date user host dir python go ruby nodejs php git status` |
+| BULLETTRAIN_CARS_SEPARATE_LINE        | Whether the cars should be on their own line above the prompt.            | true                                                              |
+| BULLETTRAIN_NO_PAINT                  | Whether you wish not to use paint at all, aka black and white mode.       | false                                                             |
+| BULLETTRAIN_SHELL                     | Define which shell is used. (bash, zsh)                                   | zsh                                                               |
+| BULLETTRAIN_DEBUG                     | Turning debug print mode on to help seeing actual character codes.        | false                                                             |
+| BULLETTRAIN_SEPARATOR_ICON            | Defines the car separator icon.                                           | ``                                                               |
+| BULLETTRAIN_SEPARATOR_PAINT           | Defines the car separator icon's paint.                                   | calculated on the fly                                             |
+| BULLETTRAIN_SEPARATOR_TEMPLATE        | Defines the car separator's template.                                     | `{{.Icon \| printf "%s " \| c}}`                                  |
+| BULLETTRAIN_PROMPT_CHAR               | Redefines the end char of the prompt when you are a normal user.          | `$`                                                               |
+| BULLETTRAIN_PROMPT_CHAR_TEMPLATE      | Normal user's end char template.                                          | `{{.Icon \| printf "%s " \| c}}`                                  |
+| BULLETTRAIN_PROMPT_CHAR_PAINT         | Redefines the end char's colour of the prompt when you are a normal user. | green                                                             |
+| BULLETTRAIN_PROMPT_CHAR_ROOT          | Redefines the end char of the prompt when you are a root user.            | `#`                                                               |
+| BULLETTRAIN_PROMPT_CHAR_ROOT_TEMPLATE | Root user's end char template.                                            | `{{.Icon \| printf "%s " \| c}}`                                  |
+| BULLETTRAIN_PROMPT_CHAR_ROOT_PAINT    | Redefines the end char's colour of the prompt when you are a root user.   | red                                                               |
 
 ## Core cars
+
 
 ### Time Car
 
@@ -231,17 +285,29 @@ Showing current time.
 
 **Callword**: `time`
 
+**Template variables**:
+
+* `.Icon`: the car's icon
+* `.Time`: the time text
+
+**Template colours**:
+
+* `c`: the car's colour
+* `cs`: the car symbol's colour
+
 **Options**
 
-| Environment variable                  | Description                                                    | Default value                     |
-|:--------------------------------------|:---------------------------------------------------------------|:----------------------------------|
-| BULLETTRAIN_CAR_TIME_SHOW             | Whether the car needs to be shown.                             | false                             |
-| BULLETTRAIN_CAR_TIME_SYMBOL_ICON      | Icon displayed on the car.                                     | ``                               |
-| BULLETTRAIN_CAR_TIME_SYMBOL_PAINT     | Colour override for the car's symbol.                          | white:black                       |
-| BULLETTRAIN_CAR_TIME_PAINT            | Colour override for the car's paint.                           | white:black                       |
-| BULLETTRAIN_CAR_TIME_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
-| BULLETTRAIN_CAR_TIME_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.           | Using global symbol.              |
-| BULLETTRAIN_CAR_TIME_12HR             | Use 12 hour format.                                            | false                             |
+| Environment variable                    | Description                                                    | Default value                                   |
+|:----------------------------------------|:---------------------------------------------------------------|:------------------------------------------------|
+| BULLETTRAIN_CAR_TIME_SHOW               | Whether the car needs to be shown.                             | false                                           |
+| BULLETTRAIN_CAR_TIME_TEMPLATE           | The car's template.                                            | `{{.Icon \| prinf " %s " \| cs}}{{.Time \| c}}` |
+| BULLETTRAIN_CAR_TIME_SYMBOL_ICON        | Icon displayed on the car.                                     | ``                                             |
+| BULLETTRAIN_CAR_TIME_SYMBOL_PAINT       | Colour override for the car's symbol.                          | white:black                                     |
+| BULLETTRAIN_CAR_TIME_PAINT              | Colour override for the car's paint.                           | white:black                                     |
+| BULLETTRAIN_CAR_TIME_SEPARATOR_PAINT    | Colour override for the car's right hand side separator paint. | Using default painting algorythm.               |
+| BULLETTRAIN_CAR_TIME_SEPARATOR_SYMBOL   | Override the car's right hand side separator symbol.           | Using global symbol.                            |
+| BULLETTRAIN_CAR_TIME_12HR               | Use 12 hour format.                                            | false                                           |
+| BULLETTRAIN_CAR_TIME_SEPARATOR_TEMPLATE | Defines the car separator's template.                          | Using global template.                          |
 
 
 ### Date Car
@@ -250,16 +316,55 @@ Showing current date. Format: `YYYY-MM-DD`
 
 **Callword**: `date`
 
+**Template variables**:
+
+* `.Icon`: the car's icon
+* `.Date`: the date text
+
+**Template colours**:
+
+* `c`: the car's colour
+* `cs`: the car symbol's colour
+
 **Options**
 
-| Environment variable                  | Description                                                    | Default value                     |
-|:--------------------------------------|:---------------------------------------------------------------|:----------------------------------|
-| BULLETTRAIN_CAR_DATE_SHOW             | Whether the car needs to be shown.                             | false                             |
-| BULLETTRAIN_CAR_DATE_PAINT            | Colour override for the car's paint.                           | red:black                         |
-| BULLETTRAIN_CAR_DATE_SYMBOL_ICON      | Icon displayed on the car.                                     | ``                               |
-| BULLETTRAIN_CAR_DATE_SYMBOL_PAINT     | Colour override for the car's symbol.                          | white:black                       |
-| BULLETTRAIN_CAR_DATE_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
-| BULLETTRAIN_CAR_DATE_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.           | Using global symbol.              |
+| Environment variable                    | Description                                                    | Default value                                  |
+|:----------------------------------------|:---------------------------------------------------------------|:-----------------------------------------------|
+| BULLETTRAIN_CAR_DATE_SHOW               | Whether the car needs to be shown.                             | false                                          |
+| BULLETTRAIN_CAR_DATE_TEMPLATE           | The car's template.                                            | `{{.Icon \| printf "%s" \| cs}}{{.Date \| c}}` |
+| BULLETTRAIN_CAR_DATE_PAINT              | Colour override for the car's paint.                           | red:black                                      |
+| BULLETTRAIN_CAR_DATE_SYMBOL_ICON        | Icon displayed on the car.                                     | ``                                            |
+| BULLETTRAIN_CAR_DATE_SYMBOL_PAINT       | Colour override for the car's symbol.                          | white:black                                    |
+| BULLETTRAIN_CAR_DATE_SEPARATOR_PAINT    | Colour override for the car's right hand side separator paint. | Using default painting algorythm.              |
+| BULLETTRAIN_CAR_DATE_SEPARATOR_SYMBOL   | Override the car's right hand side separator symbol.           | Using global symbol.                           |
+| BULLETTRAIN_CAR_DATE_SEPARATOR_TEMPLATE | Defines the car separator's template.                          | Using global template.                         |
+
+
+### User Car
+
+Showing current username.
+
+**Callword**: `user`
+
+**Template variables**:
+
+* `.User`: the user name text
+
+**Template colours**:
+
+* `c`: the car's colour
+
+**Options**
+
+| Environment variable                    | Description                                                    | Default value                     |
+|:----------------------------------------|:---------------------------------------------------------------|:----------------------------------|
+| BULLETTRAIN_CAR_USER_SHOW               | Whether the car needs to be shown.                             | true                              |
+| BULLETTRAIN_CAR_USER_PAINT              | Colour override for the car's paint.                           | black:white                       |
+| BULLETTRAIN_CAR_USER_TEMPLATE           | The car's template.                                            | `{{.User \| c}}`                  |
+| BULLETTRAIN_CAR_USER_SEPARATOR_PAINT    | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
+| BULLETTRAIN_CAR_USER_SEPARATOR_SYMBOL   | Override the car's right hand side separator symbol.           | Using global symbol.              |
+| BULLETTRAIN_CAR_USER_SEPARATOR_TEMPLATE | Defines the car separator's template.                          | Using global template.            |
+
 
 ### Host Car
 
@@ -267,14 +372,27 @@ Showing current hostname.
 
 **Callword**: `host`
 
+**Template variables**:
+
+* `.Icon`: the car's icon
+* `.Date`: the date text
+
+**Template colours**:
+
+* `c`: the car's colour
+* `cs`: the car symbol's colour
+
+
 **Options**
 
-| Environment variable                  | Description                                                    | Default value                     |
-|:--------------------------------------|:---------------------------------------------------------------|:----------------------------------|
-| BULLETTRAIN_CAR_HOST_SHOW             | Whether the car needs to be shown.                             | true                              |
-| BULLETTRAIN_CAR_HOST_PAINT            | Colour override for the car's paint.                           | black:white                       |
-| BULLETTRAIN_CAR_HOST_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
-| BULLETTRAIN_CAR_HOST_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.           | Using global symbol.              |
+| Environment variable                    | Description                                                    | Default value                     |
+|:----------------------------------------|:---------------------------------------------------------------|:----------------------------------|
+| BULLETTRAIN_CAR_HOST_SHOW               | Whether the car needs to be shown.                             | true                              |
+| BULLETTRAIN_CAR_HOST_PAINT              | Colour override for the car's paint.                           | black:white                       |
+| BULLETTRAIN_CAR_HOST_TEMPLATE           | The car's template.                                            | `{{.Host \| c}}`                  |
+| BULLETTRAIN_CAR_HOST_SEPARATOR_PAINT    | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
+| BULLETTRAIN_CAR_HOST_SEPARATOR_SYMBOL   | Override the car's right hand side separator symbol.           | Using global symbol.              |
+| BULLETTRAIN_CAR_HOST_SEPARATOR_TEMPLATE | Defines the car separator's template.                          | Using global template.            |
 
 
 ### Directory Car
@@ -304,17 +422,28 @@ element.
 
 **Callword**: `os`
 
+**Template variables**:
+
+* `.Icon`: the car's icon
+* `.Name`: the OS name text
+
+**Template colours**:
+
+* `c`: the car's colour
+* `cs`: the car symbol's colour
+
 **Options**
 
-| Environment variable                | Description                                                    | Default value                     |
-|:------------------------------------|:---------------------------------------------------------------|:----------------------------------|
-| BULLETTRAIN_CAR_OS_SHOW             | Whether the car needs to be shown.                             | false                             |
-| BULLETTRAIN_CAR_OS_PAINT            | Colour override for the car's paint.                           | white:cyan                        |
-| BULLETTRAIN_CAR_OS_NAME_SHOW        | Whether to show the OS's name text.                            | true                              |
-| BULLETTRAIN_CAR_OS_SYMBOL_PAINT     | Colour override for the car's symbol.                          | white:cyan                        |
-| BULLETTRAIN_CAR_OS_SYMBOL_ICON      | Icon displayed on the car.                                     | ``                               |
-| BULLETTRAIN_CAR_OS_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
-| BULLETTRAIN_CAR_OS_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.           | Using global symbol.              |
+| Environment variable                  | Description                                                    | Default value                                   |
+|:--------------------------------------|:---------------------------------------------------------------|:------------------------------------------------|
+| BULLETTRAIN_CAR_OS_SHOW               | Whether the car needs to be shown.                             | false                                           |
+| BULLETTRAIN_CAR_OS_PAINT              | Colour override for the car's paint.                           | white:cyan                                      |
+| BULLETTRAIN_CAR_OS_TEMPLATE           | The car's template.                                            | `{{.Icon \| printf "%s " \| cs}}{{.Name \| c}}` |
+| BULLETTRAIN_CAR_OS_SYMBOL_PAINT       | Colour override for the car's symbol.                          | white:cyan                                      |
+| BULLETTRAIN_CAR_OS_SYMBOL_ICON        | Icon displayed on the car.                                     | ``                                             |
+| BULLETTRAIN_CAR_OS_SEPARATOR_PAINT    | Colour override for the car's right hand side separator paint. | Using default painting algorythm.               |
+| BULLETTRAIN_CAR_OS_SEPARATOR_SYMBOL   | Override the car's right hand side separator symbol.           | Using global symbol.                            |
+| BULLETTRAIN_CAR_OS_SEPARATOR_TEMPLATE | Defines the car separator's template.                          | Using global template.                          |
 
 ### Last command exit code Car
 
@@ -332,36 +461,31 @@ ZSH example:
 
 **Callword**: `status`
 
-**Options**
+**Template variables**:
 
-| Environment variable                    | Description                                                    | Default value                     |
-|:----------------------------------------|:---------------------------------------------------------------|:----------------------------------|
-| BULLETTRAIN_CAR_STATUS_SYMBOL_ICON      | Icon displayed on the car.                                     | ``                               |
-| BULLETTRAIN_CAR_STATUS_SYMBOL_PAINT     | Colour override for the car's symbol.                          | yellow:red                        |
-| BULLETTRAIN_CAR_STATUS_PAINT            | Colour override for the car's paint.                           | white:red                         |
-| BULLETTRAIN_CAR_STATUS_CODE_SHOW        | Whether to show the exit code as the text of the car.          | true                              |
-| BULLETTRAIN_CAR_STATUS_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
-| BULLETTRAIN_CAR_STATUS_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.           | Using global symbol.              |
+* `.Icon`: the car's icon
+* `.Code`: the error code text
 
-### User Car
+**Template colours**:
 
-Showing current username.
-
-**Callword**: `user`
+* `c`: the car's colour
+* `cs`: the car symbol's colour
 
 **Options**
 
-| Environment variable                  | Description                                                    | Default value                     |
-|:--------------------------------------|:---------------------------------------------------------------|:----------------------------------|
-| BULLETTRAIN_CAR_USER_SHOW             | Whether the car needs to be shown.                             | true                              |
-| BULLETTRAIN_CAR_USER_PAINT            | Colour override for the car's paint.                           | black:white                       |
-| BULLETTRAIN_CAR_USER_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm. |
-| BULLETTRAIN_CAR_USER_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.           | Using global symbol.              |
-
+| Environment variable                    | Description                                                    | Default value                                    |
+|:----------------------------------------|:---------------------------------------------------------------|:-------------------------------------------------|
+| BULLETTRAIN_CAR_STATUS_SHOW             | Whether the car needs to be shown.                             | false                                            |
+| BULLETTRAIN_CAR_STATUS_TEMPLATE         | The car's template.                                            | `{{.Icon \| printf "%s " \| cs}}{{.Code \| c}}` |
+| BULLETTRAIN_CAR_STATUS_SYMBOL_ICON      | Icon displayed on the car.                                     | ``                                              |
+| BULLETTRAIN_CAR_STATUS_SYMBOL_PAINT     | Colour override for the car's symbol.                          | yellow:red                                       |
+| BULLETTRAIN_CAR_STATUS_PAINT            | Colour override for the car's paint.                           | white:red                                        |
+| BULLETTRAIN_CAR_STATUS_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint. | Using default painting algorythm.                |
+| BULLETTRAIN_CAR_STATUS_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.           | Using global symbol.                             |
 
 ### Background jobs Car
 
-TBD
+https://github.com/bullettrain-sh/bullettrain-go-core/issues/24
 
 ## Development
 
@@ -373,8 +497,11 @@ https://github.com/golang/dep
 
 ### Plugins
 
-We support [native Go cars](docs/creating-new-cars.md) compiled right into the prompt builder, or ones [written in other languages](docs/creating-plugin-car.md) .
-Plugins written in other languages will still benefit (to a degree) from Go's parallel execution.
+We support [native Go cars](docs/creating-new-cars.md) compiled right
+into the prompt builder, or ones
+[written in other languages](docs/creating-plugin-car.md) . Plugins
+written in other languages will still benefit (to a degree) from Go's
+parallel execution.
 
 ### Benchmarking
 

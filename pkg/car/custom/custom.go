@@ -1,10 +1,12 @@
 package carCustom
 
 import (
-	"fmt"
+	"bytes"
+	"log"
 	"os"
 	"os/exec"
 	"strings"
+	"text/template"
 
 	"github.com/bullettrain-sh/bullettrain-go-core/pkg/ansi"
 )
@@ -26,12 +28,6 @@ func (c *Car) GetPaint() string {
 	return os.Getenv("BULLETTRAIN_CAR_PLUGIN_" + c.callword + "_PAINT")
 }
 
-func (c *Car) paintedSymbol() string {
-	return ansi.Color(
-		os.Getenv("BULLETTRAIN_CAR_PLUGIN_"+c.callword+"_SYMBOL_ICON"),
-		os.Getenv("BULLETTRAIN_CAR_PLUGIN_"+c.callword+"_SYMBOL_PAINT"))
-}
-
 // CanShow decides if this car needs to be displayed.
 func (c *Car) CanShow() bool {
 	s := true
@@ -46,8 +42,11 @@ func (c *Car) CanShow() bool {
 // the channel.
 func (c *Car) Render(out chan<- string) {
 	defer close(out)
-	carPaint := ansi.ColorFunc(c.GetPaint())
+
 	var stuff string
+	carSymbol := os.Getenv("BULLETTRAIN_CAR_PLUGIN_" + c.callword + "_SYMBOL_ICON")
+	carSymbolPaint := os.Getenv("BULLETTRAIN_CAR_PLUGIN_" + c.callword + "_SYMBOL_PAINT")
+	carTemplate := os.Getenv("BULLETTRAIN_CAR_PLUGIN_" + c.callword + "_TEMPLATE")
 
 	cmdElem := strings.Fields(
 		os.Getenv("BULLETTRAIN_CAR_PLUGIN_" + c.callword + "_CMD"))
@@ -66,7 +65,24 @@ func (c *Car) Render(out chan<- string) {
 		stuff = err.Error()
 	}
 
-	out <- fmt.Sprintf("%s%s", c.paintedSymbol(), carPaint(stuff))
+	funcMap := template.FuncMap{
+		// Pipeline functions for colouring.
+		"c":  func(t string) string { return ansi.Color(t, c.GetPaint()) },
+		"cs": func(t string) string { return ansi.Color(t, carSymbolPaint) },
+	}
+
+	tpl := template.Must(template.New(c.callword).Funcs(funcMap).Parse(carTemplate))
+	data := struct {
+		Icon string
+		Info string
+	}{Icon: carSymbol, Info: stuff}
+	fromTpl := new(bytes.Buffer)
+	tplErr := tpl.Execute(fromTpl, data)
+	if tplErr != nil {
+		log.Fatalf("Can't generate the user template: %s", tplErr.Error())
+	}
+
+	out <- fromTpl.String()
 }
 
 // GetSeparatorPaint overrides the Fg/Bg colours of the right hand side
@@ -79,4 +95,10 @@ func (c *Car) GetSeparatorPaint() string {
 // separator through ENV variables
 func (c *Car) GetSeparatorSymbol() string {
 	return os.Getenv("BULLETTRAIN_CAR_PLUGIN_" + c.callword + "_SEPARATOR_SYMBOL")
+}
+
+// GetSeparatorTemplate overrides the template of the right hand side
+// separator through ENV variable.
+func (c *Car) GetSeparatorTemplate() string {
+	return os.Getenv("BULLETTRAIN_CAR_PLUGIN_" + c.callword + "_SEPARATOR_TEMPLATE")
 }

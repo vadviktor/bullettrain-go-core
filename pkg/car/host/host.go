@@ -1,13 +1,18 @@
 package carHost
 
 import (
-	"fmt"
+	"bytes"
+	"log"
 	"os"
+	"text/template"
 
 	"github.com/bullettrain-sh/bullettrain-go-core/pkg/ansi"
 )
 
-const carPaint = "black:white"
+const (
+	carPaint    = "black:white"
+	carTemplate = `{{.Host | c}}`
+)
 
 // Host car
 type Car struct {
@@ -40,8 +45,25 @@ func (c *Car) Render(out chan<- string) {
 
 	hostname, _ := os.Hostname()
 
-	out <- ansi.Color(fmt.Sprintf("%s", hostname),
-		c.GetPaint())
+	var s string
+	if s = os.Getenv("BULLETTRAIN_CAR_HOST_TEMPLATE"); s == "" {
+		s = carTemplate
+	}
+
+	funcMap := template.FuncMap{
+		// Pipeline functions for colouring.
+		"c": func(t string) string { return ansi.Color(t, c.GetPaint()) },
+	}
+
+	tpl := template.Must(template.New("host").Funcs(funcMap).Parse(s))
+	data := struct{ Host string }{Host: hostname}
+	fromTpl := new(bytes.Buffer)
+	err := tpl.Execute(fromTpl, data)
+	if err != nil {
+		log.Fatalf("Can't generate the host template: %s", err.Error())
+	}
+
+	out <- fromTpl.String()
 }
 
 // GetSeparatorPaint overrides the Fg/Bg colours of the right hand side
@@ -54,4 +76,10 @@ func (c *Car) GetSeparatorPaint() string {
 // separator through ENV variables.
 func (c *Car) GetSeparatorSymbol() string {
 	return os.Getenv("BULLETTRAIN_CAR_HOST_SEPARATOR_SYMBOL")
+}
+
+// GetSeparatorTemplate overrides the template of the right hand side
+// separator through ENV variable.
+func (c *Car) GetSeparatorTemplate() string {
+	return os.Getenv("BULLETTRAIN_CAR_HOST_SEPARATOR_TEMPLATE")
 }

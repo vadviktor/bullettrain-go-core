@@ -1,14 +1,19 @@
 package carUser
 
 import (
-	"fmt"
+	"bytes"
+	"log"
 	"os"
 	"os/user"
+	"text/template"
 
 	"github.com/bullettrain-sh/bullettrain-go-core/pkg/ansi"
 )
 
-const carPaint = "black:white"
+const (
+	carPaint    = "black:white"
+	carTemplate = `{{.User | c}}`
+)
 
 // User car
 type Car struct {
@@ -45,8 +50,25 @@ func (c *Car) Render(out chan<- string) {
 		username = u.Username
 	}
 
-	out <- ansi.Color(fmt.Sprintf("%s", username),
-		c.GetPaint())
+	var s string
+	if s = os.Getenv("BULLETTRAIN_CAR_USER_TEMPLATE"); s == "" {
+		s = carTemplate
+	}
+
+	funcMap := template.FuncMap{
+		// Pipeline functions for colouring.
+		"c": func(t string) string { return ansi.Color(t, c.GetPaint()) },
+	}
+
+	tpl := template.Must(template.New("user").Funcs(funcMap).Parse(s))
+	data := struct{ User string }{User: username}
+	fromTpl := new(bytes.Buffer)
+	err := tpl.Execute(fromTpl, data)
+	if err != nil {
+		log.Fatalf("Can't generate the user template: %s", err.Error())
+	}
+
+	out <- fromTpl.String()
 }
 
 // GetSeparatorPaint overrides the Fg/Bg colours of the right hand side
@@ -59,4 +81,10 @@ func (c *Car) GetSeparatorPaint() string {
 // separator through ENV variables.
 func (c *Car) GetSeparatorSymbol() string {
 	return os.Getenv("BULLETTRAIN_CAR_USER_SEPARATOR_SYMBOL")
+}
+
+// GetSeparatorTemplate overrides the template of the right hand side
+// separator through ENV variable.
+func (c *Car) GetSeparatorTemplate() string {
+	return os.Getenv("BULLETTRAIN_CAR_USER_SEPARATOR_TEMPLATE")
 }
