@@ -526,8 +526,7 @@ feature that will make the prompt sluggish all of a sudden.
 
 ## Support
 
-[IRC channel](http://webchat.freenode.net?channels=%23bullettrain-sh)
-`#bullettrain-sh@freenode`
+[Telegram Group](https://t.me/joinchat/GUPcrhEYq_KJI48VIxxgsQ)
 
 
 ## FAQ
