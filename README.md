@@ -1,4 +1,4 @@
-# Bullet Train shell prompt \[BETA VERSION :bomb:\]
+# Bullet Train shell prompt
 
 <img src="http://rawgit.com/caiogondim/bullet-train-oh-my-zsh-theme/master/img/icon.svg" width="100%" />
 
