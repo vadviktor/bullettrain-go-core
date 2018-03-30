@@ -1,2 +1,4 @@
 releases/
+!releases/.gitkeep
 vendor/
+/tmp/

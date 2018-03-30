@@ -11,8 +11,8 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/bullettrain-sh/bullettrain-go-core/pkg/ansi"
-	"github.com/bullettrain-sh/bullettrain-go-core/pkg/car/custom"
+	"github.com/bullettrain-sh/bullettrain-go-core/src/ansi"
+	"github.com/bullettrain-sh/bullettrain-go-core/src/car/custom"
 )
 
 type carRenderer interface {

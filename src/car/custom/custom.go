@@ -8,7 +8,7 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/bullettrain-sh/bullettrain-go-core/pkg/ansi"
+	"github.com/bullettrain-sh/bullettrain-go-core/src/ansi"
 )
 
 // Custom car

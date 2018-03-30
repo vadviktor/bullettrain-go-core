@@ -1,13 +1,13 @@
 package main
 
 import (
-	"github.com/bullettrain-sh/bullettrain-go-core/pkg/car/date"
-	"github.com/bullettrain-sh/bullettrain-go-core/pkg/car/directory"
-	"github.com/bullettrain-sh/bullettrain-go-core/pkg/car/host"
-	"github.com/bullettrain-sh/bullettrain-go-core/pkg/car/os"
-	"github.com/bullettrain-sh/bullettrain-go-core/pkg/car/status"
-	"github.com/bullettrain-sh/bullettrain-go-core/pkg/car/time"
-	"github.com/bullettrain-sh/bullettrain-go-core/pkg/car/user"
+	"github.com/bullettrain-sh/bullettrain-go-core/src/car/date"
+	"github.com/bullettrain-sh/bullettrain-go-core/src/car/directory"
+	"github.com/bullettrain-sh/bullettrain-go-core/src/car/host"
+	"github.com/bullettrain-sh/bullettrain-go-core/src/car/os"
+	"github.com/bullettrain-sh/bullettrain-go-core/src/car/status"
+	"github.com/bullettrain-sh/bullettrain-go-core/src/car/time"
+	"github.com/bullettrain-sh/bullettrain-go-core/src/car/user"
 	"github.com/bullettrain-sh/bullettrain-go-git"
 	"github.com/bullettrain-sh/bullettrain-go-golang"
 	"github.com/bullettrain-sh/bullettrain-go-nodejs"

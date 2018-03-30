@@ -3,7 +3,6 @@ package ansi
 import (
 	"bytes"
 	"fmt"
-	"os"
 	"strconv"
 	"strings"
 )
@@ -54,22 +53,9 @@ var (
 )
 
 func init() {
-	// Overrides for BASH
-	if sh := os.Getenv("BULLETTRAIN_SHELL"); sh == "bash" {
-		start = "\u001b["
-		end = ""
-		// Reset is the ANSI reset escape sequence.
-		Reset = "\u001b[0m"
-	}
-
 	for i := 0; i < 256; i++ {
 		Colors[strconv.Itoa(i)] = i
 	}
-}
-
-// ColorCode returns the ANSI color color code for style.
-func ColorCode(style string) string {
-	return colorCode(style).String()
 }
 
 // Gets the ANSI color code for a style.
@@ -164,25 +150,6 @@ func Color(s, style string) string {
 	buf.WriteString(s)
 	buf.WriteString(Reset)
 	return buf.String()
-}
-
-// ColorFunc creates a closure to avoid computation ANSI color code.
-func ColorFunc(style string) func(string) string {
-	if style == "" {
-		return func(s string) string {
-			return s
-		}
-	}
-	color := ColorCode(style)
-	return func(s string) string {
-		if plain || s == "" {
-			return s
-		}
-		buf := bytes.NewBufferString(color)
-		buf.WriteString(s)
-		buf.WriteString(Reset)
-		return buf.String()
-	}
 }
 
 // DisableColors disables ANSI color codes. The default is false (colors are on).

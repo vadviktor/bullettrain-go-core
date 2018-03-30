@@ -1,28 +1,27 @@
-package carUser
+package carHost
 
 import (
 	"bytes"
 	"log"
 	"os"
-	"os/user"
 	"text/template"
 
-	"github.com/bullettrain-sh/bullettrain-go-core/pkg/ansi"
+	"github.com/bullettrain-sh/bullettrain-go-core/src/ansi"
 )
 
 const (
 	carPaint    = "black:white"
-	carTemplate = `{{.User | c}}`
+	carTemplate = `{{.Host | c}}`
 )
 
-// User car
+// Host car
 type Car struct {
 	paint string
 }
 
 // GetPaint returns the calculated end paint string for the car.
 func (c *Car) GetPaint() string {
-	if c.paint = os.Getenv("BULLETTRAIN_CAR_USER_PAINT"); c.paint == "" {
+	if c.paint = os.Getenv("BULLETTRAIN_CAR_HOST_PAINT"); c.paint == "" {
 		c.paint = carPaint
 	}
 
@@ -32,7 +31,7 @@ func (c *Car) GetPaint() string {
 // CanShow decides if this car needs to be displayed.
 func (c *Car) CanShow() bool {
 	s := true
-	if e := os.Getenv("BULLETTRAIN_CAR_USER_SHOW"); e == "false" {
+	if e := os.Getenv("BULLETTRAIN_CAR_HOST_SHOW"); e == "false" {
 		s = false
 	}
 
@@ -44,14 +43,10 @@ func (c *Car) CanShow() bool {
 func (c *Car) Render(out chan<- string) {
 	defer close(out)
 
-	var username string
-	u, e := user.Current()
-	if e == nil {
-		username = u.Username
-	}
+	hostname, _ := os.Hostname()
 
 	var s string
-	if s = os.Getenv("BULLETTRAIN_CAR_USER_TEMPLATE"); s == "" {
+	if s = os.Getenv("BULLETTRAIN_CAR_HOST_TEMPLATE"); s == "" {
 		s = carTemplate
 	}
 
@@ -60,12 +55,12 @@ func (c *Car) Render(out chan<- string) {
 		"c": func(t string) string { return ansi.Color(t, c.GetPaint()) },
 	}
 
-	tpl := template.Must(template.New("user").Funcs(funcMap).Parse(s))
-	data := struct{ User string }{User: username}
+	tpl := template.Must(template.New("host").Funcs(funcMap).Parse(s))
+	data := struct{ Host string }{Host: hostname}
 	fromTpl := new(bytes.Buffer)
 	err := tpl.Execute(fromTpl, data)
 	if err != nil {
-		log.Fatalf("Can't generate the user template: %s", err.Error())
+		log.Fatalf("Can't generate the host template: %s", err.Error())
 	}
 
 	out <- fromTpl.String()
@@ -74,17 +69,17 @@ func (c *Car) Render(out chan<- string) {
 // GetSeparatorPaint overrides the Fg/Bg colours of the right hand side
 // separator through ENV variables.
 func (c *Car) GetSeparatorPaint() string {
-	return os.Getenv("BULLETTRAIN_CAR_USER_SEPARATOR_PAINT")
+	return os.Getenv("BULLETTRAIN_CAR_HOST_SEPARATOR_PAINT")
 }
 
 // GetSeparatorSymbol overrides the symbol of the right hand side
 // separator through ENV variables.
 func (c *Car) GetSeparatorSymbol() string {
-	return os.Getenv("BULLETTRAIN_CAR_USER_SEPARATOR_SYMBOL")
+	return os.Getenv("BULLETTRAIN_CAR_HOST_SEPARATOR_SYMBOL")
 }
 
 // GetSeparatorTemplate overrides the template of the right hand side
 // separator through ENV variable.
 func (c *Car) GetSeparatorTemplate() string {
-	return os.Getenv("BULLETTRAIN_CAR_USER_SEPARATOR_TEMPLATE")
+	return os.Getenv("BULLETTRAIN_CAR_HOST_SEPARATOR_TEMPLATE")
 }

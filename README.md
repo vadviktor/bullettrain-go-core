@@ -1,9 +1,8 @@
-# Bullet Train shell prompt [BETA VERSION :bomb:]
+# Bullet Train shell prompt \[BETA VERSION :bomb:\]
 
 <img src="http://rawgit.com/caiogondim/bullet-train-oh-my-zsh-theme/master/img/icon.svg" width="100%" />
 
-Bullet Train is a [zsh](http://www.zsh.org/) &
-[bash](https://www.gnu.org/software/bash/) shell prompt theme inspired
+Bullet Train is a [zsh](http://www.zsh.org/) shell prompt theme inspired
 by the
 [Powerline Vim plugin](https://github.com/Lokaltog/vim-powerline).
 
@@ -13,7 +12,6 @@ by the
 - [Requirements](#requirements)
 - [Compatible terminal emulators](#compatible-terminal-emulators)
 - [Installing](#installing)
-    - [Arch Linux - AUR](#arch-linux---aur)
 - [Options](#options)
     - [Defining colours and text effects](#defining-colours-and-text-effects)
     - [Defining car templates](#defining-car-templates)
@@ -146,25 +144,6 @@ variable, but to reevaluate on every call.)
 
 `PROMPT='$(bullettrain $?)'`
 
-**BASH - .bashrc**
-
-```
-export BULLETTRAIN_SHELL=bash
-export PS1='$(bullettrain $?)'
-```
-
-### Arch Linux - AUR
-
-Latest
-[release](https://github.com/bullettrain-sh/bullettrain-go-core/releases)
-binaries:
-
-https://aur.archlinux.org/packages/bullettrain
-
-Latest builds from the master branches:
-
-https://aur.archlinux.org/packages/bullettrain-git
-
 ## Options
 
 Most of the behaviours can be configured through environment variables,
@@ -264,7 +243,6 @@ is the colouring. This makes it easy not to leave the spaces without colours.
 | BULLETTRAIN_CARS                      | Control which cars to appear in what order, using their _callwords_.      | `os time date user host dir python go ruby nodejs php git status` |
 | BULLETTRAIN_CARS_SEPARATE_LINE        | Whether the cars should be on their own line above the prompt.            | true                                                              |
 | BULLETTRAIN_NO_PAINT                  | Whether you wish not to use paint at all, aka black and white mode.       | false                                                             |
-| BULLETTRAIN_SHELL                     | Define which shell is used. (bash, zsh)                                   | zsh                                                               |
 | BULLETTRAIN_DEBUG                     | Turning debug print mode on to help seeing actual character codes.        | false                                                             |
 | BULLETTRAIN_SEPARATOR_ICON            | Defines the car separator icon.                                           | ``                                                               |
 | BULLETTRAIN_SEPARATOR_PAINT           | Defines the car separator icon's paint.                                   | calculated on the fly                                             |
@@ -403,17 +381,17 @@ Showing current directory.
 
 **Options**
 
-| Environment variable                           | Description                                                                                                     | Default value                     |
-|:-----------------------------------------------|:----------------------------------------------------------------------------------------------------------------|:----------------------------------|
-| BULLETTRAIN_CAR_DIRECTORY_SHOW                 | Whether the car needs to be shown.                                                                              | true                              |
-| BULLETTRAIN_CAR_DIRECTORY_PAINT                | Colour override for the car's paint.                                                                            | white:blue                        |
-| BULLETTRAIN_CAR_DIRECTORY_SEPARATOR_PAINT      | Colour override for the car's right hand side separator paint.                                                  | Using default painting algorythm. |
-| BULLETTRAIN_CAR_DIRECTORY_SEPARATOR_SYMBOL     | Override the car's right hand side separator symbol.                                                            | Using global symbol.              |
-| BULLETTRAIN_CAR_DIRECTORY_MAX_LENGHT           | Set the number of parent directories displayed. Setting it to 0 means to show all of them.                      | 3                                 |
-| BULLETTRAIN_CAR_DIRECTORY_PATH_SEPARATOR       | Set a custom path separator character.                                                                          | ``                               |
-| BULLETTRAIN_CAR_DIRECTORY_DEPTH_INDICATOR      | Indicator of too deep directory structure.                                                                      | `...`                             |
-| BULLETTRAIN_CAR_DIRECTORY_FIRST_SEPARATOR_SHOW | Whether the root separator should be displayed. When enabled, displays only if the root directory is displayed. | false                             |
-| BULLETTRAIN_CAR_DIRECTORY_FIRST_DIR_SHOW       | Whether to keep showing the root directory when the path is shortened.                                          | true                              |
+| Environment variable                       | Description                                                                                           | Default value                     |
+|:-------------------------------------------|:------------------------------------------------------------------------------------------------------|:----------------------------------|
+| BULLETTRAIN_CAR_DIRECTORY_SHOW             | Whether the car needs to be shown.                                                                    | true                              |
+| BULLETTRAIN_CAR_DIRECTORY_PAINT            | Colour override for the car's paint.                                                                  | white:blue                        |
+| BULLETTRAIN_CAR_DIRECTORY_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint.                                        | Using default painting algorythm. |
+| BULLETTRAIN_CAR_DIRECTORY_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.                                                  | Using global symbol.              |
+| BULLETTRAIN_CAR_DIRECTORY_PATH_SEPARATOR   | Set a custom path separator character.                                                                | ``                               |
+| BULLETTRAIN_CAR_DIRECTORY_MAX_LENGHT       | Set the number of parent directories displayed. Setting it to 0 means to show all of them.            | 3                                 |
+| BULLETTRAIN_CAR_DIRECTORY_DEPTH_INDICATOR  | Indicator of too deep directory structure.                                                            | `...`                             |
+| BULLETTRAIN_CAR_DIRECTORY_ROOT_SHOW        | Whether the root separator should be displayed. When enabled, the root directory is always displayed. | true                              |
+| BULLETTRAIN_CAR_DIRECTORY_FIRST_DIR_SHOW   | Whether to keep showing the first directory when the path is shortened. e.g.: /usr                    | true                              |
 
 ### OS Car
 

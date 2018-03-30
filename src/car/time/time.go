@@ -7,7 +7,7 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/bullettrain-sh/bullettrain-go-core/pkg/ansi"
+	"github.com/bullettrain-sh/bullettrain-go-core/src/ansi"
 )
 
 const (

@@ -10,7 +10,7 @@ convention: `carSomeName` The name is prefixed by `car`.
 ## Template:
 
 You can have a look at the very simple
-[timeCar](../pkg/car/time/time.go), it shows basic implementation of the
+[timeCar](../src/car/time/time.go), it shows basic implementation of the
 `carRenderer` interface.
 
 When you may want to just permanently change symbol or paint colours,
