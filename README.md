@@ -6,8 +6,6 @@ Bullet Train is a [zsh](http://www.zsh.org/) shell prompt theme inspired
 by the
 [Powerline Vim plugin](https://github.com/Lokaltog/vim-powerline).
 
-[TOC]: #
-
 # Table of Contents
 - [Requirements](#requirements)
 - [Compatible terminal emulators](#compatible-terminal-emulators)
@@ -112,6 +110,7 @@ In order to use the theme, you will first need:
   correctly.
 
 ## Compatible terminal emulators
+
 
 - Linux
 
@@ -316,7 +315,6 @@ Showing current date. Format: `YYYY-MM-DD`
 | BULLETTRAIN_CAR_DATE_SEPARATOR_PAINT    | Colour override for the car's right hand side separator paint. | Using default painting algorythm.              |
 | BULLETTRAIN_CAR_DATE_SEPARATOR_SYMBOL   | Override the car's right hand side separator symbol.           | Using global symbol.                           |
 | BULLETTRAIN_CAR_DATE_SEPARATOR_TEMPLATE | Defines the car separator's template.                          | Using global template.                         |
-
 
 ### User Car
 
