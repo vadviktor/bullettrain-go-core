@@ -16,9 +16,6 @@ sha256sum -b ./releases/bullettrain.linux-armv7 > ./releases/bullettrain.linux-a
 CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -ldflags "-s -w" -a -o ./releases/bullettrain.linux-arm64
 sha256sum -b ./releases/bullettrain.linux-arm64 > ./releases/bullettrain.linux-arm64.sha256
 
-CGO_ENABLED=0 GOOS=linux GOARCH=386 go build -ldflags "-s -w" -a -o ./releases/bullettrain.linux-386
-sha256sum -b ./releases/bullettrain.linux-386 > ./releases/bullettrain.linux-386.sha256
-
 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -a -o ./releases/bullettrain.linux-amd64
 sha256sum -b ./releases/bullettrain.linux-amd64 > ./releases/bullettrain.linux-amd64.sha256
 
