@@ -4,42 +4,48 @@
 [[projects]]
   name = "github.com/bullettrain-sh/bullettrain-go-git"
   packages = ["."]
-  revision = "80320561f221764bd50cf8d86a42417868916e29"
-  version = "v0.7"
+  revision = "d5f35b39e897b1f66fac4134aec9c3ce793f13d6"
+  version = "v1.0.0"
 
 [[projects]]
   name = "github.com/bullettrain-sh/bullettrain-go-golang"
   packages = ["."]
-  revision = "b9a4b1d112bcc6ee6663fb4f5dd22c7b0d596533"
-  version = "v0.7"
+  revision = "e72db4d906785e070e061f5315b57fac44b4bcc9"
+  version = "v1.0.0"
 
 [[projects]]
   name = "github.com/bullettrain-sh/bullettrain-go-nodejs"
   packages = ["."]
-  revision = "86d0bfdaa5d245c5b344da8278940995e2dc449d"
-  version = "v0.7"
+  revision = "f083703512eca241c6eaf04adbbbe3e7c4a33e93"
+  version = "v1.0.0"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/bullettrain-sh/bullettrain-go-openvpn"
+  packages = ["."]
+  revision = "cf27b236c16eb30934bda8b31e57a3db3619ce3f"
 
 [[projects]]
   name = "github.com/bullettrain-sh/bullettrain-go-php"
   packages = ["."]
-  revision = "bc786849e81010c39a643a8c25d28c00fa3a36bc"
-  version = "v0.7"
+  revision = "05371c5076de5e2a09d050420ef81f93cd2725ba"
+  version = "v1.0.0"
 
 [[projects]]
   name = "github.com/bullettrain-sh/bullettrain-go-python"
   packages = ["."]
-  revision = "13d79e73e5fa796f75265316016ad67764c889c3"
-  version = "v0.7"
+  revision = "ed4846f9162682b6accd463826fe70fe877f7088"
+  version = "v1.0.0"
 
 [[projects]]
   name = "github.com/bullettrain-sh/bullettrain-go-ruby"
   packages = ["."]
-  revision = "c7388d51c74e2bba8335d798b5dfb64dd9d145d5"
-  version = "v0.7"
+  revision = "ddafbf46446b4e2101ac3f3c715c989f636ccc6f"
+  version = "v1.0.0"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "0d19f348422bb9a72b695daa8b5324390183f70ce3d8d95bc46b6d29c5ce083a"
+  inputs-digest = "cc39eb11ec77e58eabea5e279a0af683548ca5a4a0fb84020e7d2cf3b647b158"
   solver-name = "gps-cdcl"
   solver-version = 1
