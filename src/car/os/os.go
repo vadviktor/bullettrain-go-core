@@ -56,6 +56,7 @@ func symbol(osName string) string {
 		"linuxmint":  "",
 		"mageia":     "",
 		"mandriva":   "",
+		"manjaro":    "",
 		"opensuse":   "",
 		"raspbian":   "",
 		"redhat":     "",
@@ -76,7 +77,7 @@ func symbol(osName string) string {
 	return symbol
 }
 
-func findOutOs() string {
+func FindOutOs() string {
 	// We know it's a Mac.
 	if runtime.GOOS == "darwin" {
 		return "darwin"
@@ -120,7 +121,7 @@ func (c *Car) Render(out chan<- string) {
 		"cs": func(t string) string { return ansi.Color(t, osSymbolPaint) },
 	}
 
-	osName := findOutOs()
+	osName := FindOutOs()
 	tpl := template.Must(template.New("os").Funcs(funcMap).Parse(s))
 	data := struct {
 		Icon string
