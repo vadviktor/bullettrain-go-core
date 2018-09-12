@@ -15,6 +15,7 @@ const (
 	carPaint    = "white:black"
 	symbolIcon  = ""
 	symbolPaint = "red:black"
+	// language=GoTemplate
 	carTemplate = `{{.Icon | printf "%s" | cs}}{{.Date | c}}`
 )
 

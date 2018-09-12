@@ -20,7 +20,9 @@ import (
 const (
 	defaultCarOrder    = "os time date user host dir python go ruby nodejs php git status"
 	separatorSymbol    = ""
+	// language=GoTemplate
 	separatorTemplate  = `{{.Icon | printf "%s " | c}}`
+	// language=GoTemplate
 	promptCharTemplate = `{{.Icon | printf "%s " | c}}`
 )
 

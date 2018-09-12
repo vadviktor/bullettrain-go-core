@@ -13,6 +13,7 @@ const (
 	carPaint    = "255:160"
 	symbolIcon  = ""
 	symbolPaint = "220:160"
+	// language=GoTemplate
 	carTemplate = `{{.Icon | printf "%s " | cs}}{{.Code | c}}`
 )
 

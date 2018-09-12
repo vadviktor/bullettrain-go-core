@@ -206,6 +206,7 @@ func lineEnding() string {
 // Use it as a closure.
 func flipPaint() func(string, string) string {
 	// foregroundColor+attributes:backgroundColor+attributes
+	// language=GoRegExp
 	colourExp := regexp.MustCompile(`\w*\+?\w*:?(\w*)\+?\w?`)
 
 	flipped := func(currentPaint, nextPaint string) string {

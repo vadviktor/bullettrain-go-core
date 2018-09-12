@@ -15,6 +15,7 @@ import (
 const (
 	carPaint    = "white:cyan"
 	symbolPaint = "white:cyan"
+	// language=GoTemplate
 	carTemplate = `{{.Icon | printf "%s " | cs}}{{.Name | c}}`
 )
 
@@ -89,6 +90,7 @@ func FindOutOs() string {
 		log.Fatalln("/etc/os-release could not be read.")
 	}
 
+	// language=GoRegExp
 	flavourExp := regexp.MustCompile(`ID=([a-z]+)`)
 	flavourParts := flavourExp.FindStringSubmatch(string(fBody))
 

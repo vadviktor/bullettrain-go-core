@@ -11,6 +11,7 @@ import (
 
 const (
 	carPaint    = "black:white"
+	// language=GoTemplate
 	carTemplate = `{{.Host | c}}`
 )
 
