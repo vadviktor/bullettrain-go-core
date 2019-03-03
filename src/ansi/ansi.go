@@ -24,8 +24,9 @@ const (
 	highIntensityBG   = 100
 
 	bold          = "1;"
-	blink         = "5;"
+	italic        = "3;"
 	underline     = "4;"
+	blink         = "5;"
 	inverse       = "7;"
 	strikethrough = "9;"
 )
@@ -33,10 +34,9 @@ const (
 var (
 	plain = false
 
-	start = "%{\u001b["
-	end   = "%}"
+	start = "\u001b["
 	// Reset is the ANSI reset escape sequence.
-	Reset = "%{\u001b[0m%}"
+	Reset = "\u001b[0m"
 
 	// Colors maps common color names to their ANSI color code.
 	Colors = map[string]int{
@@ -101,6 +101,9 @@ func colorCode(style string) *bytes.Buffer {
 		if strings.Contains(fgStyle, "u") {
 			buf.WriteString(underline)
 		}
+		if strings.Contains(fgStyle, "I") {
+			buf.WriteString(italic)
+		}
 		if strings.Contains(fgStyle, "i") {
 			buf.WriteString(inverse)
 		}
@@ -137,7 +140,6 @@ func colorCode(style string) *bytes.Buffer {
 	// remove last ";"
 	buf.Truncate(buf.Len() - 1)
 	buf.WriteRune('m')
-	buf.WriteString(end)
 	return buf
 }
 

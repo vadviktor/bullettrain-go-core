@@ -181,6 +181,7 @@ Foreground Attributes
 
 - B = Blink
 - b = bold
+- I = italic
 - h = high intensity (bright)
 - i = inverse
 - s = strikethrough
