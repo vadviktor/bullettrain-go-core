@@ -34,9 +34,10 @@ const (
 var (
 	plain = false
 
-	start = "\u001b["
+	Start = "%{\u001b["
+	End   = "%}"
 	// Reset is the ANSI reset escape sequence.
-	Reset = "\u001b[0m"
+	Reset = "%{\u001b[0m%}"
 
 	// Colors maps common color names to their ANSI color code.
 	Colors = map[string]int{
@@ -89,7 +90,7 @@ func colorCode(style string) *bytes.Buffer {
 		}
 	}
 
-	buf.WriteString(start)
+	buf.WriteString(Start)
 	base := normalIntensityFG
 	if len(fgStyle) > 0 {
 		if strings.Contains(fgStyle, "b") {
@@ -140,6 +141,7 @@ func colorCode(style string) *bytes.Buffer {
 	// remove last ";"
 	buf.Truncate(buf.Len() - 1)
 	buf.WriteRune('m')
+	buf.WriteString(End)
 	return buf
 }
 
