@@ -2,50 +2,72 @@
 
 
 [[projects]]
+  digest = "1:7e8031f13103e69f8236c015d98dfd6fcbe81799efcbe02368d2af0d53eb3690"
   name = "github.com/bullettrain-sh/bullettrain-go-git"
   packages = ["."]
+  pruneopts = ""
   revision = "d5f35b39e897b1f66fac4134aec9c3ce793f13d6"
   version = "v1.0.0"
 
 [[projects]]
+  digest = "1:04e64468bd7aa0c58d2aff8b3e5ab92bf0527439ef11662f814bbd6c77045f21"
   name = "github.com/bullettrain-sh/bullettrain-go-golang"
   packages = ["."]
+  pruneopts = ""
   revision = "e72db4d906785e070e061f5315b57fac44b4bcc9"
   version = "v1.0.0"
 
 [[projects]]
+  digest = "1:4d2e1e7a2833fde91c6946d679435a89a35f1dd5cf64a83eda6b41adb3b624eb"
   name = "github.com/bullettrain-sh/bullettrain-go-nodejs"
   packages = ["."]
+  pruneopts = ""
   revision = "f083703512eca241c6eaf04adbbbe3e7c4a33e93"
   version = "v1.0.0"
 
 [[projects]]
   branch = "master"
+  digest = "1:06cccfa2e780266b13e622d5bff5fb194bc163686f89da5c324c3dd11e282acc"
   name = "github.com/bullettrain-sh/bullettrain-go-openvpn"
   packages = ["."]
+  pruneopts = ""
   revision = "cf27b236c16eb30934bda8b31e57a3db3619ce3f"
 
 [[projects]]
+  digest = "1:59388ec63fdfbad2eecb83932405d63ef3c917285643ccdf52db05c516f662f9"
   name = "github.com/bullettrain-sh/bullettrain-go-php"
   packages = ["."]
+  pruneopts = ""
   revision = "05371c5076de5e2a09d050420ef81f93cd2725ba"
   version = "v1.0.0"
 
 [[projects]]
+  digest = "1:9dece9adb622cdc20a5895279a0b457a6e04dd766b75345e6cc4fc41c605f2b7"
   name = "github.com/bullettrain-sh/bullettrain-go-python"
   packages = ["."]
+  pruneopts = ""
   revision = "ed4846f9162682b6accd463826fe70fe877f7088"
   version = "v1.0.0"
 
 [[projects]]
+  digest = "1:75ffcbe142a915ce0be66f5a2cda9c2af58871f1f0fe178bdef8dd14bbdfce33"
   name = "github.com/bullettrain-sh/bullettrain-go-ruby"
   packages = ["."]
+  pruneopts = ""
   revision = "ddafbf46446b4e2101ac3f3c715c989f636ccc6f"
   version = "v1.0.0"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "cc39eb11ec77e58eabea5e279a0af683548ca5a4a0fb84020e7d2cf3b647b158"
+  input-imports = [
+    "github.com/bullettrain-sh/bullettrain-go-git",
+    "github.com/bullettrain-sh/bullettrain-go-golang",
+    "github.com/bullettrain-sh/bullettrain-go-nodejs",
+    "github.com/bullettrain-sh/bullettrain-go-openvpn",
+    "github.com/bullettrain-sh/bullettrain-go-php",
+    "github.com/bullettrain-sh/bullettrain-go-python",
+    "github.com/bullettrain-sh/bullettrain-go-ruby",
+  ]
   solver-name = "gps-cdcl"
   solver-version = 1
