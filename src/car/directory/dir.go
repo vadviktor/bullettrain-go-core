@@ -1,7 +1,6 @@
 package carDirectory
 
 import (
-	"math"
 	"os"
 	"strconv"
 	"strings"
@@ -11,7 +10,8 @@ import (
 
 const (
 	carPaint        = "white:blue"
-	separatorSymbol = ""
+	separatorSymbol = "/"
+	ellipsisSymbol  = "*"
 	depthIndicator  = "..."
 )
 
@@ -58,62 +58,61 @@ func rebuildDirForRender(directory string) string {
 		sep = separatorSymbol
 	}
 
-	d := ""
-	if r := os.Getenv("BULLETTRAIN_CAR_DIRECTORY_ROOT_SHOW"); r != "false" {
-		d = sep
-	}
-
 	if strings.HasPrefix(directory, os.Getenv("HOME")) {
-		directory = strings.Replace(directory, os.Getenv("HOME"),
-			string(os.PathSeparator)+"~", 1)
+		directory = strings.Replace(directory, os.Getenv("HOME"), "~", 1)
 	}
 
 	directoryParts := strings.Split(directory, string(os.PathSeparator))
-	directoryParts = directoryParts[1:]
 	l := len(directoryParts)
 
-	maxLength := 3.0
-	if e := os.Getenv("BULLETTRAIN_CAR_DIRECTORY_MAX_LENGHT"); e != "" {
-		if ml, err := strconv.ParseFloat(e, 32); err == nil {
-			maxLength = ml
+	frontMaxLength := 2
+	if e := os.Getenv("BULLETTRAIN_CAR_DIRECTORY_FRONT_MAX_LENGTH"); e != "" {
+		if ml, err := strconv.ParseInt(e, 10, 32); err == nil {
+			frontMaxLength = int(ml)
 		}
 	}
 
-	if l > int(maxLength) && maxLength > 0 {
+	tailMaxLength := 1
+	if e := os.Getenv("BULLETTRAIN_CAR_DIRECTORY_TAIL_MAX_LENGTH"); e != "" {
+		if ml, err := strconv.ParseInt(e, 10, 32); err == nil {
+			tailMaxLength = int(ml)
+		}
+	}
+
+	if l > frontMaxLength+tailMaxLength && frontMaxLength > 0 && tailMaxLength > 0 {
 		var partsReconstruct []string
 
-		var firstDir string
-		if firstDir = os.Getenv("BULLETTRAIN_CAR_DIRECTORY_FIRST_DIR_SHOW"); firstDir != "false" {
-			firstDir = "true"
+		acronymMode := true
+		if e := os.Getenv("BULLETTRAIN_CAR_DIRECTORY_ACRONYM_MODE"); e == "false" {
+			acronymMode = false
 		}
 
-		if firstDir == "true" && maxLength > 1 {
-			head := 2 - int(math.Floor(maxLength/2))
-			partsReconstruct = directoryParts[0:head]
-		} else if firstDir == "true" && maxLength == 1 {
-			partsReconstruct = directoryParts[0:1]
+		partsReconstruct = append(partsReconstruct, directoryParts[0:frontMaxLength]...)
+
+		if acronymMode {
+			var es string
+			if es = os.Getenv("BULLETTRAIN_CAR_DIRECTORY_ELLIPSIS"); es == "" {
+				es = ellipsisSymbol
+			}
+
+			for _, part := range directoryParts[frontMaxLength:len(directoryParts)-tailMaxLength] {
+				partsReconstruct = append(partsReconstruct, part[:1] + es)
+			}
+		} else{
+			var di string
+			if di = os.Getenv("BULLETTRAIN_CAR_DIRECTORY_DEPTH_INDICATOR"); di == "" {
+				di = depthIndicator
+			}
+
+			partsReconstruct = append(partsReconstruct, di)
 		}
 
-		var di string
-		if di = os.Getenv("BULLETTRAIN_CAR_DIRECTORY_DEPTH_INDICATOR"); di == "" {
-			di = depthIndicator
-		}
+		partsReconstruct = append(partsReconstruct, directoryParts[len(directoryParts)-tailMaxLength:]...)
 
-		partsReconstruct = append(partsReconstruct, di)
-
-		tail := l - int(math.Ceil(maxLength/2))
-		if firstDir == "false" && maxLength > 1 {
-			tail -= 1
-		}
-		partsReconstruct = append(partsReconstruct,
-			directoryParts[tail:l]...)
-
-		d = d + strings.Join(partsReconstruct, sep)
+		return strings.Join(partsReconstruct, sep)
 	} else {
-		d = d + strings.Join(directoryParts, sep)
+		return strings.Join(directoryParts, sep)
 	}
-
-	return d
 }
 
 // GetSeparatorPaint overrides the Fg/Bg colours of the right hand side
