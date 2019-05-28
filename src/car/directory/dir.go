@@ -72,7 +72,7 @@ func rebuildDirForRender(directory string) string {
 		}
 	}
 
-	tailMaxLength := 1
+	tailMaxLength := 2
 	if e := os.Getenv("BULLETTRAIN_CAR_DIRECTORY_TAIL_MAX_LENGTH"); e != "" {
 		if ml, err := strconv.ParseInt(e, 10, 32); err == nil {
 			tailMaxLength = int(ml)
@@ -82,29 +82,33 @@ func rebuildDirForRender(directory string) string {
 	if l > frontMaxLength+tailMaxLength && frontMaxLength > 0 && tailMaxLength > 0 {
 		var partsReconstruct []string
 
-		acronymMode := true
-		if e := os.Getenv("BULLETTRAIN_CAR_DIRECTORY_ACRONYM_MODE"); e == "false" {
-			acronymMode = false
+		acronymMode := "acronym"
+		if e := os.Getenv("BULLETTRAIN_CAR_DIRECTORY_ACRONYM_MODE"); e != "" {
+			acronymMode = e
 		}
 
 		partsReconstruct = append(partsReconstruct, directoryParts[0:frontMaxLength]...)
 
-		if acronymMode {
+		switch acronymMode {
+		case "merge":
+			var di string
+			if di = os.Getenv("BULLETTRAIN_CAR_DIRECTORY_DEPTH_INDICATOR"); di == "" {
+				di = depthIndicator
+			}
+			partsReconstruct = append(partsReconstruct, di)
+		default:
 			var es string
 			if es = os.Getenv("BULLETTRAIN_CAR_DIRECTORY_ELLIPSIS"); es == "" {
 				es = ellipsisSymbol
 			}
 
-			for _, part := range directoryParts[frontMaxLength:len(directoryParts)-tailMaxLength] {
-				partsReconstruct = append(partsReconstruct, part[:1] + es)
+			for _, part := range directoryParts[frontMaxLength : len(directoryParts)-tailMaxLength] {
+				if len(part) > 1 {
+					partsReconstruct = append(partsReconstruct, part[:1]+es)
+				} else {
+					partsReconstruct = append(partsReconstruct, part)
+				}
 			}
-		} else{
-			var di string
-			if di = os.Getenv("BULLETTRAIN_CAR_DIRECTORY_DEPTH_INDICATOR"); di == "" {
-				di = depthIndicator
-			}
-
-			partsReconstruct = append(partsReconstruct, di)
 		}
 
 		partsReconstruct = append(partsReconstruct, directoryParts[len(directoryParts)-tailMaxLength:]...)
