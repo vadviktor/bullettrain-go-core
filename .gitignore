@@ -2,3 +2,4 @@ releases/
 !releases/.gitkeep
 vendor/
 /tmp/
+.idea
