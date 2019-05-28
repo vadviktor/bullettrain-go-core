@@ -83,14 +83,14 @@ func rebuildDirForRender(directory string) string {
 	if l > frontMaxLength+tailMaxLength && frontMaxLength > 0 && tailMaxLength > 0 {
 		var partsReconstruct []string
 
-		acronymMode := "acronym"
-		if e := os.Getenv("BULLETTRAIN_CAR_DIRECTORY_ACRONYM_MODE"); e != "" {
-			acronymMode = e
+		abbreviateMode := "acronym"
+		if e := os.Getenv("BULLETTRAIN_CAR_DIRECTORY_ABBREVIATE_MODE"); e != "" {
+			abbreviateMode = e
 		}
 
 		partsReconstruct = append(partsReconstruct, directoryParts[0:frontMaxLength]...)
 
-		switch acronymMode {
+		switch abbreviateMode {
 		case "merge":
 			var di string
 			if di = os.Getenv("BULLETTRAIN_CAR_DIRECTORY_DEPTH_INDICATOR"); di == "" {

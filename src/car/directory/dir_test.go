@@ -47,7 +47,7 @@ func TestMergeMode(t *testing.T) {
 	setup()
 	os.Setenv("BULLETTRAIN_CAR_DIRECTORY_FRONT_MAX_LENGTH", "2")
 	os.Setenv("BULLETTRAIN_CAR_DIRECTORY_TAIL_MAX_LENGTH", "1")
-	os.Setenv("BULLETTRAIN_CAR_DIRECTORY_ACRONYM_MODE", "merge")
+	os.Setenv("BULLETTRAIN_CAR_DIRECTORY_ABBREVIATE_MODE", "merge")
 	directory := filepath.Clean("/usr/share/doc/vpn/easy")
 	expected := "usr...easy"
 
@@ -92,7 +92,7 @@ func TestCustomAcronymSymbol(t *testing.T) {
 
 func TestCustomDepthIndicator(t *testing.T) {
 	setup()
-	os.Setenv("BULLETTRAIN_CAR_DIRECTORY_ACRONYM_MODE", "merge")
+	os.Setenv("BULLETTRAIN_CAR_DIRECTORY_ABBREVIATE_MODE", "merge")
 	os.Setenv("BULLETTRAIN_CAR_DIRECTORY_DEPTH_INDICATOR", "+++")
 	directory := filepath.Clean(filepath.Clean("/usr/share/doc/vpn/easy"))
 	expected := "usr+++vpneasy"
