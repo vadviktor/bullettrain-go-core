@@ -58,8 +58,9 @@ func rebuildDirForRender(directory string) string {
 		sep = separatorSymbol
 	}
 
-	if strings.HasPrefix(directory, os.Getenv("HOME")) {
-		directory = strings.Replace(directory, os.Getenv("HOME"), "~", 1)
+	home := os.Getenv("HOME")
+	if home != "" && strings.HasPrefix(directory, home) {
+		directory = strings.Replace(directory, home, "~", 1)
 	}
 
 	directoryParts := strings.Split(directory, string(os.PathSeparator))
