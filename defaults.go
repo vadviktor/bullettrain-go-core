@@ -15,13 +15,14 @@ import (
 	"github.com/bullettrain-sh/bullettrain-go-php"
 	"github.com/bullettrain-sh/bullettrain-go-python"
 	"github.com/bullettrain-sh/bullettrain-go-ruby"
+	"github.com/devkanro/bullettrain-go-k8s"
 )
 
 const (
-	defaultCarOrder    = "os time date user host dir python go ruby nodejs php git status"
-	separatorSymbol    = ""
+	defaultCarOrder = "os k8s time date user host dir python go ruby nodejs php git status"
+	separatorSymbol = ""
 	// language=GoTemplate
-	separatorTemplate  = `{{.Icon | printf "%s " | c}}`
+	separatorTemplate = `{{.Icon | printf "%s " | c}}`
 	// language=GoTemplate
 	promptCharTemplate = `{{.Icon | printf "%s " | c}}`
 )
@@ -43,5 +44,6 @@ func trailers(currentWorkingDir string) map[string]carRenderer {
 		"status":  &carStatus.Car{},
 		"openvpn": &carOpenvpn.Car{},
 		"time":    &carTime.Car{},
+		"k8s":     &carK8s.Car{},
 	}
 }
