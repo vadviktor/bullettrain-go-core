@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"os/exec"
 	"os/user"
 	"regexp"
 	"strings"
@@ -105,20 +104,15 @@ func main() {
 		fmt.Println("")
 		fmt.Printf("%+q", n.String())
 	} else {
+		fmt.Println("")
 		fmt.Print(n.String())
 	}
 }
 
 // pwd returns the current directory path.
 func pwd() string {
-	cmd := exec.Command("pwd", "-P")
-	pwd, err := cmd.Output()
-	var d string
-	if err == nil {
-		d = strings.Trim(string(pwd), "\n")
-	}
-
-	return d
+	pwd, _ := os.Getwd()
+	return pwd
 }
 
 func carsOrder() (o []string) {

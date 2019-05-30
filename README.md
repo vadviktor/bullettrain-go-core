@@ -380,17 +380,18 @@ Showing current directory.
 
 **Options**
 
-| Environment variable                       | Description                                                                                           | Default value                     |
-|:-------------------------------------------|:------------------------------------------------------------------------------------------------------|:----------------------------------|
-| BULLETTRAIN_CAR_DIRECTORY_SHOW             | Whether the car needs to be shown.                                                                    | true                              |
-| BULLETTRAIN_CAR_DIRECTORY_PAINT            | Colour override for the car's paint.                                                                  | white:blue                        |
-| BULLETTRAIN_CAR_DIRECTORY_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint.                                        | Using default painting algorythm. |
-| BULLETTRAIN_CAR_DIRECTORY_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.                                                  | Using global symbol.              |
-| BULLETTRAIN_CAR_DIRECTORY_PATH_SEPARATOR   | Set a custom path separator character.                                                                | ``                               |
-| BULLETTRAIN_CAR_DIRECTORY_MAX_LENGHT       | Set the number of parent directories displayed. Setting it to 0 means to show all of them.            | 3                                 |
-| BULLETTRAIN_CAR_DIRECTORY_DEPTH_INDICATOR  | Indicator of too deep directory structure.                                                            | `...`                             |
-| BULLETTRAIN_CAR_DIRECTORY_ROOT_SHOW        | Whether the root separator should be displayed. When enabled, the root directory is always displayed. | true                              |
-| BULLETTRAIN_CAR_DIRECTORY_FIRST_DIR_SHOW   | Whether to keep showing the first directory when the path is shortened. e.g.: /usr                    | true                              |
+| Environment variable                       | Description                                                                                                                                                 | Default value                     |
+|:-------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------------------|
+| BULLETTRAIN_CAR_DIRECTORY_SHOW             | Whether the car needs to be shown.                                                                                                                          | true                              |
+| BULLETTRAIN_CAR_DIRECTORY_PAINT            | Colour override for the car's paint.                                                                                                                        | white:blue                        |
+| BULLETTRAIN_CAR_DIRECTORY_SEPARATOR_PAINT  | Colour override for the car's right hand side separator paint.                                                                                              | Using default painting algorythm. |
+| BULLETTRAIN_CAR_DIRECTORY_SEPARATOR_SYMBOL | Override the car's right hand side separator symbol.                                                                                                        | Using global symbol.              |
+| BULLETTRAIN_CAR_DIRECTORY_PATH_SEPARATOR   | Set a custom path separator character.                                                                                                                      | ``                             |
+| BULLETTRAIN_CAR_DIRECTORY_FRONT_MAX_LENGTH | Set the number of parent directories's front displayed. Setting it to negative means to show all of directories.                                            | 2                                 |
+| BULLETTRAIN_CAR_DIRECTORY_TAIL_MAX_LENGTH  | Set the number of parent directories's tail displayed. Setting it to negative means to show all of directories.                                             | 2                                 |
+| BULLETTRAIN_CAR_DIRECTORY_DEPTH_INDICATOR  | Indicator of too deep directory structure in `merge` mode.                                                                                                  | `...`                             |
+| BULLETTRAIN_CAR_DIRECTORY_ELLIPSIS         | Ellipsis symbol of directory name in `acronym` mode.                                                                                                        | `*`                               |
+| BULLETTRAIN_CAR_DIRECTORY_ABBREVIATE_MODE  | Abbreviate mode of too deep directory structure. Set to `merge` for using "/usr/lib/.../pkg" style, set to `acronym` for using "/user/lib/g*/s*/pkg" style. | `acronym`                         |
 
 ### OS Car
 
