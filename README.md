@@ -700,6 +700,38 @@ ZSH example:
 | BULLETTRAIN_CAR_PHP_SEPARATOR_SYMBOL   | Override the car's right hand side separator symbol.           | Using global symbol.                            |
 | BULLETTRAIN_CAR_PHP_SEPARATOR_TEMPLATE | Defines the car separator's template.                          | Using global template.                          |
 
+### Kubernetes Car
+
+Originally from: https://github.com/devkanro
+
+- Displaying only when kubectl installed
+- Kubernetes context display
+
+
+**Callword**: `k8s`
+
+**Template variables**:
+
+* `.Icon`: the car's icon
+* `.Context`: the Kubernetes context text
+
+**Template colours**:
+
+* `c`: the car's colour
+
+
+**Options**
+
+| Environment variable                  | Description                                                    | Default value                                   |
+|:--------------------------------------|:---------------------------------------------------------------|:------------------------------------------------|
+| BULLETTRAIN_CAR_K8S_SHOW               | Whether the car needs to be shown all the time.                | true                                           |
+| BULLETTRAIN_CAR_K8S_TEMPLATE           | The car's template.                                            | `{{.Icon \| printf " %s " \| c}}{{.Context \| c}}` |
+| BULLETTRAIN_CAR_K8S_PAINT              | Colour override for the car's paint.                           | white+h:yellow                                       |
+| BULLETTRAIN_CAR_K8S_SYMBOL_ICON        | Icon displayed on the car.                                     | `⎈`                                             |
+| BULLETTRAIN_CAR_K8S_SEPARATOR_PAINT    | Colour override for the car's right hand side separator paint. | Using default painting algorythm.               |
+| BULLETTRAIN_CAR_K8S_SEPARATOR_SYMBOL   | Override the car's right hand side separator symbol.           | Using global symbol.                            |
+| BULLETTRAIN_CAR_K8S_SEPARATOR_TEMPLATE | Defines the car separator's template.                          | Using global template.                          |
+
 
 ## Development
 

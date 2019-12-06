@@ -6,6 +6,7 @@ import (
 	"github.com/bullettrain-sh/bullettrain-go-core/src/car/git"
 	"github.com/bullettrain-sh/bullettrain-go-core/src/car/golang"
 	"github.com/bullettrain-sh/bullettrain-go-core/src/car/host"
+	"github.com/bullettrain-sh/bullettrain-go-core/src/car/kubernetes"
 	"github.com/bullettrain-sh/bullettrain-go-core/src/car/nodejs"
 	"github.com/bullettrain-sh/bullettrain-go-core/src/car/openvpn"
 	"github.com/bullettrain-sh/bullettrain-go-core/src/car/os"
@@ -43,5 +44,6 @@ func trailers(currentWorkingDir string) map[string]carRenderer {
 		"php":     &carPhp.Car{Pwd: currentWorkingDir},
 		"python":  &carPython.Car{Pwd: currentWorkingDir},
 		"ruby":    &carRuby.Car{Pwd: currentWorkingDir},
+		"k8s":     &carK8s.Car{Pwd: currentWorkingDir},
 	}
 }
