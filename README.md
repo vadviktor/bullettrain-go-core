@@ -59,17 +59,17 @@ Core cars:
 
 External modules can show:
 
-- Git status (https://github.com/bullettrain-sh/bullettrain-go-git)
+- Git status (<https://github.com/bullettrain-sh/bullettrain-go-git>)
 - Current Python version and/or virtualenv
-  (https://github.com/bullettrain-sh/bullettrain-go-python)
+  (<https://github.com/bullettrain-sh/bullettrain-go-python>)
 - Current Ruby version and/or gemset
-  (https://github.com/bullettrain-sh/bullettrain-go-ruby)
+  (<https://github.com/bullettrain-sh/bullettrain-go-ruby>)
 - Current Node.js version
-  (https://github.com/bullettrain-sh/bullettrain-go-nodejs)
+  (<https://github.com/bullettrain-sh/bullettrain-go-nodejs>)
 - Current Golang version
-  (https://github.com/bullettrain-sh/bullettrain-go-golang)
+  (<https://github.com/bullettrain-sh/bullettrain-go-golang>)
 - Current PHP version
-  (https://github.com/bullettrain-sh/bullettrain-go-php)
+  (<https://github.com/bullettrain-sh/bullettrain-go-php>)
 - _more are coming as we are going through the existing ones for the
   [ZSH version](https://github.com/caiogondim/bullet-train.zsh)_
 
@@ -126,7 +126,7 @@ In order to use the theme, you will first need:
 
 1, We have prepared release executables on our release page
 
-https://github.com/bullettrain-sh/bullettrain-go-core/releases.
+<https://github.com/bullettrain-sh/bullettrain-go-core/releases>.
 
 Download the one that matches your architecture and OS.
 
@@ -463,7 +463,243 @@ ZSH example:
 
 ### Background jobs Car
 
-https://github.com/bullettrain-sh/bullettrain-go-core/issues/24
+<https://github.com/bullettrain-sh/bullettrain-go-core/issues/24>
+
+### Git Car
+
+- Displaying only when needed
+- Current branch name
+- State of the branch
+
+**Callword**: `git`
+
+**Template variables**:
+
+* `.Icon`: the car's icon
+* `.Name`: the name of the branch
+* `.StatusIcon`: the status icons
+
+**Template colours**:
+
+* `c`: the car's colour
+* `cs`: the car symbol's colour
+* `css`: the status icon symbol's colour
+
+**Options**
+
+| Environment variable                   | Description                                                    | Default value                                                                        |
+|:---------------------------------------|:---------------------------------------------------------------|:-------------------------------------------------------------------------------------|
+| BULLETTRAIN_CAR_GIT_PAINT              | Colour override for the car't paint.                           | red:white                                                                            |
+| BULLETTRAIN_CAR_GIT_TEMPLATE           | The car's template.                                            | `{{.Icon \| printf "%s " \| cs}}{{.Name \| c}}{{.StatusIcon \| printf " %s"\| csi}}` |
+| BULLETTRAIN_CAR_GIT_SYMBOL_ICON        | Icon displayed on the car.                                     | ``                                                                                  |
+| BULLETTRAIN_CAR_GIT_SYMBOL_PAINT       | Colour override for the car's symbol.                          | red:white                                                                            |
+| BULLETTRAIN_CAR_GIT_DIRTY_ICON         | Icon displayed when there are changes.                         | `✘`                                                                                  |
+| BULLETTRAIN_CAR_GIT_DIRTY_PAINT        | Colour override for the dirty symbol.                          | red:white                                                                            |
+| BULLETTRAIN_CAR_GIT_CLEAN_ICON         | Icon displayed when there are no changes.                      | `✔`                                                                                  |
+| BULLETTRAIN_CAR_GIT_CLEAN_PAINT        | Colour override for the clean symbol.                          | green:white                                                                          |
+| BULLETTRAIN_CAR_GIT_SEPARATOR_PAINT    | Colour override for the car's right hand side separator paint. | Using default painting algorythm.                                                    |
+| BULLETTRAIN_CAR_GIT_SEPARATOR_SYMBOL   | Override the car's right hand side separator symbol.           | Using global symbol.                                                                 |
+| BULLETTRAIN_CAR_GIT_SEPARATOR_TEMPLATE | Defines the car separator's template.                          | Using global template.                                                               |
+
+### Go Car
+
+- Displaying only when needed
+- Go version display
+
+**Callword**: `go`
+
+**Template variables**:
+
+* `.Icon`: the car's icon
+* `.Info`: the Go version text
+
+**Template colours**:
+
+* `c`: the car's colour
+* `cs`: the car symbol's colour
+
+**Options**
+
+| Environment variable                  | Description                                                    | Default value                                   |
+|:--------------------------------------|:---------------------------------------------------------------|:------------------------------------------------|
+| BULLETTRAIN_CAR_GO_SHOW               | Whether the car needs to be shown all the time.                | false                                           |
+| BULLETTRAIN_CAR_GO_TEMPLATE           | The car's template.                                            | `{{.Icon \| printf "%s " \| cs}}{{.Info \| c}}` |
+| BULLETTRAIN_CAR_GO_PAINT              | Colour override for the car's paint.                           | black:123                                       |
+| BULLETTRAIN_CAR_GO_SYMBOL_ICON        | Icon displayed on the car.                                     | ``                                             |
+| BULLETTRAIN_CAR_GO_SYMBOL_PAINT       | Colour override for the car's symbol.                          | black:123                                       |
+| BULLETTRAIN_CAR_GO_SEPARATOR_PAINT    | Colour override for the car's right hand side separator paint. | Using default painting algorythm.               |
+| BULLETTRAIN_CAR_GO_SEPARATOR_SYMBOL   | Override the car's right hand side separator symbol.           | Using global symbol.                            |
+| BULLETTRAIN_CAR_GO_SEPARATOR_TEMPLATE | Defines the car separator's template.                          | Using global template.                          |
+
+### Node.js Car
+
+- Displaying only when needed (*.js, .nvmrc)
+- Node version display
+
+
+**Callword**: `nodejs`
+
+**Template variables**:
+
+* `.Icon`: the car's icon
+* `.Info`: the Nodejs version text
+
+**Template colours**:
+
+* `c`: the car's colour
+* `cs`: the car symbol's colour
+
+
+**Options**
+
+| Environment variable                      | Description                                                    | Default value                                   |
+|:------------------------------------------|:---------------------------------------------------------------|:------------------------------------------------|
+| BULLETTRAIN_CAR_NODEJS_SHOW               | Whether the car needs to be shown all the time.                | false                                           |
+| BULLETTRAIN_CAR_NODEJS_TEMPLATE           | The car's template.                                            | `{{.Icon \| printf "%s " \| cs}}{{.Info \| c}}` |
+| BULLETTRAIN_CAR_NODEJS_PAINT              | Colour override for the car's paint.                           | white:green                                     |
+| BULLETTRAIN_CAR_NODEJS_SYMBOL_ICON        | Icon displayed on the car.                                     | ``                                             |
+| BULLETTRAIN_CAR_NODEJS_SYMBOL_PAINT       | Colour override for the car's symbol.                          | black:green                                     |
+| BULLETTRAIN_CAR_NODEJS_SEPARATOR_PAINT    | Colour override for the car's right hand side separator paint. | Using default painting algorythm.               |
+| BULLETTRAIN_CAR_NODEJS_SEPARATOR_SYMBOL   | Override the car's right hand side separator symbol.           | Using global symbol.                            |
+| BULLETTRAIN_CAR_NODEJS_SEPARATOR_TEMPLATE | Defines the car separator's template.                          | Using global template.                          |
+
+### Openvpn Car
+
+- Displaying all known VPNs and their up/down status
+- Currently working only with systemd units
+
+**Callword**: `openvpn`
+
+**Template variables**:
+
+* `.Icon`: the car's icon
+* `.Statuses`: the VPN status icon
+
+**Template colours**:
+
+* `c`: the car's colour
+* `cs`: the car symbol's colour
+
+
+**Options**
+
+| Environment variable                          | Description                                                    | Default value                                                                                            |
+|:----------------------------------------------|:---------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------|
+| BULLETTRAIN_CAR_OPENVPN_SHOW                  | Whether the car needs to be shown all the time.                | false                                                                                                    |
+| BULLETTRAIN_CAR_OPENVPN_TEMPLATE              | The car's template.                                            | `{{.Icon | printf "%s " | cs}}{{range $name, $status := .Statuses}}{{printStatus $name $status}}{{end}}` |
+| BULLETTRAIN_CAR_OPENVPN_PAINT                 | Colour override for the car't paint.                           | 208:black                                                                                                |
+| BULLETTRAIN_CAR_OPENVPN_SYMBOL_ICON           | Icon displayed on the car.                                     | ``                                                                                                      |
+| BULLETTRAIN_CAR_OPENVPN_SYMBOL_PAINT          | Colour override for the car's symbol.                          | 208:black                                                                                                |
+| BULLETTRAIN_CAR_OPENVPN_SYMBOL_ICON_LOCKED    | Icon displayed when the VPN connection is up.                  | ``                                                                                                      |
+| BULLETTRAIN_CAR_OPENVPN_SYMBOL_PAINT_LOCKED   | Colour override for the VPN up symbol.                         | green:black                                                                                              |
+| BULLETTRAIN_CAR_OPENVPN_SYMBOL_ICON_UNLOCKED  | Icon displayed when the VPN connection is down.                | ``                                                                                                      |
+| BULLETTRAIN_CAR_OPENVPN_SYMBOL_PAINT_UNLOCKED | Colour override for the VPN down symbol.                       | red:black                                                                                                |
+| BULLETTRAIN_CAR_OPENVPN_SEPARATOR_PAINT       | Colour override for the car's right hand side separator paint. | Using default painting algorythm.                                                                        |
+| BULLETTRAIN_CAR_OPENVPN_SEPARATOR_SYMBOL      | Override the car's right hand side separator symbol.           | Using global symbol.                                                                                     |
+| BULLETTRAIN_CAR_OPENVPN_SEPARATOR_TEMPLATE    | Defines the car separator's template.                          | Using global template.                                                                                   |
+
+### Python Car
+
+- Displaying only when needed
+- Python version display
+- Virtualenv display
+* Support for [Pyenv](https://github.com/pyenv/pyenv) and it's
+  [virtualenv](https://github.com/pyenv/pyenv-virtualenv) plugin
+
+**Callword**: `python`
+
+**Template variables**:
+
+* `.VersionIcon`: the Python version icon
+* `.Version`: the Python version text
+* `.VenvIcon`: the Python virtualenv icon
+* `.Venv`: the Python virtualenv text
+
+**Template colours**:
+
+* `c`: the Python version colour
+* `cs`: the Python version symbol's colour
+* `cvs`: the Python virtualenv symbol's colour
+
+
+**Options**
+
+| Environment variable                           | Description                                                    | Default value                                                                                                               |
+|:-----------------------------------------------|:---------------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------|
+| BULLETTRAIN_CAR_PYTHON_SHOW                    | Whether the car needs to be shown all the time.                | false                                                                                                                       |
+| BULLETTRAIN_CAR_PYTHON_TEMPLATE                | The car's template.                                            | `{{.VersionIcon \| printf "%s " \| cs}}{{.Version \| printf "%s " \| c}}{{.VenvIcon \| printf "%s " \| cvs}}{{.Venv \| c}}` |
+| BULLETTRAIN_CAR_PYTHON_PAINT                   | Colour override for the car't paint.                           | black:220                                                                                                                   |
+| BULLETTRAIN_CAR_PYTHON_SYMBOL_ICON             | Icon displayed on the car.                                     | ``                                                                                                                         |
+| BULLETTRAIN_CAR_PYTHON_SYMBOL_PAINT            | Colour override for the car's symbol.                          | 32:220                                                                                                                      |
+| BULLETTRAIN_CAR_PYTHON_VIRTUALENV_SYMBOL_ICON  | Icon displayed on the car.                                     | `🐍`                                                                                                                        |
+| BULLETTRAIN_CAR_PYTHON_VIRTUALENV_SYMBOL_PAINT | Colour override for the car's symbol.                          | 32:220                                                                                                                      |
+| BULLETTRAIN_CAR_PYTHON_SEPARATOR_PAINT         | Colour override for the car's right hand side separator paint. | Using default painting algorythm.                                                                                           |
+| BULLETTRAIN_CAR_PYTHON_SEPARATOR_SYMBOL        | Override the car's right hand side separator symbol.           | Using global symbol.                                                                                                        |
+| BULLETTRAIN_CAR_PYTHON_SEPARATOR_TEMPLATE      | Defines the car separator's template.                          | Using global template.                                                                                                      |
+
+### Ruby Car
+
+- Displaying only when needed
+- Ruby version display
+
+**Callword**: `ruby`
+
+**Template variables**:
+
+* `.Icon`: the car's icon
+* `.Info`: the Ruby version text
+
+**Template colours**:
+
+* `c`: the car's colour
+* `cs`: the car symbol's colour
+
+
+**Options**
+
+| Environment variable                    | Description                                                    | Default value                                   |
+|:----------------------------------------|:---------------------------------------------------------------|:------------------------------------------------|
+| BULLETTRAIN_CAR_RUBY_SHOW               | Whether the car needs to be shown all the time.                | false                                           |
+| BULLETTRAIN_CAR_RUBY_TEMPLATE           | The car's template.                                            | `{{.Icon \| printf "%s " \| cs}}{{.Info \| c}}` |
+| BULLETTRAIN_CAR_RUBY_PAINT              | Colour override for the car't paint.                           | white:red                                       |
+| BULLETTRAIN_CAR_RUBY_SYMBOL_ICON        | Icon displayed on the car.                                     | ``                                             |
+| BULLETTRAIN_CAR_RUBY_SYMBOL_PAINT       | Colour override for the car's symbol.                          | white:red                                       |
+| BULLETTRAIN_CAR_RUBY_SEPARATOR_PAINT    | Colour override for the car's right hand side separator paint. | Using default painting algorythm.               |
+| BULLETTRAIN_CAR_RUBY_SEPARATOR_SYMBOL   | Override the car's right hand side separator symbol.           | Using global symbol.                            |
+| BULLETTRAIN_CAR_RUBY_SEPARATOR_TEMPLATE | Defines the car separator's template.                          | Using global template.                          |
+
+
+### PHP Car
+
+- Displaying only when needed
+- PHP version display
+
+**Callword**: `php`
+
+**Template variables**:
+
+* `.Icon`: the car's icon
+* `.Info`: the PHP version text
+
+**Template colours**:
+
+* `c`: the car's colour
+* `cs`: the car symbol's colour
+
+
+**Options**
+
+| Environment variable                   | Description                                                    | Default value                                   |
+|:---------------------------------------|:---------------------------------------------------------------|:------------------------------------------------|
+| BULLETTRAIN_CAR_PHP_SHOW               | Whether the car needs to be shown all the time.                | false                                           |
+| BULLETTRAIN_CAR_PHP_TEMPLATE           | The car's template.                                            | `{{.Icon \| printf "%s " \| cs}}{{.Info \| c}}` |
+| BULLETTRAIN_CAR_PHP_PAINT              | Colour override for the car't paint.                           | white:69                                        |
+| BULLETTRAIN_CAR_PHP_SYMBOL_ICON        | Icon displayed on the car.                                     | ``                                             |
+| BULLETTRAIN_CAR_PHP_SYMBOL_PAINT       | Colour override for the car's symbol.                          | black:69                                        |
+| BULLETTRAIN_CAR_PHP_SEPARATOR_PAINT    | Colour override for the car's right hand side separator paint. | Using default painting algorythm.               |
+| BULLETTRAIN_CAR_PHP_SEPARATOR_SYMBOL   | Override the car's right hand side separator symbol.           | Using global symbol.                            |
+| BULLETTRAIN_CAR_PHP_SEPARATOR_TEMPLATE | Defines the car separator's template.                          | Using global template.                          |
+
 
 ## Development
 
@@ -471,7 +707,7 @@ https://github.com/bullettrain-sh/bullettrain-go-core/issues/24
 
 We use `go dep` as it is now production ready.
 
-https://github.com/golang/dep
+<https://github.com/golang/dep>
 
 ### Plugins
 
