@@ -44,6 +44,6 @@ func trailers(currentWorkingDir string) map[string]carRenderer {
 		"php":     &carPhp.Car{Pwd: currentWorkingDir},
 		"python":  &carPython.Car{Pwd: currentWorkingDir},
 		"ruby":    &carRuby.Car{Pwd: currentWorkingDir},
-		"k8s":     &carK8s.Car{Pwd: currentWorkingDir},
+		"k8s":     &carK8s.Car{},
 	}
 }
