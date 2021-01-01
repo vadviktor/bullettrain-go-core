@@ -42,6 +42,19 @@ type separator string
 
 // init defines some steps that affects running the program and needs provisioning.
 func init() {
+	if err := os.Setenv("GOGC", "0"); err != nil {
+		panic(err)
+	}
+
+	shell := os.Getenv("SHELL")
+	if strings.HasSuffix(shell, "bash") {
+		//
+	} else if strings.HasSuffix(shell, "zsh") {
+		//
+	} else {
+		panic("Unsupported shell")
+	}
+
 	if d := os.Getenv("BULLETTRAIN_NO_PAINT"); d == "true" {
 		ansi.DisableColors(true)
 	}
@@ -87,6 +100,7 @@ func main() {
 	}
 
 	var n bytes.Buffer
+	n.WriteString(ansi.Reset)
 	// Gather each goroutine's response through their channels,
 	// keeping their order.
 	for _, c := range chans {
@@ -193,7 +207,7 @@ func lineEnding() string {
 		log.Fatalf("Can't generate the prompt char template: %s", err.Error())
 	}
 
-	return symbolFromTpl.String()
+	return symbolFromTpl.String() + ansi.Reset
 }
 
 // flipPaint flips the FG and BG setup in colour strings of cars for a separator.

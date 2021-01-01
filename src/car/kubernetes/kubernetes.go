@@ -13,12 +13,14 @@ import (
 
 const (
 	carPaint    = "white+h:yellow"
-	helmSymbol  = "⎈"
+	helmSymbol  = "\uFD31" // ﴱ
 	carTemplate = `{{.Icon | printf " %s " | c}}{{.Context | c}}`
 )
 
 type Car struct {
 	paint string
+	// Current directory
+	Pwd string
 }
 
 // GetPaint returns the calculated end paint string for the car.

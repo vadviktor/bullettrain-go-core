@@ -14,11 +14,11 @@ import (
 const (
 	carPaint       = "black:white"
 	gitSymbolPaint = "red:white"
-	gitSymbolIcon  = ""
+	gitSymbolIcon  = "\uE702" // 
 	gitDirtyPaint  = "red:white"
-	gitDirtyIcon   = "✘"
+	gitDirtyIcon   = "\uF00D" // 
 	gitCleanPaint  = "green:white"
-	gitCleanIcon   = "✔"
+	gitCleanIcon   = "\uF632" // 
 	carTemplate    = `{{.Icon | printf "%s " | cs}}{{.Name | c}}{{.StatusIcon | printf " %s" | csi}}`
 )
 

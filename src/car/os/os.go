@@ -45,26 +45,29 @@ func (c *Car) CanShow() bool {
 
 func symbol(osName string) string {
 	osSymbols := map[string]string{
-		"arch":       "",
-		"centos":     "",
-		"coreos":     "",
-		"darwin":     "",
-		"debian":     "",
-		"elementary": "",
-		"fedora":     "",
-		"freebsd":    "",
-		"gentoo":     "",
-		"linuxmint":  "",
-		"mageia":     "",
-		"mandriva":   "",
-		"manjaro":    "",
-		"opensuse":   "",
-		"raspbian":   "",
-		"redhat":     "",
-		"sabayon":    "",
-		"slackware":  "",
-		"ubuntu":     "",
-		"tux":        ""}
+		"alpine":     "\uF300", // 
+		"arch":       "\uF303", // 
+		"centos":     "\uF304", // 
+		"coreos":     "\uF305", // 
+		"darwin":     "\uF302", // 
+		"debian":     "\uF306", // 
+		"elementary": "\uF309", // 
+		"fedora":     "\uF30A", // 
+		"freebsd":    "\uF30C", // 
+		"gentoo":     "\uF30D", // 
+		"linuxmint":  "\uF30F", // 
+		"mageia":     "\uF310", // 
+		"mandriva":   "\uF311", // 
+		"manjaro":    "\uF312", // 
+		"nixos":      "\uF313", // 
+		"opensuse":   "\uF314", // 
+		"raspbian":   "\uF315", // 
+		"redhat":     "\uF316", // 
+		"sabayon":    "\uF317", // 
+		"slackware":  "\uF318", // 
+		"ubuntu":     "\uF31C", // 
+		"tux":        "\uF83C", // 
+	}
 
 	var symbol string
 	if symbol = os.Getenv("BULLETTRAIN_CAR_OS_SYMBOL_ICON"); symbol == "" {

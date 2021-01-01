@@ -3,6 +3,7 @@ package ansi
 import (
 	"bytes"
 	"fmt"
+	"os"
 	"strconv"
 	"strings"
 )
@@ -32,12 +33,11 @@ const (
 )
 
 var (
-	plain = false
+	plain bool
 
-	Start = "%{\u001b["
-	End   = "%}"
-	// Reset is the ANSI reset escape sequence.
-	Reset = "%{\u001b[0m%}"
+	Start string
+	End   string
+	Reset string
 
 	// Colors maps common color names to their ANSI color code.
 	Colors = map[string]int{
@@ -56,6 +56,17 @@ var (
 func init() {
 	for i := 0; i < 256; i++ {
 		Colors[strconv.Itoa(i)] = i
+	}
+
+	shell := os.Getenv("SHELL")
+	if strings.HasSuffix(shell, "bash") {
+		Start = "\\[\033["
+		End = "\\]"
+		Reset = "\\[\033[0m\\]"
+	} else if strings.HasSuffix(shell, "zsh") {
+		Start = "%{\033["
+		End = "%}"
+		Reset = "%{\033[0m%}"
 	}
 }
 

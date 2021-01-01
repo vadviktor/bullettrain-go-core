@@ -12,7 +12,7 @@ import (
 
 const (
 	carPaint    = "black:white"
-	symbolIcon  = ""
+	symbolIcon  = "\uF43A" // 
 	symbolPaint = "black:white"
 	// language=GoTemplate
 	carTemplate = `{{.Icon | printf " %s " | cs}}{{.Time | c}}`

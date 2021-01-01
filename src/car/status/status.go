@@ -11,7 +11,7 @@ import (
 
 const (
 	carPaint    = "255:160"
-	symbolIcon  = ""
+	symbolIcon  = "\uF490" // 
 	symbolPaint = "220:160"
 	// language=GoTemplate
 	carTemplate = `{{.Icon | printf "%s " | cs}}{{.Code | c}}`
@@ -33,11 +33,7 @@ func (c *Car) GetPaint() string {
 
 // CanShow decides if this car needs to be displayed.
 func (c *Car) CanShow() bool {
-	if len(os.Args) > 1 {
-		return os.Args[1] != "" && os.Args[1] != "0"
-	}
-
-	return false
+	return len(os.Args) > 1 && os.Args[1] != "" && os.Args[1] != "0"
 }
 
 // Render builds and passes the end product of a completely composed car onto

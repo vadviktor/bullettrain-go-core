@@ -9,8 +9,8 @@ import (
 const failTpl = "Unexpected directory format.\nEXPECTED: %s\nGOT:      %s"
 
 func setup() {
-	os.Setenv("BULLETTRAIN_CAR_DIRECTORY_PATH_SEPARATOR", "")
-	os.Setenv("BULLETTRAIN_CAR_DIRECTORY_DEPTH_INDICATOR", "...")
+	os.Setenv("BULLETTRAIN_CAR_DIRECTORY_PATH_SEPARATOR", "\uF105")  // 
+	os.Setenv("BULLETTRAIN_CAR_DIRECTORY_DEPTH_INDICATOR", "\uF141") // 
 }
 
 func TestFullPath(t *testing.T) {

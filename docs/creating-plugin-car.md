@@ -89,4 +89,4 @@ export BULLETTRAIN_CAR_PLUGIN_DEMO_VPN_SYMBOL_PAINT="yellow:black"
 After defining the rest of the needed env variables, the output should
 be displayed as a new car at the end.
 
-![output](../readme_assets/3rdparty.png)
+![output](../readme_assets/3rdparty_drop-shadow.png)

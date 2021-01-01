@@ -17,8 +17,8 @@ import (
 const (
 	carPaint              = "black:220"
 	pythonSymbolPaint     = "32:220"
-	pythonSymbolIcon      = ""
-	virtualenvSymbolIcon  = "🐍"
+	pythonSymbolIcon      = "\uE235"           // 
+	virtualenvSymbolIcon  = "\xf0\x9f\x90\x8d" // 🐍
 	virtualenvSymbolPaint = "32:220"
 	// language=GoTemplate
 	carTemplate = `{{.VersionIcon | printf "%s " | cs}}{{.Version | printf "%s " | c}}{{.VenvIcon | printf "%s " | cvs}}{{.Venv | c}}`
