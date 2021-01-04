@@ -6,8 +6,8 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"path"
 	"path/filepath"
-	"regexp"
 	"strings"
 	"text/template"
 
@@ -101,21 +101,12 @@ func collectPythonVersions() []string {
 	return pythonVersions
 }
 
-func collectPythonVirtualenvs() []string {
-	versionsInfo := make([]string, 0)
-
-	cmdPyenv := exec.Command("pyenv", "version")
-	cmdOut, errPyenv := cmdPyenv.CombinedOutput()
-	if errPyenv == nil {
-		// language=GoRegExp
-		re := regexp.MustCompile(`(?m)^([a-zA-Z0-9_\-]+)`)
-		versions := re.FindAllStringSubmatch(string(cmdOut), -1)
-		for _, i := range versions {
-			versionsInfo = append(versionsInfo, i[1])
-		}
+func pythonVirtualenv() string {
+	if e := os.Getenv("VIRTUAL_ENV"); e != "" {
+		return path.Base(e)
 	}
 
-	return versionsInfo
+	return ""
 }
 
 // Render builds and passes the end product of a completely composed car onto
@@ -169,7 +160,7 @@ func (c *Car) Render(out chan<- string) {
 		VersionIcon: pythonSymbolIcon,
 		Version:     strings.Join(collectPythonVersions(), " "),
 		VenvIcon:    virtualenvSymbolIcon,
-		Venv:        strings.Join(collectPythonVirtualenvs(), " "),
+		Venv:        pythonVirtualenv(),
 	}
 	fromTpl := new(bytes.Buffer)
 	err := tpl.Execute(fromTpl, data)
